@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class ProfilController extends Controller
 {
+    // Method untuk dashboard admin - menggunakan views dashboard/profil
     public function sambutan()
     {
         return view('dashboard.profil.sambutan-admin');

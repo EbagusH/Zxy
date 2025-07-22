@@ -10,74 +10,127 @@
     </div>
 </div>
 
-<!-- Content Section -->
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Left Side - Main Content -->
-        <div class="lg:col-span-2 space-y-8">
-            <!-- Berita Section -->
-            <div class="space-y-6">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Berita</h2>
-                    <div class="w-16 h-1 bg-cyan-500 mx-auto"></div>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-8">
-                    <p class="text-gray-600 mb-6">Berita terbaru akan segera tersedia.</p>
-                </div>
-            </div>
-
-            <!-- Artikel Section -->
-            <div class="space-y-6">
-                <div class="text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Artikel</h2>
-                    <div class="w-16 h-1 bg-cyan-500 mx-auto"></div>
-                </div>
-                <div class="bg-white rounded-lg shadow-md p-8">
-                    <p class="text-gray-600 mb-6">Artikel terbaru akan segera tersedia.</p>
-                </div>
-            </div>
+<!-- Berita Section -->
+<section class="py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Berita</h2>
+            <div class="w-20 h-1 bg-cyan-400 mx-auto"></div>
         </div>
-
-        <!-- Right Side - Sidebar -->
-        <div class="lg:col-span-1 space-y-6">
-            <!-- Services Menu -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h3 class="text-xl font-bold text-gray-800 mb-6">Layanan</h3>
-                <div class="space-y-3">
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Bantuan Sosial</span>
-                    </a>
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Rehabilitasi Sosial</span>
-                    </a>
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Pemberdayaan Sosial</span>
-                    </a>
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Perlindungan Sosial</span>
-                    </a>
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Data Sosial</span>
-                    </a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
+                    <div class="text-center">
+                        <!-- <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                            <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Layanan Aspirasi dan Pengaduan Online Rakyat</h4>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
                 </div>
             </div>
 
-            <!-- Information Section -->
-            <div class="bg-white rounded-lg shadow-md p-6">
-                <h3 class="text-xl font-bold text-gray-800 mb-6">Informasi</h3>
-                <div class="space-y-3">
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Berita</span>
-                    </a>
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Rumah Singgah</span>
-                    </a>
-                    <a href="#" class="block p-3 bg-gray-50 hover:bg-cyan-50 rounded-lg transition-colors duration-200">
-                        <span class="text-gray-700 hover:text-cyan-600">Tentang Kami</span>
-                    </a>
+            <!-- Card 2 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
+                    <div class="text-center">
+                        <!-- <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                            <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                            </svg>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Laporan Harta Kekayaan Pejabat</h4>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
+                    <div class="text-center">
+                        <!-- <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                            <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Permohonan Informasi Publik Online</h4>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- Artikel Section -->
+<section class="py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Artikel</h2>
+            <div class="w-20 h-1 bg-cyan-400 mx-auto"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
+                    <div class="text-center">
+                        <!-- <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                            <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                            </svg>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Layanan Aspirasi dan Pengaduan Online Rakyat</h4>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
+                    <div class="text-center">
+                        <!-- <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                            <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                            </svg>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Laporan Harta Kekayaan Pejabat</h4>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
+                    <div class="text-center">
+                        <!-- <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                            <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                            </svg>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Permohonan Informasi Publik Online</h4>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 @endsection

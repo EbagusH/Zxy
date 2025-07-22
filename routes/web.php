@@ -26,20 +26,21 @@ Route::get('/rumah-singgah', function () {
     return view('rumah-singgah');
 })->name('rumah-singgah');
 
+// PUBLIC PROFIL ROUTES
 Route::get('/profil/sambutan', function () {
-    return view('profil.sambutan');
+    return view('profil-index.sambutan');
 })->name('profil.sambutan');
 
 Route::get('/profil/struktur', function () {
-    return view('profil.struktur');
+    return view('profil-index.struktur');
 })->name('profil.struktur');
 
 Route::get('/profil/pegawai', function () {
-    return view('profil.pegawai');
+    return view('profil-index.pegawai');
 })->name('profil.pegawai');
 
 Route::get('/profil/visi-misi', function () {
-    return view('profil.visi-misi');
+    return view('profil-index.visi-misi');
 })->name('profil.visi-misi');
 
 // Login Form (GET) - hanya bisa diakses jika belum login
@@ -59,7 +60,7 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard.index-admin');
     })->name('dashboard.index-admin');
 
-    // Dashboard sub-menu - UPDATED: Menggunakan BeritaController@index
+    // Dashboard sub-menu - UPDATED: Menggunakan BeritaController
     Route::get('/dashboard/berita', [BeritaController::class, 'index'])->name('dashboard.berita-admin');
     Route::get('/dashboard/berita/search', [BeritaController::class, 'search'])->name('dashboard.berita-admin.search');
 
@@ -73,13 +74,12 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard.rumah-singgah-admin');
     })->name('dashboard.rumah-singgah-admin');
 
-    Route::prefix('dashboard/profil')->group(function () {
-        Route::get('/sambutan', [ProfilController::class, 'sambutan'])->name('profil.sambutan');
-        Route::get('/struktur', [ProfilController::class, 'struktur'])->name('profil.struktur');
-        Route::get('/pegawai', [ProfilController::class, 'pegawai'])->name('profil.pegawai');
-        Route::get('/visimisi', [ProfilController::class, 'visimisi'])->name('profil.visimisi');
+    Route::prefix('dashboard/profil')->name('dashboard.profil.')->group(function () {
+        Route::get('/sambutan', [ProfilController::class, 'sambutan'])->name('sambutan');
+        Route::get('/struktur', [ProfilController::class, 'struktur'])->name('struktur');
+        Route::get('/pegawai', [ProfilController::class, 'pegawai'])->name('pegawai');
+        Route::get('/visimisi', [ProfilController::class, 'visimisi'])->name('visimisi');
     });
-
 
     // CRUD Routes untuk Berita
     Route::get('/dashboard/crud-berita', [BeritaController::class, 'create'])->name('dashboard.crud-berita');
