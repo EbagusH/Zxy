@@ -132,9 +132,30 @@
 
                     <!-- Content -->
                     <div class="p-6">
-                        <h4 class="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">{{ $item->judul }}</h4>
-                        <p class="text-sm text-gray-500 mb-4">{{ $item->created_at->format('d M Y') }}</p>
-                        <a href="{{ route('berita.show', $item->id) }}" class="text-blue-600 hover:text-blue-800 font-medium">Baca Selengkapnya</a>
+                        <h4 class="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">{{ $item->judul }}</h4>
+
+                        <!-- Date and Time -->
+                        <div class="flex items-center text-sm text-gray-500 mb-4 space-x-4">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                {{ $item->created_at->format('d M Y') }}
+                            </div>
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                {{ $item->created_at->format('H:i') }} WIB
+                            </div>
+                        </div>
+
+                        <a href="{{ route('berita.show', $item->id) }}" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium transition-colors">
+                            Baca Selengkapnya
+                            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
                 @endforeach
