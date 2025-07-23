@@ -14,9 +14,8 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('/berita', function () {
-    return view('berita');
-})->name('berita');
+Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita');
+Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berita.show');
 
 Route::get('/layanan', function () {
     return view('layanan');

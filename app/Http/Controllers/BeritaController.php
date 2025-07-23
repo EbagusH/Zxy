@@ -18,6 +18,28 @@ class BeritaController extends Controller
         return view('dashboard.berita-admin', compact('berita', 'artikel'));
     }
 
+    // Method untuk halaman publik berita
+    public function publicIndex()
+    {
+        // Ambil data berita dan artikel untuk halaman publik
+        $berita = Berita::where('kategori', 'berita')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $artikel = Berita::where('kategori', 'artikel')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('berita', compact('berita', 'artikel'));
+    }
+
+    // Method untuk menampilkan detail berita/artikel di halaman publik
+    public function publicShow($id)
+    {
+        $berita = Berita::findOrFail($id);
+        return view('berita-detail', compact('berita'));
+    }
+
     public function create()
     {
         return view('dashboard.CRUD.crud-berita');
