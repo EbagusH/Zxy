@@ -101,6 +101,8 @@
     </div>
 </section>
 
+<hr>
+
 <!-- Artikel Section -->
 <section class="py-16 bg-gray-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

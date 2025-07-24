@@ -30,7 +30,7 @@
                     <!-- Featured Image -->
                     @if($berita->foto)
                     <div class="relative h-64 sm:h-80 md:h-96">
-                        <img src="{{ asset('storage/berita/' . $berita->foto) }}"
+                        <img src="{{ asset('storage/' . $berita->foto) }}"
                             alt="{{ $berita->judul }}"
                             class="w-full h-full object-cover"
                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -79,7 +79,7 @@
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <span>{{ $berita->updated_at->format('d F Y H:i') }}</span>
+                                <span>{{ $berita->created_at->format('H:i') }} WIB</span>
                             </div>
                         </div>
 
@@ -145,11 +145,11 @@
                         <h3 class="text-lg font-semibold text-gray-900 mb-4">Informasi Artikel</h3>
                         <dl class="space-y-3">
                             <!-- Gambar Preview dalam Sidebar -->
-                            @if($berita->gambar)
+                            @if($berita->foto)
                             <div class="mb-4">
                                 <dt class="text-sm font-medium text-gray-500 mb-2">Preview Gambar</dt>
                                 <dd class="text-sm text-gray-900">
-                                    <img src="{{ asset('storage/berita/' . $berita->gambar) }}"
+                                    <img src="{{ asset('storage/' . $berita->foto) }}"
                                         alt="{{ $berita->judul }}"
                                         class="w-full h-32 object-cover rounded-lg border border-gray-200"
                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">

@@ -29,8 +29,28 @@
 
                     <!-- Featured Image -->
                     @if($berita->foto)
-                    <div class="w-full">
-                        <img src="{{ asset('storage/' . $berita->foto) }}" alt="{{ $berita->judul }}" class="w-full h-96 object-cover">
+                    <div class="relative h-64 sm:h-80 md:h-96">
+                        <img src="{{ asset('storage/' . $berita->foto) }}"
+                            alt="{{ $berita->judul }}"
+                            class="w-full h-full object-cover"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+                        <!-- Fallback jika gambar tidak ditemukan -->
+                        <div class="absolute inset-0 bg-gray-200 flex items-center justify-center" style="display: none;">
+                            <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    @else
+                    <!-- Placeholder jika tidak ada gambar -->
+                    <div class="relative h-64 sm:h-80 md:h-96 bg-gray-200 flex items-center justify-center">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            <p class="text-gray-500 text-sm">Tidak ada gambar</p>
+                        </div>
                     </div>
                     @endif
 
@@ -63,8 +83,10 @@
                         </div>
 
                         <!-- Article Content -->
-                        <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-                            {!! nl2br(e($berita->isi)) !!}
+                        <div class="text-gray-700 leading-relaxed text-base">
+                            <div class="whitespace-pre-wrap break-words overflow-wrap-anywhere">
+                                {!! nl2br(e($berita->isi)) !!}
+                            </div>
                         </div>
 
                         <!-- Share Buttons -->
@@ -88,55 +110,58 @@
                                         </svg>
                                     </a>
                                 </div>
-
-                                <!-- Back Button -->
-                                <!-- <a href="{{ route('berita') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                                    </svg>
-                                    Kembali ke Daftar Berita
-                                </a> -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Sidebar -->
+            <!-- Dynamic Sidebar -->
             <div class="lg:col-span-1">
-                <!-- Latest News -->
+                @php
+                // Tentukan kategori saat ini
+                $currentCategory = $berita->kategori;
+                $isBerita = $currentCategory === 'berita';
+
+                // Ambil konten terbaru dari kategori yang sama, kecuali yang sedang dibaca
+                $latestContent = \App\Models\Berita::where('id', '!=', $berita->id)
+                ->where('kategori', $currentCategory)
+                ->latest()
+                ->take(5)
+                ->get();
+                @endphp
+
+                <!-- Latest Content by Category -->
                 <div class="bg-white rounded-lg shadow-sm overflow-hidden mb-8">
-                    <div class="bg-blue-600 px-6 py-4">
-                        <h3 class="text-lg font-semibold text-white">Berita Terbaru:</h3>
+                    <div class="px-6 py-4 {{ $isBerita ? 'bg-blue-600' : 'bg-green-600' }}">
+                        <h3 class="text-lg font-semibold text-white">
+                            {{ $isBerita ? 'Berita Terbaru' : 'Artikel Terbaru' }}
+                        </h3>
                     </div>
 
                     <div class="divide-y divide-gray-200">
-                        @php
-                        // Ambil berita terbaru selain berita yang sedang dibaca
-                        $beritaTerbaru = \App\Models\Berita::where('id', '!=', $berita->id)
-                        ->latest()
-                        ->take(5)
-                        ->get();
-                        @endphp
-
-                        @if($beritaTerbaru->count() > 0)
-                        @foreach($beritaTerbaru as $item)
+                        @if($latestContent->count() > 0)
+                        @foreach($latestContent as $item)
                         <div class="p-4 hover:bg-gray-50 transition-colors duration-200">
                             <div class="flex space-x-3">
                                 <div class="flex-shrink-0">
                                     @if($item->foto)
                                     <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}" class="w-16 h-12 object-cover rounded">
                                     @else
-                                    <div class="w-16 h-12 bg-gradient-to-br from-cyan-400 to-cyan-600 rounded flex items-center justify-center">
+                                    <div class="w-16 h-12 {{ $isBerita ? 'bg-gradient-to-br from-blue-400 to-blue-600' : 'bg-gradient-to-br from-green-400 to-green-600' }} rounded flex items-center justify-center">
                                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            @if($isBerita)
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                                            @else
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                            @endif
                                         </svg>
                                     </div>
                                     @endif
                                 </div>
                                 <div class="flex-1 min-w-0">
                                     <a href="{{ route('berita.show', $item->id) }}" class="block">
-                                        <h4 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-blue-600 transition-colors duration-200">
+                                        <h4 class="text-sm font-medium text-gray-900 line-clamp-2 hover:{{ $isBerita ? 'text-blue-600' : 'text-green-600' }} transition-colors duration-200">
                                             {{ $item->judul }}
                                         </h4>
                                         <p class="text-xs text-gray-500 mt-1">
@@ -149,7 +174,7 @@
                         @endforeach
                         @else
                         <div class="p-4 text-center text-gray-500">
-                            <p class="text-sm">Tidak ada berita lainnya</p>
+                            <p class="text-sm">Tidak ada {{ $isBerita ? 'berita' : 'artikel' }} lainnya</p>
                         </div>
                         @endif
                     </div>

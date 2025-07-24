@@ -8,6 +8,24 @@ use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
+    // Method untuk halaman beranda dengan berita dan artikel terbaru
+    public function home()
+    {
+        // Ambil berita terbaru (3 item)
+        $beritaTerbaru = Berita::where('kategori', 'berita')
+            ->orderBy('created_at', 'desc')
+            ->take(1)
+            ->get();
+
+        // Ambil artikel terbaru (3 item)
+        $artikelTerbaru = Berita::where('kategori', 'artikel')
+            ->orderBy('created_at', 'desc')
+            ->take(1)
+            ->get();
+
+        return view('home', compact('beritaTerbaru', 'artikelTerbaru'));
+    }
+
     // Method untuk menampilkan halaman berita-admin dengan data
     public function index()
     {
@@ -136,20 +154,4 @@ class BeritaController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);
     }
-
-    // public function search(Request $request)
-    // {
-    //     $query = $request->input('query');
-
-    //     $berita = Berita::where('kategori', 'berita')
-    //         ->where('judul', 'like', "%$query%")
-    //         ->orWhere(function ($q) use ($query) {
-    //             $q->where('kategori', 'berita')
-    //                 ->where('isi', 'like', "%$query%");
-    //         })
-    //         ->orderBy('created_at', 'desc')
-    //         ->get();
-
-    //     return response()->json($berita);
-    // }
 }

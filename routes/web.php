@@ -10,9 +10,7 @@ use App\Http\Controllers\LayananController;
 use App\Http\Controllers\ProfilController;
 
 // Public Routes
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', [BeritaController::class, 'home'])->name('home');
 
 Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita');
 Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berita.show');

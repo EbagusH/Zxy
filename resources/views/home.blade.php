@@ -65,48 +65,6 @@
                     <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
                 </div>
             </div>
-
-            <!-- Card 2 - LHKPN -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
-                    <div class="text-center">
-                        <div class="bg-white p-3 rounded-lg inline-block mb-4">
-                            <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
-                            </svg>
-                        </div>
-                        <div class="flex items-center justify-center space-x-2">
-                            <span class="text-white font-bold">LHKPN</span>
-                        </div>
-                        <p class="text-cyan-100 text-sm mt-2">TRANSPARAN ITU MUDAH!</p>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Laporan Harta Kekayaan Pejabat</h4>
-                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
-                </div>
-            </div>
-
-            <!-- Card 3 - Permohonan Informasi Publik -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
-                    <div class="text-center">
-                        <div class="bg-white p-3 rounded-lg inline-block mb-4">
-                            <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                            </svg>
-                        </div>
-                        <div class="flex items-center justify-center">
-                            <div class="text-white px-3 py-2 rounded font-bold text-lg">PERMOHONAN INFORMASI PUBLIK</div>
-                        </div>
-                        <p class="text-cyan-100 text-sm mt-2">PEMERINTAH KOTA MAJALENGKA</p>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Permohonan Informasi Publik Online</h4>
-                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
-                </div>
-            </div>
         </div>
     </div>
 </section>
@@ -115,42 +73,91 @@
 <section class="py-16 bg-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">Artikel dan Berita</h2>
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Berita dan Artikel</h2>
             <div class="w-20 h-1 bg-cyan-400 mx-auto"></div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <!-- Berita Card -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="h-64 bg-gray-800 flex items-center justify-center relative">
-                    <div class="text-center text-white">
-                        <div class="text-gray-600 text-6xl font-light mb-4">848 x 590</div>
+                @if($beritaTerbaru->count() > 0)
+                @php $berita = $beritaTerbaru->first(); @endphp
+                <div class="h-64 bg-gray-200 flex items-center justify-center overflow-hidden">
+                    @if($berita->foto)
+                    <img src="{{ asset('storage/' . $berita->foto) }}"
+                        alt="{{ $berita->judul }}"
+                        class="w-full h-full object-cover">
+                    @else
+                    <div class="text-center text-gray-500">
+                        <div class="text-gray-400 text-6xl font-light mb-4">848 x 590</div>
+                        <p>Tidak ada gambar</p>
                     </div>
-                    <div class="absolute bottom-4 left-4 right-4">
-                        <h3 class="text-white font-bold text-lg mb-2">Tidak Ada Artikel yang Tersedia</h3>
-                        <p class="text-blue-400 text-sm">Tidak ada Berita yang tersedia saat ini</p>
+                    @endif
+                </div>
+                @else
+                <div class="h-64 bg-gray-300 flex items-center justify-center">
+                    <div class="text-center text-gray-500">
+                        <div class="text-gray-400 text-6xl font-light mb-4">848 x 590</div>
+                        <p>Tidak ada gambar</p>
                     </div>
                 </div>
+                @endif
                 <div class="p-6">
-                    <div class="text-blue-600 font-semibold mb-2">Dinas Sosial Kota Majalengka</div>
-                    <h4 class="text-2xl font-bold text-blue-600 mb-4">Berita</h4>
-                    <p class="text-gray-600">Jelajahi berita terkini dengan mengklik gambar di atas. Kami mengundang Anda</p>
+                    @if($beritaTerbaru->count() > 0)
+                    <div class="text-black font-bold mb-4 uppercase text-sm">{{ $berita->kategori }}</div>
+                    <h4 class="text-xl font-bold text-black mb-4">{{ $berita->judul }}</h4>
+                    <a href="{{ route('berita.show', $berita->id) }}" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium transition-colors">
+                        Baca Selengkapnya
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    @else
+                    <div class="text-black font-semibold mb-2 uppercase text-sm">BERITA</div>
+                    <h4 class="text-xl font-bold text-black mb-4">Tidak Ada Berita yang Tersedia</h4>
+                    <p class="text-gray-600">Tidak ada berita yang tersedia saat ini</p>
+                    @endif
                 </div>
             </div>
 
             <!-- Artikel Card -->
             <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="h-64 bg-gray-300 flex items-center justify-center relative">
+                @if($artikelTerbaru->count() > 0)
+                @php $artikel = $artikelTerbaru->first(); @endphp
+                <div class="h-64 bg-gray-200 flex items-center justify-center overflow-hidden">
+                    @if($artikel->foto)
+                    <img src="{{ asset('storage/' . $artikel->foto) }}"
+                        alt="{{ $artikel->judul }}"
+                        class="w-full h-full object-cover">
+                    @else
                     <div class="text-center text-gray-500">
                         <div class="text-gray-400 text-6xl font-light mb-4">848 x 590</div>
+                        <p>Tidak ada gambar</p>
                     </div>
-                    <div class="absolute bottom-2 right-2 text-xs text-gray-400">
-                        Powered by HTML5.CM
+                    @endif
+                </div>
+                @else
+                <div class="h-64 bg-gray-300 flex items-center justify-center">
+                    <div class="text-center text-gray-500">
+                        <div class="text-gray-400 text-6xl font-light mb-4">848 x 590</div>
+                        <p>Tidak ada gambar</p>
                     </div>
                 </div>
+                @endif
                 <div class="p-6">
-                    <div class="text-blue-600 font-semibold mb-2">Dinas Sosial Kota Majalengka</div>
-                    <h4 class="text-2xl font-bold text-blue-600 mb-4">Artikel</h4>
-                    <p class="text-gray-600">Temukan artikel terbaru dengan mengklik gambar di atas. Apakah Anda selalu</p>
+                    @if($artikelTerbaru->count() > 0)
+                    <div class="text-black font-bold mb-4 uppercase">{{ $artikel->kategori }}</div>
+                    <h4 class="text-xl font-bold text-black mb-4">{{ $artikel->judul }}</h4>
+                    <a href="{{ route('berita.show', $artikel->id) }}" class="inline-flex items-center text-green-600 hover:text-green-800 font-medium transition-colors">
+                        Baca Selengkapnya
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    @else
+                    <div class="text-black font-semibold mb-2 uppercase text-sm">ARTIKEL</div>
+                    <h4 class="text-xl font-bold text-black mb-4">Tidak Ada Artikel yang Tersedia</h4>
+                    <p class="text-gray-600">Tidak ada artikel yang tersedia saat ini</p>
+                    @endif
                 </div>
             </div>
         </div>
