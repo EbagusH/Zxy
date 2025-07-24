@@ -11,13 +11,13 @@ class BeritaController extends Controller
     // Method untuk halaman beranda dengan berita dan artikel terbaru
     public function home()
     {
-        // Ambil berita terbaru (3 item)
+        // Ambil berita terbaru
         $beritaTerbaru = Berita::where('kategori', 'berita')
             ->orderBy('created_at', 'desc')
             ->take(1)
             ->get();
 
-        // Ambil artikel terbaru (3 item)
+        // Ambil artikel terbaru
         $artikelTerbaru = Berita::where('kategori', 'artikel')
             ->orderBy('created_at', 'desc')
             ->take(1)
