@@ -63,7 +63,7 @@
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                                 </svg>
-                                {{ $berita->kategori }}
+                                {{ ucfirst($berita->kategori) }}
                             </span>
                         </div>
                         @endif
@@ -141,7 +141,7 @@
                 <div class="sticky top-6 space-y-6">
                     <!-- Article Info Card -->
                     <div class="bg-white shadow-lg rounded-lg p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Informasi Artikel</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Informasi {{ ucfirst($berita->kategori) }}</h3>
                         <dl class="space-y-3">
                             <!-- Gambar Preview dalam Sidebar -->
                             @if($berita->foto)
@@ -159,7 +159,7 @@
                             </div>
                             @endif
                             <div>
-                                <dt class="text-sm font-medium text-gray-500">ID Artikel</dt>
+                                <dt class="text-sm font-medium text-gray-500">ID {{ ucfirst($berita->kategori) }}</dt>
                                 <dd class="text-sm text-gray-900">#{{ $berita->id }}</dd>
                             </div>
                             <div>
@@ -182,47 +182,18 @@
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                                 </svg>
-                                Edit Artikel
+                                Edit {{ ucfirst($berita->kategori) }}
                             </a>
-                            @if($berita->status === 'published')
-                            <a href="{{ route('berita.show', $berita->slug) }}"
-                                target="_blank"
-                                class="w-full inline-flex justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md shadow-sm text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2M7 7l10 10M17 7l-10 10"></path>
-                                </svg>
-                                Lihat di Website
-                            </a>
-                            @endif
                             <button type="button"
                                 onclick="confirmDelete('{{ $berita->id }}')"
                                 class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                                 </svg>
-                                Hapus Artikel
+                                Hapus {{ ucfirst($berita->kategori) }}
                             </button>
                         </div>
                     </div>
-
-                    <!-- SEO Info (jika ada) -->
-                    @if($berita->meta_description || $berita->meta_keywords)
-                    <div class="bg-white shadow-lg rounded-lg p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">SEO Information</h3>
-                        @if($berita->meta_description)
-                        <div class="mb-4">
-                            <dt class="text-sm font-medium text-gray-500 mb-1">Meta Description</dt>
-                            <dd class="text-sm text-gray-900">{{ $berita->meta_description }}</dd>
-                        </div>
-                        @endif
-                        @if($berita->meta_keywords)
-                        <div>
-                            <dt class="text-sm font-medium text-gray-500 mb-1">Meta Keywords</dt>
-                            <dd class="text-sm text-gray-900">{{ $berita->meta_keywords }}</dd>
-                        </div>
-                        @endif
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -238,10 +209,10 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.864-.833-2.634 0L3.228 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                 </svg>
             </div>
-            <h3 class="text-lg font-medium text-gray-900 mt-5">Hapus Artikel</h3>
+            <h3 class="text-lg font-medium text-gray-900 mt-5">Hapus {{ ucfirst($berita->kategori) }}</h3>
             <div class="mt-2 px-7 py-3">
                 <p class="text-sm text-gray-500">
-                    Apakah Anda yakin ingin menghapus artikel ini? Tindakan ini tidak dapat dibatalkan.
+                    Apakah Anda yakin ingin menghapus {{ $berita->kategori }} ini? Tindakan ini tidak dapat dibatalkan.
                 </p>
             </div>
             <div class="items-center px-4 py-3">
@@ -269,8 +240,8 @@
         const confirmBtn = document.getElementById('deleteConfirm');
         const cancelBtn = document.getElementById('deleteCancel');
 
-        // Set form action
-        form.action = `/dashboard/berita-admin/${id}`;
+        // Set form action - PERBAIKAN: menggunakan route yang benar
+        form.action = `/dashboard/berita/${id}`;
 
         // Show modal
         modal.classList.remove('hidden');
@@ -291,6 +262,13 @@
                 modal.classList.add('hidden');
             }
         };
+
+        // Handle ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                modal.classList.add('hidden');
+            }
+        });
     }
 </script>
 @endsection

@@ -218,7 +218,7 @@
                             </svg>
                             Edit
                         </a>
-                        <button onclick="confirmDelete('{{ $item->id }}')" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <button onclick="confirmDelete('{{ $item->id }}', 'artikel')" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                             </svg>
@@ -247,6 +247,39 @@
         @endif
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.864-.833-2.634 0L3.228 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mt-5" id="modal-title">Hapus Data</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500" id="modal-message">
+                    Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
+                </p>
+            </div>
+            <div class="items-center px-4 py-3">
+                <button id="deleteConfirm" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 mr-2">
+                    Hapus
+                </button>
+                <button id="deleteCancel" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                    Batal
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Form untuk Delete -->
+<form id="deleteForm" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
 
 <!-- Tab and Alert JavaScript -->
 <script>
@@ -285,33 +318,48 @@
         }
     }
 
-    function confirmDelete(id) {
-        if (confirm('Apakah kamu yakin ingin menghapus data ini?')) {
-            deleteData(id);
-        }
-    }
+    // Modal confirmation function - sama seperti di show.blade.php
+    function confirmDelete(id, type) {
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+        const confirmBtn = document.getElementById('deleteConfirm');
+        const cancelBtn = document.getElementById('deleteCancel');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
 
-    function deleteData(id) {
-        fetch(`/dashboard/berita/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json',
-                }
-            })
-            .then(res => res.json())
-            .then(result => {
-                if (result.success) {
-                    alert(result.message);
-                    location.reload(); // refresh untuk hapus dari tampilan
-                } else {
-                    alert('Gagal menghapus data!');
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Terjadi kesalahan saat menghapus data.');
-            });
+        // Set form action
+        form.action = `/dashboard/berita/${id}`;
+
+        // Update modal content based on type
+        // modalTitle.textContent = `Hapus ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+        // modalMessage.textContent = `Apakah Anda yakin ingin menghapus ${type} ini? Tindakan ini tidak dapat dibatalkan.`;
+
+        // Show modal
+        modal.classList.remove('hidden');
+
+        // Handle confirm
+        confirmBtn.onclick = function() {
+            form.submit();
+        };
+
+        // Handle cancel
+        cancelBtn.onclick = function() {
+            modal.classList.add('hidden');
+        };
+
+        // Close modal when clicking outside
+        modal.onclick = function(event) {
+            if (event.target === modal) {
+                modal.classList.add('hidden');
+            }
+        };
+
+        // Handle ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                modal.classList.add('hidden');
+            }
+        });
     }
 
     // Auto-close alert after 5 seconds

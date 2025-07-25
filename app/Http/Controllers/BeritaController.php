@@ -150,8 +150,14 @@ class BeritaController extends Controller
             Storage::delete($berita->foto);
         }
 
+        $kategori = $berita->kategori;
+
         $berita->delete();
 
-        return response()->json(['success' => true, 'message' => 'Data berhasil dihapus.']);
+        $pesan = $kategori === 'berita'
+            ? 'Berita Berhasil Dihapus!'
+            : 'Artikel Berhasil Dihapus!';
+
+        return redirect()->route('dashboard.berita-admin')->with('success', $pesan);
     }
 }

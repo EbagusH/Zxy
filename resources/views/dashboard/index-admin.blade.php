@@ -71,25 +71,25 @@
 
         <!-- Berita Terbaru -->
         <div class="bg-white rounded-lg shadow p-4">
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Berita Terbaru</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Berita dan Artikel Terbaru</h2>
             <table class="w-full text-sm text-left text-gray-600">
                 <thead>
                     <tr class="text-gray-500 border-b">
-                        <th class="py-2">Judul Berita</th>
+                        <th class="py-2">Judul</th>
+                        <th class="py-2">Kategori</th>
                         <th class="py-2">Tanggal Posting</th>
-                        <th class="py-2">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="border-b">
                         <td class="py-2">Bakti Sosial 2025</td>
-                        <td>20 Juli 2025</td>
-                        <td><span class="text-green-600 font-medium">Aktif</span></td>
+                        <td>Berita</td>
+                        <td><span class="text-gray-500 font-medium">20 Juli 2025</span></td>
                     </tr>
                     <tr>
                         <td class="py-2">Layanan Digital</td>
-                        <td>19 Juli 2025</td>
-                        <td><span class="text-gray-500 font-medium">Draft</span></td>
+                        <td>Artikel</td>
+                        <td><span class="text-gray-500 font-medium">19 Juli 2025</span></td>
                     </tr>
                 </tbody>
             </table>
