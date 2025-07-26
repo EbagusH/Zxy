@@ -15,7 +15,7 @@
 <!-- Content Section -->
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
     <div class="bg-white rounded-lg shadow-md p-8">
-        <p class="text-gray-600 text-lg text-center">Informasi rumah singgah akan segera tersedia.</p>
+        <p class="text-gray-600 text-lg text-center"></p>
     </div>
 </div>
 @endsection
