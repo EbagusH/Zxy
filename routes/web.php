@@ -2,12 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\ArtikelController;
-use App\Http\Controllers\LayananController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\SambutanKepalaDinasController;
+use App\Http\Controllers\StrukturOrganisasiController;
+use App\Http\Controllers\VisiMisiController;
 
 // Public Routes
 Route::get('/', [BeritaController::class, 'home'])->name('home');
@@ -72,10 +71,21 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard.rumah-singgah-admin');
 
     Route::prefix('dashboard/profil')->name('dashboard.profil.')->group(function () {
-        Route::get('/sambutan', [ProfilController::class, 'sambutan'])->name('sambutan');
-        Route::get('/struktur', [ProfilController::class, 'struktur'])->name('struktur');
+
+        // Sambutan Kepala Dinas
+        Route::get('/sambutan', [SambutanKepalaDinasController::class, 'edit'])->name('sambutan');
+        Route::put('/sambutan', [SambutanKepalaDinasController::class, 'update'])->name('sambutan.update');
+
+        // Struktur Organisasi
+        Route::get('/struktur', [StrukturOrganisasiController::class, 'edit'])->name('struktur');
+        Route::put('/struktur', [StrukturOrganisasiController::class, 'update'])->name('struktur.update');
+
+        // Visi Misi
+        Route::get('/visimisi', [VisiMisiController::class, 'edit'])->name('visimisi');
+        Route::put('/visimisi', [VisiMisiController::class, 'update'])->name('visi-misi.update');
+
+        //Pegawai
         Route::get('/pegawai', [ProfilController::class, 'pegawai'])->name('pegawai');
-        Route::get('/visimisi', [ProfilController::class, 'visimisi'])->name('visimisi');
     });
 
     // CRUD Routes untuk Berita
