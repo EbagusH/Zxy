@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DaftarPegawaiController;
+use App\Http\Controllers\RumahSinggahController;
 use App\Http\Controllers\SambutanKepalaDinasController;
 use App\Http\Controllers\StrukturOrganisasiController;
 use App\Http\Controllers\VisiMisiController;
@@ -66,9 +67,9 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard.layanan-admin');
     })->name('dashboard.layanan-admin');
 
-    Route::get('/dashboard/rumah-singgah', function () {
-        return view('dashboard.rumah-singgah-admin');
-    })->name('dashboard.rumah-singgah-admin');
+    // Rumah Singgah
+    Route::get('/rumahsinggah', [RumahSinggahController::class, 'edit'])->name('dashboard.rumah-singgah-admin');
+    Route::put('/rumahsinggah', [RumahSinggahController::class, 'update'])->name('rumah-singgah.update');
 
     Route::prefix('dashboard/profil')->name('dashboard.profil.')->group(function () {
 
