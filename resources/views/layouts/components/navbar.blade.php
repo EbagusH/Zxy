@@ -5,6 +5,7 @@
         mobileProfilOpen: false,
         mobilePpidOpen: false
     }">
+
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
@@ -12,6 +13,7 @@
                     <img class="size-8" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
                 </div> -->
             </div>
+
             <div class="hidden md:block">
                 <div class="flex items-baseline space-x-4">
                     <!-- Beranda - Active when on home page -->
@@ -95,6 +97,7 @@
                     </a>
                 </div>
             </div>
+
             <div class="hidden md:block">
                 <div class="ml-4 flex items-center md:ml-6">
                     <!-- Profile dropdown -->
@@ -111,6 +114,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="-mr-2 flex md:hidden">
                 <!-- Mobile menu button -->
                 <button type="button" @click="isOpen = !isOpen" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" aria-controls="mobile-menu" aria-expanded="false">
@@ -149,7 +153,9 @@
                 <!-- Mobile Profil Dropdown - Always stays as dropdown -->
                 <div class="relative">
                     <button @click="mobileProfilOpen = !mobileProfilOpen"
-                        class="flex items-center justify-between w-full rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-200">
+                        class="flex items-center justify-between w-full rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-900 hover:text-white transition-colors duration-200
+                        {{ request()->routeIs(['profil.sambutan', 'profil.struktur', 'profil.pegawai', 'profil.visi-misi']) ? 'bg-gray-900 text-white' : 'text-gray-900 hover:bg-gray-900 hover:text-white' }}"
+                        {{ request()->routeIs(['profil.sambutan', 'profil.struktur', 'profil.pegawai', 'profil.visi-misi']) ? 'aria-current=page' : '' }}>
                         <span>Profil</span>
                         <svg class="h-4 w-4 transition-transform duration-200"
                             :class="{'rotate-180': mobileProfilOpen}"
@@ -170,19 +176,23 @@
                         x-transition:leave-end="opacity-0 transform -translate-y-1"
                         class="absolute left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg z-10">
                         <div class="py-1">
-                            <a href="{{ route('profil.sambutan') }}" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            <a href="{{ route('profil.sambutan') }}" class="block px-4 py-2 text-sm transition-colors duration-200
+                    {{ request()->routeIs('profil.sambutan') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                                 <i class="fas fa-user-tie mr-2 text-gray-400"></i>
                                 Sambutan Kepala Dinas
                             </a>
-                            <a href="{{ route('profil.struktur') }}" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            <a href="{{ route('profil.struktur') }}" class="block px-4 py-2 text-sm transition-colors duration-200
+                    {{ request()->routeIs('profil.struktur') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                                 <i class="fas fa-sitemap mr-2 text-gray-400"></i>
                                 Struktur Organisasi
                             </a>
-                            <a href="{{ route('profil.pegawai') }}" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            <a href="{{ route('profil.pegawai') }}" class="block px-4 py-2 text-sm transition-colors duration-200
+                    {{ request()->routeIs('profil.pegawai') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                                 <i class="fas fa-users mr-2 text-gray-400"></i>
                                 Daftar Pegawai
                             </a>
-                            <a href="{{ route('profil.visi-misi') }}" class="flex items-center px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                            <a href="{{ route('profil.visi-misi') }}" class="block px-4 py-2 text-sm transition-colors duration-200
+                    {{ request()->routeIs('profil.visi-misi') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}">
                                 <i class="fas fa-bullseye mr-2 text-gray-400"></i>
                                 Visi dan Misi
                             </a>

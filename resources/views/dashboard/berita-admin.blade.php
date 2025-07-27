@@ -3,29 +3,30 @@
 @section('title', 'Kelola Berita dan Artikel - Dinas Sosial Kota Majalengka')
 
 @section('content')
-<div class="p-6">
+<div class="p-3 md:p-6">
     <!-- Header -->
-    <div class="mb-6">
-        <div class="flex justify-between items-center">
+    <div class="mb-4 md:mb-6">
+        <div class="flex flex-col space-y-3 md:flex-row md:justify-between md:items-center md:space-y-0">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Kelola Berita dan Artikel</h1>
-                <p class="text-gray-600">Kelola semua berita dan artikel yang telah dipublikasikan</p>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-900">Kelola Berita dan Artikel</h1>
+                <p class="text-sm md:text-base text-gray-600">Kelola semua berita dan artikel yang telah dipublikasikan</p>
             </div>
-            <div class="flex items-center space-x-3">
+            <div class="flex flex-col space-y-2 md:flex-row md:items-center md:space-y-0 md:space-x-3">
                 <!-- Search Box -->
                 <div class="relative">
-                    <input type="text" id="search-input" placeholder="Search..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <input type="text" id="search-input" placeholder="Cari berita/artikel..." class="w-full md:w-auto pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
 
                 <!-- Tambah Baru -->
-                <a href="{{ route('dashboard.crud-berita') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <svg class="mr-1.5 -ml-0.5 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                <a href="{{ route('dashboard.crud-berita') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg class="mr-1.5 -ml-0.5 w-4 h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    Tambah Baru
+                    <span class="hidden sm:inline">Tambah Baru</span>
+                    <span class="sm:hidden">Tambah</span>
                 </a>
             </div>
         </div>
@@ -33,7 +34,7 @@
 
     <!-- Alert Success -->
     @if(session('success'))
-    <div id="success-alert" class="mb-6 bg-green-50 border border-green-200 rounded-md p-4">
+    <div id="success-alert" class="mb-4 md:mb-6 bg-green-50 border border-green-200 rounded-md p-4">
         <div class="flex">
             <div class="flex-shrink-0">
                 <svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
@@ -58,12 +59,12 @@
     @endif
 
     <!-- Tabs -->
-    <div class="mb-6">
-        <nav class="flex space-x-8" aria-label="Tabs">
-            <button onclick="showTab('berita')" id="tab-berita" class="tab-button active whitespace-nowrap border-b-2 border-indigo-500 py-2 px-1 text-sm font-medium text-indigo-600">
+    <div class="mb-4 md:mb-6">
+        <nav class="flex space-x-4 md:space-x-8 overflow-x-auto" aria-label="Tabs">
+            <button onclick="showTab('berita')" id="tab-berita" class="tab-button active whitespace-nowrap border-b-2 border-indigo-500 py-2 px-1 text-sm font-medium text-indigo-600 flex-shrink-0">
                 Berita ({{ $berita->count() }})
             </button>
-            <button onclick="showTab('artikel')" id="tab-artikel" class="tab-button whitespace-nowrap border-b-2 border-transparent py-2 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+            <button onclick="showTab('artikel')" id="tab-artikel" class="tab-button whitespace-nowrap border-b-2 border-transparent py-2 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 flex-shrink-0">
                 Artikel ({{ $artikel->count() }})
             </button>
         </nav>
@@ -77,16 +78,16 @@
         </div>
 
         @if($berita->count() > 0)
-        <div id="berita-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="berita-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             @foreach($berita as $item)
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
                 <!-- Image -->
-                <div class="h-48 bg-gray-200 overflow-hidden">
+                <div class="h-40 md:h-48 bg-gray-200 overflow-hidden">
                     @if($item->foto)
                     <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}" class="w-full h-full object-cover">
                     @else
                     <div class="w-full h-full flex items-center justify-center bg-gray-100">
-                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                     </div>
@@ -94,7 +95,7 @@
                 </div>
 
                 <!-- Content -->
-                <div class="p-4">
+                <div class="p-3 md:p-4">
                     <!-- Badge -->
                     <div class="mb-2">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
@@ -103,19 +104,16 @@
                     </div>
 
                     <!-- Title -->
-                    <h3 class="text-lg font-medium text-gray-900 mb-2 line-clamp-2">{{ $item->judul }}</h3>
-
-                    <!-- Content Preview -->
-                    <!-- <p class="text-gray-600 text-sm mb-3 line-clamp-3">{{ Str::limit(strip_tags($item->isi), 100) }}</p> -->
+                    <h3 class="text-base md:text-lg font-medium text-gray-900 mb-2 line-clamp-2">{{ $item->judul }}</h3>
 
                     <!-- Meta Info -->
-                    <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                    <div class="flex items-center justify-between text-xs text-gray-500 mb-3 md:mb-4">
                         <span>ID: {{ $item->id }}</span>
                         <span>{{ $item->created_at->format('d M Y') }}</span>
                     </div>
 
                     <!-- Actions -->
-                    <div class="flex space-x-2">
+                    <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
                         <a href="{{ route('dashboard.berita-admin.show', $item->id) }}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -123,25 +121,27 @@
                             </svg>
                             Lihat
                         </a>
-                        <a href="{{ route('dashboard.berita-admin.edit', $item->id) }}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                            </svg>
-                            Edit
-                        </a>
-                        <button onclick="confirmDelete('{{ $item->id }}')" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </button>
+                        <div class="flex space-x-2 md:flex-1">
+                            <a href="{{ route('dashboard.berita-admin.edit', $item->id) }}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                                Edit
+                            </a>
+                            <button onclick="confirmDelete('{{ $item->id }}')" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
         @else
-        <div class="text-center py-12">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="text-center py-8 md:py-12">
+            <svg class="mx-auto h-8 w-8 md:h-12 md:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
             </svg>
             <h3 class="mt-4 text-sm font-medium text-gray-900">Belum ada berita</h3>
@@ -166,16 +166,16 @@
         </div>
 
         @if($artikel->count() > 0)
-        <div id="artikel-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div id="artikel-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             @foreach($artikel as $item)
             <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
                 <!-- Image -->
-                <div class="h-48 bg-gray-200 overflow-hidden">
+                <div class="h-40 md:h-48 bg-gray-200 overflow-hidden">
                     @if($item->foto)
                     <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->judul }}" class="w-full h-full object-cover">
                     @else
                     <div class="w-full h-full flex items-center justify-center bg-gray-100">
-                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                         </svg>
                     </div>
@@ -183,7 +183,7 @@
                 </div>
 
                 <!-- Content -->
-                <div class="p-4">
+                <div class="p-3 md:p-4">
                     <!-- Badge -->
                     <div class="mb-2">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
@@ -192,19 +192,16 @@
                     </div>
 
                     <!-- Title -->
-                    <h3 class="text-lg font-medium text-gray-900 mb-2 line-clamp-2">{{ $item->judul }}</h3>
-
-                    <!-- Content Preview -->
-                    <!-- <p class="text-gray-600 text-sm mb-3 line-clamp-3">{{ Str::limit(strip_tags($item->isi), 100) }}</p> -->
+                    <h3 class="text-base md:text-lg font-medium text-gray-900 mb-2 line-clamp-2">{{ $item->judul }}</h3>
 
                     <!-- Meta Info -->
-                    <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                    <div class="flex items-center justify-between text-xs text-gray-500 mb-3 md:mb-4">
                         <span>ID: {{ $item->id }}</span>
                         <span>{{ $item->created_at->format('d M Y') }}</span>
                     </div>
 
                     <!-- Actions -->
-                    <div class="flex space-x-2">
+                    <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
                         <a href="{{ route('dashboard.berita-admin.show', $item->id) }}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -212,25 +209,27 @@
                             </svg>
                             Lihat
                         </a>
-                        <a href="{{ route('dashboard.berita-admin.edit', $item->id) }}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                            </svg>
-                            Edit
-                        </a>
-                        <button onclick="confirmDelete('{{ $item->id }}', 'artikel')" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </button>
+                        <div class="flex space-x-2 md:flex-1">
+                            <a href="{{ route('dashboard.berita-admin.edit', $item->id) }}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                </svg>
+                                Edit
+                            </a>
+                            <button onclick="confirmDelete('{{ $item->id }}', 'artikel')" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
         @else
-        <div class="text-center py-12">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="text-center py-8 md:py-12">
+            <svg class="mx-auto h-8 w-8 md:h-12 md:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
             <h3 class="mt-4 text-sm font-medium text-gray-900">Belum ada artikel</h3>
@@ -250,7 +249,7 @@
 
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-md shadow-lg rounded-md bg-white">
         <div class="mt-3 text-center">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                 <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -258,16 +257,16 @@
                 </svg>
             </div>
             <h3 class="text-lg font-medium text-gray-900 mt-5" id="modal-title">Hapus Data</h3>
-            <div class="mt-2 px-7 py-3">
+            <div class="mt-2 px-4 md:px-7 py-3">
                 <p class="text-sm text-gray-500" id="modal-message">
                     Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak dapat dibatalkan.
                 </p>
             </div>
-            <div class="items-center px-4 py-3">
-                <button id="deleteConfirm" class="px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300 mr-2">
+            <div class="items-center px-4 py-3 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 md:justify-center">
+                <button id="deleteConfirm" class="w-full md:w-auto px-4 py-2 bg-red-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300">
                     Hapus
                 </button>
-                <button id="deleteCancel" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                <button id="deleteCancel" class="w-full md:w-auto px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300">
                     Batal
                 </button>
             </div>
@@ -318,7 +317,7 @@
         }
     }
 
-    // Modal confirmation function - sama seperti di show.blade.php
+    // Modal confirmation function
     function confirmDelete(id, type) {
         const modal = document.getElementById('deleteModal');
         const form = document.getElementById('deleteForm');
@@ -329,10 +328,6 @@
 
         // Set form action
         form.action = `/dashboard/berita/${id}`;
-
-        // Update modal content based on type
-        // modalTitle.textContent = `Hapus ${type.charAt(0).toUpperCase() + type.slice(1)}`;
-        // modalMessage.textContent = `Apakah Anda yakin ingin menghapus ${type} ini? Tindakan ini tidak dapat dibatalkan.`;
 
         // Show modal
         modal.classList.remove('hidden');

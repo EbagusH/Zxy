@@ -5,27 +5,28 @@
 @section('content')
 <div class="p-6">
     <!-- Header -->
-    <div class="mb-6">
-        <div class="flex justify-between items-center">
+    <div class="mb-4 md:mb-6">
+        <div class="flex flex-col space-y-3 md:flex-row md:justify-between md:items-center md:space-y-0">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Daftar Pegawai Dinsos</h1>
-                <p class="text-gray-600">Daftar Pegawai Dinas Sosial Kota Majalengka</p>
+                <h1 class="text-xl md:text-2xl font-bold text-gray-900">Daftar Pegawai Dinsos</h1>
+                <p class="text-sm md:text-base text-gray-600">Daftar Pegawai Dinas Sosial Kota Majalengka</p>
             </div>
-            <div class="flex items-center space-x-3">
+            <div class="flex flex-col space-y-2 md:flex-row md:items-center md:space-y-0 md:space-x-3">
                 <!-- Search Box -->
                 <div class="relative">
-                    <input type="text" id="search-input" placeholder="Search..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <input type="text" id="search-input" placeholder="Cari Pegawai..." class="w-full md:w-auto pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </div>
 
                 <!-- Tambah Baru -->
-                <a href="" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <svg class="mr-1.5 -ml-0.5 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                <a href="{{ route('dashboard.profil.pegawai.create') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg class="mr-1.5 -ml-0.5 w-4 h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
-                    Tambah Pegawai
+                    <span class="hidden sm:inline">Tambah Pegawai</span>
+                    <span class="sm:hidden">Tambah</span>
                 </a>
             </div>
         </div>
@@ -57,12 +58,38 @@
     </div>
     @endif
 
+    <!-- Alert Error -->
+    @if(session('error'))
+    <div id="error-alert" class="mb-6 bg-red-50 border border-red-200 rounded-md p-4">
+        <div class="flex">
+            <div class="flex-shrink-0">
+                <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="ml-3">
+                <p class="text-sm font-medium text-red-800">{{ session('error') }}</p>
+            </div>
+            <div class="ml-auto pl-3">
+                <div class="-mx-1.5 -my-1.5">
+                    <button type="button" onclick="closeAlert('error-alert')" class="inline-flex bg-red-50 rounded-md p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600">
+                        <span class="sr-only">Dismiss</span>
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
     <!-- Header Info -->
     <div class="mb-6">
         <div class="flex items-center justify-between">
             <div>
                 <h2 class="text-lg font-medium text-gray-900">Daftar Pegawai</h2>
-                <p class="text-sm text-gray-500">pegawai terdaftar</p>
+                <p class="text-sm text-gray-500">{{ $pegawai->count() }} pegawai terdaftar</p>
             </div>
 
             <!-- Filter Options -->
@@ -81,45 +108,45 @@
     </div>
 
     <!-- Pegawai Grid Content -->
-
+    @if($pegawai->count() > 0)
     <div id="pegawai-list" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+        @foreach($pegawai as $item)
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow pegawai-card">
             <!-- Photo -->
             <div class="h-40 bg-gray-200 overflow-hidden">
-
-                <img src="" alt="" class="w-full h-full object-cover">
-
+                @if($item->foto)
+                <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" class="w-full h-full object-cover">
+                @else
                 <div class="w-full h-full flex items-center justify-center bg-gray-100">
                     <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                     </svg>
                 </div>
-
+                @endif
             </div>
 
             <!-- Content -->
             <div class="p-3">
                 <!-- Name -->
-                <h3 class="text-sm font-bold text-gray-900 mb-3 line-clamp-2 text-center" title="">
-                    <p>Asep</p>
+                <h3 class="text-sm font-bold text-gray-900 mb-3 line-clamp-2 text-center pegawai-nama" title="{{ $item->nama }}">
+                    {{ $item->nama }}
                 </h3>
 
                 <!-- Jabatan -->
-                <h3 class="text-sm font-semibold text-gray-900 mb-2 line-clamp-2 text-center" title="">
-                    <p>Staff</p>
+                <h3 class="text-sm font-semibold text-gray-900 mb-2 line-clamp-2 text-center pegawai-jabatan" title="{{ $item->jabatan }}">
+                    {{ $item->jabatan }}
                 </h3>
 
                 <!-- Actions -->
                 <div class="flex space-x-2 justify-center">
-                    <a href=""
+                    <a href="{{ route('dashboard.profil.pegawai.edit', $item->id) }}"
                         class="inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                         Edit
                     </a>
-                    <button onclick="confirmDelete('{{ $item->id ?? 1 }}')"
+                    <button onclick="confirmDelete('{{ $item->id }}', '{{ $item->nama }}')"
                         class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-xs font-medium rounded text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
@@ -129,9 +156,9 @@
                 </div>
             </div>
         </div>
-
+        @endforeach
     </div>
-
+    @else
     <div class="text-center py-12">
         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
@@ -139,7 +166,7 @@
         <h3 class="mt-4 text-sm font-medium text-gray-900">Belum ada pegawai</h3>
         <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan pegawai pertama Anda.</p>
         <div class="mt-6">
-            <a href="" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <a href="{{ route('dashboard.profil.pegawai.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <svg class="mr-1.5 -ml-0.5 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
                 </svg>
@@ -147,14 +174,7 @@
             </a>
         </div>
     </div>
-
-
-    <!-- Pagination -->
-
-    <div class="mt-6">
-
-    </div>
-
+    @endif
 </div>
 
 <!-- Delete Confirmation Modal -->
@@ -205,14 +225,18 @@
     }
 
     // Modal confirmation function
-    function confirmDelete(id) {
+    function confirmDelete(id, nama) {
         const modal = document.getElementById('deleteModal');
         const form = document.getElementById('deleteForm');
         const confirmBtn = document.getElementById('deleteConfirm');
         const cancelBtn = document.getElementById('deleteCancel');
+        const modalMessage = document.getElementById('modal-message');
+
+        // Update modal message with employee name
+        modalMessage.innerHTML = `Apakah Anda yakin ingin menghapus data pegawai <strong>${nama}</strong>? Tindakan ini tidak dapat dibatalkan.`;
 
         // Set form action
-        form.action = `/dashboard/pegawai/${id}`;
+        form.action = `{{ route('dashboard.profil.pegawai-admin') }}/${id}`;
 
         // Show modal
         modal.classList.remove('hidden');
@@ -245,11 +269,11 @@
     // Search functionality
     document.getElementById('search-input').addEventListener('keyup', function() {
         const query = this.value.toLowerCase();
-        const cards = document.querySelectorAll('#pegawai-list > div');
+        const cards = document.querySelectorAll('.pegawai-card');
 
         cards.forEach(card => {
-            const nama = card.querySelector('h3').textContent.toLowerCase();
-            const jabatan = card.querySelector('p').textContent.toLowerCase();
+            const nama = card.querySelector('.pegawai-nama').textContent.toLowerCase();
+            const jabatan = card.querySelector('.pegawai-jabatan').textContent.toLowerCase();
 
             if (nama.includes(query) || jabatan.includes(query)) {
                 card.style.display = 'block';
@@ -266,10 +290,10 @@
 
     function filterPegawai() {
         const jabatanFilter = document.getElementById('filter-jabatan').value.toLowerCase();
-        const cards = document.querySelectorAll('#pegawai-list > div');
+        const cards = document.querySelectorAll('.pegawai-card');
 
         cards.forEach(card => {
-            const jabatan = card.querySelector('p').textContent.toLowerCase();
+            const jabatan = card.querySelector('.pegawai-jabatan').textContent.toLowerCase();
 
             let showCard = true;
 
@@ -284,10 +308,18 @@
     // Auto-close alert after 5 seconds
     document.addEventListener('DOMContentLoaded', function() {
         const successAlert = document.getElementById('success-alert');
+        const errorAlert = document.getElementById('error-alert');
+
         if (successAlert) {
             setTimeout(() => {
                 closeAlert('success-alert');
             }, 5000);
+        }
+
+        if (errorAlert) {
+            setTimeout(() => {
+                closeAlert('error-alert');
+            }, 8000);
         }
     });
 </script>

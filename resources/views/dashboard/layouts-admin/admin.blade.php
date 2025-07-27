@@ -8,6 +8,13 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>@yield('title', 'Dinas Sosial Kota Majalengka')</title>
+    <style>
+        @media (max-width: 1023px) {
+            body {
+                overflow-x: hidden;
+            }
+        }
+    </style>
 </head>
 
 <body class="h-full">
@@ -16,13 +23,17 @@
         @include('dashboard.layouts-admin.components-admin.sidebar-admin')
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Header -->
-            @include('dashboard.layouts-admin.components-admin.header-admin')
+        <div class="flex-1 flex flex-col overflow-hidden lg:ml-0">
+            <!-- Header (Desktop only, hidden on mobile) -->
+            <div class="hidden lg:block">
+                @include('dashboard.layouts-admin.components-admin.header-admin')
+            </div>
 
             <!-- Dashboard Content -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50">
-                @yield('content')
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 pt-16 lg:pt-0">
+                <div class="px-4 sm:px-6 lg:px-8 py-6">
+                    @yield('content')
+                </div>
             </main>
         </div>
     </div>

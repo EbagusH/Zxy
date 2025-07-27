@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\DaftarPegawaiController;
 use App\Http\Controllers\SambutanKepalaDinasController;
 use App\Http\Controllers\StrukturOrganisasiController;
 use App\Http\Controllers\VisiMisiController;
@@ -84,8 +84,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/visimisi', [VisiMisiController::class, 'edit'])->name('visimisi');
         Route::put('/visimisi', [VisiMisiController::class, 'update'])->name('visi-misi.update');
 
-        //Pegawai
-        Route::get('/pegawai', [ProfilController::class, 'pegawai'])->name('pegawai');
+        // Pegawai - FIXED ROUTES
+        Route::get('/pegawai', [DaftarPegawaiController::class, 'index'])->name('pegawai-admin');
+        Route::get('/pegawai/create', [DaftarPegawaiController::class, 'create'])->name('pegawai.create');
+        Route::post('/pegawai', [DaftarPegawaiController::class, 'store'])->name('pegawai.store');
+        Route::get('/pegawai/{pegawai}/edit', [DaftarPegawaiController::class, 'edit'])->name('pegawai.edit');
+        Route::put('/pegawai/{pegawai}', [DaftarPegawaiController::class, 'update'])->name('pegawai.update');
+        Route::delete('/pegawai/{pegawai}', [DaftarPegawaiController::class, 'destroy'])->name('pegawai.destroy');
     });
 
     // CRUD Routes untuk Berita

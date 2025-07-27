@@ -121,47 +121,54 @@
     <!-- Preview Tab Content -->
     <div id="preview-content" class="tab-content hidden">
         <div class="bg-white shadow-md rounded-lg p-8 max-w-4xl mx-auto">
+            <div class="space-y-8">
 
-            <!-- Preview Content -->
-            <div class="flex flex-col md:flex-row items-start gap-8">
                 <!-- Foto Preview -->
-                <div class="flex-shrink-0">
-                    <div id="preview-foto" class="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
+                <div class="text-center">
+                    <div id="preview-foto" class="w-48 h-48 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden mx-auto shadow">
                         @if($sambutan->foto)
                         <img src="{{ asset('storage/' . $sambutan->foto) }}" alt="Foto Kepala Dinas" class="w-full h-full object-cover">
                         @else
-                        <!-- Icon Orang Default untuk Preview -->
+                        <!-- Icon Default -->
                         <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                         @endif
                     </div>
-                </div>
 
-                <!-- Info Preview -->
-                <div class="flex-1">
-                    <div class="mb-4">
-                        <h3 id="preview-nama" class="text-2xl font-bold text-gray-900 mb-1">
+                    <!-- Nama dan Jabatan -->
+                    <div class="mt-4">
+                        <h3 id="preview-nama" class="text-2xl font-bold text-gray-900">
                             {{ $sambutan->nama_kepala_dinas ?: 'Nama Kepala Dinas' }}
                         </h3>
                         <p id="preview-jabatan" class="text-lg text-blue-600 font-medium">
                             {{ $sambutan->jabatan ?: 'Jabatan' }}
                         </p>
                     </div>
+                </div>
 
-                    <div class="prose prose-lg">
-                        <div id="preview-isi" class="text-gray-700 leading-relaxed whitespace-pre-line">
-                            {{ $sambutan->isi_sambutan ?: 'Isi sambutan akan ditampilkan di sini...' }}
-                        </div>
+                <!-- Isi Sambutan -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        Sambutan Kepala Dinas
+                    </h3>
+                    <div id="preview-isi" class="text-gray-700 leading-relaxed whitespace-pre-line">
+                        {{ $sambutan->isi_sambutan ?: 'Isi sambutan akan ditampilkan di sini...' }}
                     </div>
                 </div>
-            </div>
 
-            <!-- Preview Actions -->
-            <div class="mt-8 text-center">
-                <button type="button" onclick="switchTab('edit')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow">
-                    Kembali ke Edit
-                </button>
+                <!-- Tombol Aksi -->
+                <div class="text-center">
+                    <button type="button" onclick="switchTab('edit')" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow">
+                        Kembali ke Edit
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>

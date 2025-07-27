@@ -68,7 +68,7 @@
 
                 <!-- Gambar/Logo -->
                 <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-2">Gambar/Logo (Opsional)</label>
+                    <label class="block text-gray-700 font-semibold mb-2">Gambar</label>
                     <div class="flex items-start space-x-4">
                         <div>
                             @if($visiMisi->gambar)
@@ -91,19 +91,19 @@
 
                 <!-- Sejarah -->
                 <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-2">Sejarah Singkat</label>
+                    <label class="block text-gray-700 font-semibold mb-2">Sejarah Dinas Sosial Majalengka</label>
                     <textarea name="sejarah" id="sejarah-input" rows="6" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:border-blue-500" required placeholder="Masukkan sejarah singkat dinas...">{{ old('sejarah', $visiMisi->sejarah) }}</textarea>
                 </div>
 
                 <!-- Visi -->
                 <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-2">Visi</label>
+                    <label class="block text-gray-700 font-semibold mb-2">Visi Dinas Sosial Majalengka</label>
                     <textarea name="visi" id="visi-input" rows="4" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:border-blue-500" required placeholder="Masukkan visi dinas...">{{ old('visi', $visiMisi->visi) }}</textarea>
                 </div>
 
                 <!-- Misi -->
                 <div class="mb-6">
-                    <label class="block text-gray-700 font-semibold mb-2">Misi</label>
+                    <label class="block text-gray-700 font-semibold mb-2">Misi Dinas Sosial Majalengka</label>
                     <textarea name="misi" id="misi-input" rows="8" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:border-blue-500" required placeholder="Masukkan misi dinas... (gunakan bullet point atau numbering untuk setiap poin misi)">{{ old('misi', $visiMisi->misi) }}</textarea>
                     <small class="text-gray-500">Tip: Gunakan format seperti "1. Poin misi pertama" untuk setiap poin misi</small>
                 </div>
