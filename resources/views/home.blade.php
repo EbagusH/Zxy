@@ -9,33 +9,53 @@
 @section('main-class', 'bg-gray-50')
 
 @section('content')
-<!-- Deskripsi -->
+<!-- Deskripsi Rumah Singgah -->
 <section class="py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-bold text-gray-900 mb-4">Rumah Singgah Kota Majalengka</h2>
             <div class="w-20 h-1 bg-cyan-400 mx-auto"></div>
         </div>
-        <div class="py-16 bg-white px-4 md:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <!-- Kolom Kiri: Deskripsi -->
-                <div class="md:w-1/2 text-gray-900 text-justify">
-                    <p>
-                        Rumah Singgah HEGAR merupakan bentuk komitmen pemerintah daerah untuk menciptakan lingkungan yang lebih humanis,
-                        tanggap terhadap kebutuhan sosial, dan berorientasi pada kesejahteraan masyarakat.
-                        Dengan hadirnya Rumah Singgah HEGAR, diharapkan bahwa tidak ada lagi individu yang kehilangan arah tanpa dukungan yang memadai.
-                        Rumah singgah ini menjadi bukti nyata bahwa Majalengka terus bergerak maju, menghadirkan solusi bagi masyarakat yang membutuhkan,
-                        serta membangun sistem perlindungan sosial yang lebih kuat menuju Majalengka Langkung SAE.
-                    </p>
-                </div>
-                <!-- Kolom Kanan: Foto -->
-                <div class="md:w-1/2">
-                    <div class="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
-                        <span class="text-gray-500">Foto akan ditampilkan di sini</span>
+
+        <a href="{{ route('rumah-singgah') }}" class="block hover:shadow-xl transition-all duration-300 cursor-pointer">
+            <div class="py-16 bg-white px-4 md:px-6 lg:px-8 rounded-lg">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <!-- Kolom Kiri: Deskripsi -->
+                    <div class="md:w-1/2 text-gray-900 text-justify">
+                        <p>
+                            @if($rumahSinggah && $rumahSinggah->isi)
+                            {{ Str::limit($rumahSinggah->isi, 400) }}
+                            @else
+                            Rumah Singgah HEGAR merupakan bentuk komitmen pemerintah daerah untuk menciptakan lingkungan yang lebih humanis,
+                            tanggap terhadap kebutuhan sosial, dan berorientasi pada kesejahteraan masyarakat.
+                            Dengan hadirnya Rumah Singgah HEGAR, diharapkan bahwa tidak ada lagi individu yang kehilangan arah tanpa dukungan yang memadai.
+                            Rumah singgah ini menjadi bukti nyata bahwa Majalengka terus bergerak maju, menghadirkan solusi bagi masyarakat yang membutuhkan,
+                            serta membangun sistem perlindungan sosial yang lebih kuat menuju Majalengka Langkung SAE.
+                            @endif
+                        </p>
+
+                        <div class="mt-4 inline-flex items-center text-cyan-600 hover:text-cyan-800 font-medium">
+                            Baca selengkapnya
+                            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Kolom Kanan: Foto -->
+                    <div class="md:w-1/2">
+                        @if($rumahSinggah && $rumahSinggah->gambar)
+                        <img src="{{ asset('storage/' . $rumahSinggah->gambar) }}"
+                            alt="Rumah Singgah HEGAR"
+                            class="w-full h-64 object-cover rounded-lg">
+                        @else
+                        <div class="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
+                            <span class="text-gray-500">Foto akan ditampilkan di sini</span>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     </div>
 </section>
 
@@ -65,7 +85,25 @@
                     <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
                 </div>
             </div>
+
+            {{-- Uncomment ketika data layanan sudah siap --}}
+            {{-- @if(isset($layananTerbaru) && $layananTerbaru->count() > 0)
+                @foreach($layananTerbaru as $layanan)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold text-white mb-2">{{ $layanan->nama }}</h3>
+            <p class="text-blue-100 text-sm">{{ $layanan->deskripsi_singkat }}</p>
         </div>
+    </div>
+    <div class="p-6">
+        <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ $layanan->judul }}</h4>
+        <a href="{{ route('layanan.show', $layanan->id) }}" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
+    </div>
+    </div>
+    @endforeach
+    @endif --}}
+    </div>
     </div>
 </section>
 

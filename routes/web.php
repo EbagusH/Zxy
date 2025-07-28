@@ -5,13 +5,14 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DaftarPegawaiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RumahSinggahController;
 use App\Http\Controllers\SambutanKepalaDinasController;
 use App\Http\Controllers\StrukturOrganisasiController;
 use App\Http\Controllers\VisiMisiController;
 
 // Public Routes
-Route::get('/', [BeritaController::class, 'home'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita');
 Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berita.show');
