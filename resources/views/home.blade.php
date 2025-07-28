@@ -26,11 +26,7 @@
                             @if($rumahSinggah && $rumahSinggah->isi)
                             {{ Str::limit($rumahSinggah->isi, 400) }}
                             @else
-                            Rumah Singgah HEGAR merupakan bentuk komitmen pemerintah daerah untuk menciptakan lingkungan yang lebih humanis,
-                            tanggap terhadap kebutuhan sosial, dan berorientasi pada kesejahteraan masyarakat.
-                            Dengan hadirnya Rumah Singgah HEGAR, diharapkan bahwa tidak ada lagi individu yang kehilangan arah tanpa dukungan yang memadai.
-                            Rumah singgah ini menjadi bukti nyata bahwa Majalengka terus bergerak maju, menghadirkan solusi bagi masyarakat yang membutuhkan,
-                            serta membangun sistem perlindungan sosial yang lebih kuat menuju Majalengka Langkung SAE.
+                            Informasi Rumah Singgah Akan Segera Tersedia...
                             @endif
                         </p>
 

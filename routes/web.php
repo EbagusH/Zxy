@@ -14,6 +14,7 @@ use App\Http\Controllers\VisiMisiController;
 // Public Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Public Berita Routes
 Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita');
 Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berita.show');
 
@@ -26,13 +27,9 @@ Route::get('/rumah-singgah', function () {
 })->name('rumah-singgah');
 
 // PUBLIC PROFIL ROUTES
-Route::get('/profil/sambutan', function () {
-    return view('profil-index.sambutan');
-})->name('profil.sambutan');
+Route::get('/profil/sambutan', [SambutanKepalaDinasController::class, 'index'])->name('profil.sambutan');
 
-Route::get('/profil/struktur', function () {
-    return view('profil-index.struktur');
-})->name('profil.struktur');
+Route::get('/profil/struktur', [StrukturOrganisasiController::class, 'index'])->name('profil.struktur');
 
 Route::get('/profil/pegawai', function () {
     return view('profil-index.pegawai');

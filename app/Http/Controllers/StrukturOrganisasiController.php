@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class StrukturOrganisasiController extends Controller
 {
     // Method untuk tampilan public
-    public function show()
+    public function index()
     {
         $struktur = StrukturOrganisasi::first();
         return view('profil-index.struktur', compact('struktur'));

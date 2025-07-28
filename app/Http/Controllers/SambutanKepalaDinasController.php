@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class SambutanKepalaDinasController extends Controller
 {
     // Method untuk tampilan public
-    public function show()
+    public function index()
     {
         $sambutan = SambutanKepalaDinas::first();
         return view('profil-index.sambutan', compact('sambutan'));

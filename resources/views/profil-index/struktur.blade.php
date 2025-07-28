@@ -13,9 +13,98 @@
 </div>
 
 <!-- Content Section -->
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="bg-white rounded-lg shadow-md p-8">
-        <p class="text-gray-600 text-lg text-center"></p>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content - Struktur Organisasi -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                @if($struktur && $struktur->gambar_struktur)
+                <!-- Gambar Struktur Organisasi -->
+                <div class="mb-6 text-center">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Struktur Organisasi Dinas Sosial Kota Majalengka</h2>
+                    <img src="{{ asset('storage/' . $struktur->gambar_struktur) }}"
+                        alt="Struktur Organisasi Dinas Sosial"
+                        class="w-full mx-auto rounded-lg shadow-md border border-gray-200">
+                </div>
+
+                @else
+                <!-- Jika belum ada Struktur Organisasi -->
+                <div class="text-center py-12">
+                    <div class="mb-6">
+                        <svg class="mx-auto h-24 w-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-medium text-gray-600 mb-2">Struktur Organisasi</h3>
+                    <p class="text-gray-500">Struktur organisasi akan segera tersedia.</p>
+                </div>
+                @endif
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+            <div class="sticky top-6 space-y-6">
+                <!-- Berita Terkini -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                        Berita Terkini
+                    </h3>
+                    <div class="space-y-4">
+                        <!-- Placeholder untuk berita terkini -->
+                        <div class="text-gray-500 text-sm">
+                            Berita terkini akan ditampilkan di sini
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artikel Terbaru -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                        Artikel Terbaru
+                    </h3>
+                    <div class="space-y-4">
+                        <!-- Placeholder untuk artikel terbaru -->
+                        <div class="text-gray-500 text-sm">
+                            Artikel terbaru akan ditampilkan di sini
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profil Menu -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                        Menu Profil
+                    </h3>
+                    <div class="space-y-3">
+                        <a href="{{ route('profil.sambutan') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Sambutan Kepala Dinas
+                        </a>
+                        <a href="{{ route('profil.struktur') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Struktur Organisasi
+                        </a>
+                        <a href="{{ route('profil.pegawai') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Daftar Pegawai
+                        </a>
+                        <a href="{{ route('profil.visi-misi') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            Visi & Misi
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
