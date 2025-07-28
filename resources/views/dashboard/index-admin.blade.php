@@ -15,22 +15,22 @@
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div class="bg-white rounded-lg shadow p-4 text-center">
             <div class="text-red-500 text-2xl mb-2">📌</div>
-            <p class="text-xl font-semibold text-gray-800">1</p>
+            <p class="text-xl font-semibold text-gray-800">{{ $data['sambutan_aktif'] }}</p>
             <p class="text-sm text-gray-500">Sambutan aktif</p>
         </div>
         <div class="bg-white rounded-lg shadow p-4 text-center">
             <div class="text-cyan-600 text-2xl mb-2">🧩</div>
-            <p class="text-xl font-semibold text-gray-800">1</p>
+            <p class="text-xl font-semibold text-gray-800">{{ $data['struktur_organisasi'] }}</p>
             <p class="text-sm text-gray-500">Struktur organisasi tersedia</p>
         </div>
         <div class="bg-white rounded-lg shadow p-4 text-center">
             <div class="text-purple-600 text-2xl mb-2">👥</div>
-            <p class="text-xl font-semibold text-gray-800">18</p>
+            <p class="text-xl font-semibold text-gray-800">{{ $data['pegawai_terdaftar'] }}</p>
             <p class="text-sm text-gray-500">Pegawai terdaftar</p>
         </div>
         <div class="bg-white rounded-lg shadow p-4 text-center">
             <div class="text-green-600 text-2xl mb-2">🎯</div>
-            <p class="text-xl font-semibold text-gray-800">1</p>
+            <p class="text-xl font-semibold text-gray-800">{{ $data['visi_misi_aktif'] }}</p>
             <p class="text-sm text-gray-500">Visi Misi aktif</p>
         </div>
     </div>

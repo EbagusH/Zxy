@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DaftarPegawaiController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RumahSinggahController;
 use App\Http\Controllers\SambutanKepalaDinasController;
 use App\Http\Controllers\StrukturOrganisasiController;
@@ -53,9 +54,7 @@ Route::middleware(['guest'])->group(function () {
 // Dashboard Routes - hanya bisa diakses setelah login
 Route::middleware(['auth'])->group(function () {
     // Dashboard utama
-    Route::get('/dashboard', function () {
-        return view('dashboard.index-admin');
-    })->name('dashboard.index-admin');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index-admin');
 
     // Dashboard sub-menu - UPDATED: Menggunakan BeritaController
     Route::get('/dashboard/berita', [BeritaController::class, 'index'])->name('dashboard.berita-admin');
