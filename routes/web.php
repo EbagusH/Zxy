@@ -31,13 +31,9 @@ Route::get('/profil/sambutan', [SambutanKepalaDinasController::class, 'index'])-
 
 Route::get('/profil/struktur', [StrukturOrganisasiController::class, 'index'])->name('profil.struktur');
 
-Route::get('/profil/pegawai', function () {
-    return view('profil-index.pegawai');
-})->name('profil.pegawai');
+Route::get('/profil/pegawai', [DaftarPegawaiController::class, 'showPublic'])->name('profil.pegawai');
 
-Route::get('/profil/visi-misi', function () {
-    return view('profil-index.visi-misi');
-})->name('profil.visi-misi');
+Route::get('/profil/visi-misi', [VisiMisiController::class, 'show'])->name('profil.visi-misi');
 
 // Login Form (GET) - hanya bisa diakses jika belum login
 Route::middleware(['guest'])->group(function () {

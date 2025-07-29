@@ -17,6 +17,12 @@ class DaftarPegawaiController extends Controller
         return view('dashboard.profil.pegawai-admin', compact('pegawai'));
     }
 
+    public function showPublic()
+    {
+        $pegawai = DaftarPegawai::orderBy('nama', 'asc')->get();
+        return view('profil-index.pegawai', compact('pegawai'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

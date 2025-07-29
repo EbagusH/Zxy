@@ -79,8 +79,8 @@
                     </div>
 
                     <!-- Berita - Active when on berita page -->
-                    <a href="{{ route('berita') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ request()->routeIs('berita') ? 'bg-gray-900 text-white' : 'text-gray-900 hover:bg-gray-900 hover:text-white' }}"
-                        {{ request()->routeIs('berita') ? 'aria-current=page' : '' }}>
+                    <a href="{{ route('berita') }}" class="rounded-md px-3 py-2 text-sm font-medium {{ request()->routeIs(['berita', 'berita.detail', 'berita.show']) || request()->is('berita*') ? 'bg-gray-900 text-white' : 'text-gray-900 hover:bg-gray-900 hover:text-white' }}"
+                        {{ request()->routeIs(['berita', 'berita.detail', 'berita.show']) || request()->is('berita*') ? 'aria-current=page' : '' }}>
                         Berita
                     </a>
 
@@ -253,8 +253,8 @@
                 </div> -->
 
                 <!-- Mobile Berita - Active when on berita page -->
-                <a href="{{ route('berita') }}" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->routeIs('berita') ? 'bg-gray-900 text-white' : 'text-gray-900 hover:bg-gray-900 hover:text-white' }}"
-                    {{ request()->routeIs('berita') ? 'aria-current=page' : '' }}>
+                <a href="{{ route('berita') }}" class="block rounded-md px-3 py-2 text-base font-medium {{ request()->routeIs(['berita', 'berita.detail', 'berita.show']) || request()->is('berita*') ? 'bg-gray-900 text-white' : 'text-gray-900 hover:bg-gray-900 hover:text-white' }}"
+                    {{ request()->routeIs(['berita', 'berita.detail', 'berita.show']) || request()->is('berita*') ? 'aria-current=page' : '' }}>
                     Berita
                 </a>
 
