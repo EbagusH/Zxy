@@ -20,8 +20,21 @@
         <a href="{{ route('rumah-singgah') }}" class="block hover:shadow-xl transition-all duration-300 cursor-pointer">
             <div class="py-16 bg-white px-4 md:px-6 lg:px-8 rounded-lg">
                 <div class="flex flex-col md:flex-row items-center gap-8">
-                    <!-- Kolom Kiri: Deskripsi -->
-                    <div class="md:w-1/2 text-gray-900 text-justify">
+                    <!-- Gambar - tampil pertama di mobile, kedua di desktop -->
+                    <div class="w-full md:w-1/2 md:order-2">
+                        @if($rumahSinggah && $rumahSinggah->gambar)
+                        <img src="{{ asset('storage/' . $rumahSinggah->gambar) }}"
+                            alt="Rumah Singgah HEGAR"
+                            class="w-full h-64 object-cover rounded-lg">
+                        @else
+                        <div class="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
+                            <span class="text-gray-500">Foto akan ditampilkan di sini</span>
+                        </div>
+                        @endif
+                    </div>
+
+                    <!-- Deskripsi - tampil kedua di mobile, pertama di desktop -->
+                    <div class="w-full md:w-1/2 text-gray-900 text-justify md:order-1">
                         <p>
                             @if($rumahSinggah && $rumahSinggah->isi)
                             {{ Str::limit($rumahSinggah->isi, 400) }}
@@ -36,18 +49,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
                             </svg>
                         </div>
-                    </div>
-                    <!-- Kolom Kanan: Foto -->
-                    <div class="md:w-1/2">
-                        @if($rumahSinggah && $rumahSinggah->gambar)
-                        <img src="{{ asset('storage/' . $rumahSinggah->gambar) }}"
-                            alt="Rumah Singgah HEGAR"
-                            class="w-full h-64 object-cover rounded-lg">
-                        @else
-                        <div class="w-full h-64 bg-gray-200 flex items-center justify-center rounded-lg">
-                            <span class="text-gray-500">Foto akan ditampilkan di sini</span>
-                        </div>
-                        @endif
                     </div>
                 </div>
             </div>

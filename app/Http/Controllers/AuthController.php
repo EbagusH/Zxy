@@ -29,6 +29,13 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
+            // Simpan cookie email jika remember dicentang (30 hari)
+            if ($request->has('remember')) {
+                cookie()->queue('remembered_email', $request->email, 60 * 24 * 30); // 30 hari
+            } else {
+                cookie()->queue(cookie()->forget('remembered_email'));
+            }
+
             // Selalu arahkan ke dashboard setelah login berhasil
             return redirect('/dashboard');
         }

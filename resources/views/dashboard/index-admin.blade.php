@@ -6,10 +6,12 @@
 <!-- Dashboard Content -->
 <div class="p-6">
     <!-- Header Selamat Datang -->
+    @auth
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Selamat Datang, Admin!</h1>
+        <h1 class="text-2xl font-bold text-gray-800">Selamat Datang, {{ Auth::user()->name }} !</h1>
         <p class="text-sm text-gray-500">Ringkasan Data Sistem Informasi Dinas Sosial</p>
     </div>
+    @endauth
 
     <!-- Kartu Statistik dengan spacing yang lebih baik -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">

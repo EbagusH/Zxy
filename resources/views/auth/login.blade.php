@@ -55,7 +55,7 @@
                         </label>
                         <div class="mt-1">
                             <input id="email" name="email" type="email" autocomplete="email" required
-                                value="{{ old('email') }}"
+                                value="{{ old('email', Cookie::get('remembered_email')) }}"
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('email') border-red-500 @enderror"
                                 placeholder="Masukkan email admin">
                             @error('email')
@@ -69,13 +69,22 @@
                         <label for="password" class="block text-sm font-medium text-gray-700">
                             Password
                         </label>
-                        <div class="mt-1">
+                        <div class="relative">
                             <input id="password" name="password" type="password" autocomplete="current-password" required
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm @error('password') border-red-500 @enderror"
                                 placeholder="Masukkan password">
-                            @error('password')
-                            <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
+
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <button type="button" onclick="togglePassword()" class="text-gray-500 focus:outline-none">
+                                    <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -116,6 +125,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById('password');
+            const icon = document.getElementById('eye-icon');
+
+            if (password.type === 'password') {
+                password.type = 'text';
+                icon.classList.add('text-indigo-600');
+            } else {
+                password.type = 'password';
+                icon.classList.remove('text-indigo-600');
+            }
+        }
+    </script>
+
 </body>
 
 </html>
