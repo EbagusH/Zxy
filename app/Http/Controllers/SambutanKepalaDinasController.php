@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use App\Models\SambutanKepalaDinas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,20 @@ class SambutanKepalaDinasController extends Controller
     public function index()
     {
         $sambutan = SambutanKepalaDinas::first();
-        return view('profil-index.sambutan', compact('sambutan'));
+
+        // Ambil berita terbaru untuk sidebar
+        $beritaTerbaru = Berita::where('kategori', 'berita')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Ambil artikel terbaru untuk sidebar
+        $artikelTerbaru = Berita::where('kategori', 'artikel')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('profil-index.sambutan', compact('sambutan', 'beritaTerbaru', 'artikelTerbaru'));
     }
 
     // Method untuk edit admin

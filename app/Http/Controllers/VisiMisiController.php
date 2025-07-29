@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use App\Models\VisiMisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,20 @@ class VisiMisiController extends Controller
     public function show()
     {
         $visiMisi = VisiMisi::first();
-        return view('profil-index.visi-misi', compact('visiMisi'));
+
+        // Ambil berita terbaru untuk sidebar
+        $beritaTerbaru = Berita::where('kategori', 'berita')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Ambil artikel terbaru untuk sidebar
+        $artikelTerbaru = Berita::where('kategori', 'artikel')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('profil-index.visi-misi', compact('visiMisi', 'beritaTerbaru', 'artikelTerbaru'));
     }
 
     // Method untuk edit admin

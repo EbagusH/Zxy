@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use App\Models\DaftarPegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,20 @@ class DaftarPegawaiController extends Controller
     public function showPublic()
     {
         $pegawai = DaftarPegawai::orderBy('nama', 'asc')->get();
-        return view('profil-index.pegawai', compact('pegawai'));
+
+        // Ambil berita terbaru untuk sidebar
+        $beritaTerbaru = Berita::where('kategori', 'berita')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Ambil artikel terbaru untuk sidebar
+        $artikelTerbaru = Berita::where('kategori', 'artikel')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('profil-index.pegawai', compact('pegawai', 'beritaTerbaru', 'artikelTerbaru'));
     }
 
     /**
