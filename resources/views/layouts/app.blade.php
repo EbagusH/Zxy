@@ -33,7 +33,7 @@
         <!-- Include Navbar -->
         @include('layouts.components.navbar')
 
-        <!-- Include Header (jika ada) -->
+        <!-- Include Header -->
         @hasSection('header')
         @include('layouts.components.header')
         @endif

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DaftarPegawaiController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HeaderFotoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RumahSinggahController;
 use App\Http\Controllers\SambutanKepalaDinasController;
@@ -49,6 +50,10 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // Dashboard utama
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index-admin');
+
+    // Edit-Header
+    Route::get('/header', [HeaderFotoController::class, 'edit'])->name('dashboard.edit-header');
+    Route::put('/header', [HeaderFotoController::class, 'update'])->name('dashboard.edit-header.update');
 
     // Dashboard sub-menu - UPDATED: Menggunakan BeritaController
     Route::get('/dashboard/berita', [BeritaController::class, 'index'])->name('dashboard.berita-admin');

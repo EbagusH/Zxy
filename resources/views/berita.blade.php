@@ -1,14 +1,20 @@
 @extends('layouts.app')
+
 @section('title', 'Berita - Dinas Sosial Kota Majalengka')
+
+@section('header')
+@include('layouts.components.header', ['page' => 'berita'])
+@endsection
+
 @section('content')
 <!-- Hero Section with Background Image -->
-<div class="relative h-96 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ytimg.com/vi/aKeSm4BUFCk/maxresdefault.jpg');">
+<!-- <div class="relative h-96 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ytimg.com/vi/aKeSm4BUFCk/maxresdefault.jpg');">
     <div class="absolute inset-0 flex items-center justify-center">
         <div class="text-center text-white">
             <h1 class="text-5xl font-bold mb-4">Berita dan Artikel Terbaru</h1>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Berita Section -->
 <section class="py-16">

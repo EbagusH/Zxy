@@ -3,13 +3,13 @@
 @section('title', 'Beranda - Dinas Sosial Kota Majalengka')
 
 @section('header')
-@include('layouts.components.header')
+@include('layouts.components.header', ['page' => 'home'])
 @endsection
 
 @section('main-class', 'bg-gray-50')
 
 @section('content')
-<!-- Deskripsi Rumah Singgah -->
+<!-- Deskripsi -->
 <section class="py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">

@@ -1,14 +1,19 @@
 @extends('layouts.app')
-@section('title', $berita->judul . ' - Dinas Sosial Kota Majalengka')
-@section('content')
 
+@section('title', $berita->judul . ' - Dinas Sosial Kota Majalengka')
+
+@section('header')
+@include('layouts.components.header', ['page' => 'berita.show'])
+@endsection
+
+@section('content')
 <!-- Hero Section with Background Image -->
-<div class="relative h-96 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ytimg.com/vi/aKeSm4BUFCk/maxresdefault.jpg');">
+<!-- <div class="relative h-96 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ytimg.com/vi/aKeSm4BUFCk/maxresdefault.jpg');">
     <div class="absolute inset-0 flex items-center justify-center">
         <div class="text-center text-white">
-            <h1 class="text-5xl font-bold mb-4">Detail Berita dan Artikel</h1>
-            <!-- Breadcrumb -->
-            <div>
+            <h1 class="text-5xl font-bold mb-4">Detail Berita dan Artikel</h1> -->
+<!-- Breadcrumb -->
+<!-- <div>
                 <a href="{{ route('home') }}" class="hover:underline text-white">Beranda</a>
                 <span class="text-white">|</span>
                 <a href="{{ route('berita') }}" class="hover:underline text-white">Berita</a>
@@ -17,7 +22,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="py-16 bg-gray-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

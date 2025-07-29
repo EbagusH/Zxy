@@ -28,12 +28,6 @@
     <!-- Mobile Logo (visible on mobile) -->
     <div class="lg:hidden p-4 border-b border-gray-200">
         <h1 class="text-xl font-bold text-gray-800">Logo</h1>
-        <!-- Close button for mobile -->
-        <!-- <button id="sidebarCloseBtn" class="absolute top-4 right-4 p-1 rounded-md text-gray-400 hover:text-gray-600 lg:hidden">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button> -->
     </div>
 
     <nav class="flex-1 mt-2 lg:mt-6 overflow-y-auto pb-4">
