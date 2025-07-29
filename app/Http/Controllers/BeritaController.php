@@ -142,4 +142,38 @@ class BeritaController extends Controller
 
         return redirect()->route('dashboard.berita-admin')->with('success', $pesan);
     }
+
+    // Method untuk live search berita dan artikel
+    public function search(Request $request)
+    {
+        $query = $request->get('query', '');
+
+        if (empty($query)) {
+            // Jika query kosong, return semua data
+            $berita = Berita::where('kategori', 'berita')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $artikel = Berita::where('kategori', 'artikel')
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } else {
+            // Search berdasarkan judul
+            $berita = Berita::where('kategori', 'berita')
+                ->where('judul', 'LIKE', '%' . $query . '%')
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            $artikel = Berita::where('kategori', 'artikel')
+                ->where('judul', 'LIKE', '%' . $query . '%')
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
+        // Return JSON response dengan data berita dan artikel
+        return response()->json([
+            'berita' => $berita,
+            'artikel' => $artikel
+        ]);
+    }
 }

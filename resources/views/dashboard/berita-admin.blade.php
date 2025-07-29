@@ -370,52 +370,173 @@
         }
     });
 
-    // Fungsi untuk live search berita
+    // Fungsi untuk live search
     document.getElementById('search-input').addEventListener('keyup', function() {
         const query = this.value;
 
-        fetch(`{{ route('dashboard.berita-admin.search') }}?query=${query}`)
+        // Base URLs untuk routes
+        const showUrl = "{{ route('dashboard.berita-admin.show', ':id') }}".replace(':id', '');
+        const editUrl = "{{ route('dashboard.berita-admin.edit', ':id') }}".replace(':id', '');
+
+        fetch(`{{ route('dashboard.berita-admin.search') }}?query=${encodeURIComponent(query)}`)
             .then(response => response.json())
             .then(data => {
                 const beritaList = document.getElementById('berita-list');
+                const artikelList = document.getElementById('artikel-list');
+
+                // Clear both lists
                 beritaList.innerHTML = '';
+                artikelList.innerHTML = '';
 
-                if (data.length === 0) {
-                    beritaList.innerHTML = '<p class="text-gray-500 col-span-full">Tidak ada berita yang cocok.</p>';
-                    return;
-                }
+                const createCard = (item, type) => {
+                    const badgeClass = type === 'berita' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800';
+                    const badgeText = type === 'berita' ? 'Berita' : 'Artikel';
+                    const deleteParam = type === 'artikel' ? ', \'artikel\'' : '';
 
-                data.forEach(item => {
-                    const card = `
-                        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-                            <div class="h-48 bg-gray-200 overflow-hidden">
-                                ${item.foto ? `<img src="/storage/${item.foto}" alt="${item.judul}" class="w-full h-full object-cover">` :
-                                    `<div class="w-full h-full flex items-center justify-center bg-gray-100">
-                                        <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                        </svg>
-                                    </div>`
-                                }
+                    return `
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Image -->
+                    <div class="h-40 md:h-48 bg-gray-200 overflow-hidden">
+                        ${item.foto ? 
+                            `<img src="/storage/${item.foto}" alt="${item.judul}" class="w-full h-full object-cover">` :
+                            `<div class="w-full h-full flex items-center justify-center bg-gray-100">
+                                <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>`
+                        }
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-3 md:p-4">
+                        <!-- Badge -->
+                        <div class="mb-2">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeClass}">
+                                ${badgeText}
+                            </span>
+                        </div>
+
+                        <!-- Title -->
+                        <h3 class="text-base md:text-lg font-medium text-gray-900 mb-2 line-clamp-2">${item.judul}</h3>
+
+                        <!-- Meta Info -->
+                        <div class="flex items-center justify-between text-xs text-gray-500 mb-3 md:mb-4">
+                            <span>ID: ${item.id}</span>
+                            <span>${new Date(item.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+                            <a href="${showUrl}${item.id}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                Lihat
+                            </a>
+                            <div class="flex space-x-2 md:flex-1">
+                                <a href="${editUrl}${item.id}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                    Edit
+                                </a>
+                                <button onclick="confirmDelete('${item.id}'${deleteParam})" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
                             </div>
-                            <div class="p-4">
-                                <div class="mb-2">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Berita</span>
-                                </div>
-                                <h3 class="text-lg font-medium text-gray-900 mb-2 line-clamp-2">${item.judul}</h3>
-                                <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
-                                    <span>ID: ${item.id}</span>
-                                    <span>${new Date(item.created_at).toLocaleDateString('id-ID')}</span>
-                                </div>
-                                <div class="flex space-x-2">
-                                    <button class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white">Lihat</button>
-                                    <button class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white">Edit</button>
-                                    <button class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white">Hapus</button>
-                                </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                };
+
+                // Jika query kosong, tampilkan semua data tanpa reload
+                if (!query) {
+                    // Tampilkan semua data berita
+                    if (data.berita.length > 0) {
+                        data.berita.forEach(item => {
+                            beritaList.insertAdjacentHTML('beforeend', createCard(item, 'berita'));
+                        });
+                    } else {
+                        beritaList.innerHTML = `
+                        <div class="text-center py-8 md:py-12 col-span-full">
+                            <svg class="mx-auto h-8 w-8 md:h-12 md:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                            </svg>
+                            <h3 class="mt-4 text-sm font-medium text-gray-900">Belum ada berita</h3>
+                            <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan berita pertama Anda.</p>
+                            <div class="mt-6">
+                                <a href="{{ route('dashboard.crud-berita') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <svg class="mr-1.5 -ml-0.5 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                    </svg>
+                                    Tambah Berita
+                                </a>
                             </div>
                         </div>
                     `;
-                    beritaList.insertAdjacentHTML('beforeend', card);
-                });
+                    }
+
+                    // Tampilkan semua data artikel
+                    if (data.artikel.length > 0) {
+                        data.artikel.forEach(item => {
+                            artikelList.insertAdjacentHTML('beforeend', createCard(item, 'artikel'));
+                        });
+                    } else {
+                        artikelList.innerHTML = `
+                        <div class="text-center py-8 md:py-12 col-span-full">
+                            <svg class="mx-auto h-8 w-8 md:h-12 md:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <h3 class="mt-4 text-sm font-medium text-gray-900">Belum ada artikel</h3>
+                            <p class="mt-1 text-sm text-gray-500">Mulai dengan menambahkan artikel pertama Anda.</p>
+                            <div class="mt-6">
+                                <a href="{{ route('dashboard.crud-berita') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <svg class="mr-1.5 -ml-0.5 w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                                    </svg>
+                                    Tambah Artikel
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                    }
+                    return; // Exit early untuk query kosong
+                }
+
+                // Handle berita (hanya untuk pencarian)
+                if (data.berita.length > 0) {
+                    data.berita.forEach(item => {
+                        beritaList.insertAdjacentHTML('beforeend', createCard(item, 'berita'));
+                    });
+                } else if (query) {
+                    beritaList.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-gray-500">Tidak ada berita yang ditemukan.</p></div>';
+                }
+
+                // Handle artikel (hanya untuk pencarian)
+                if (data.artikel.length > 0) {
+                    data.artikel.forEach(item => {
+                        artikelList.insertAdjacentHTML('beforeend', createCard(item, 'artikel'));
+                    });
+                } else if (query) {
+                    artikelList.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-gray-500">Tidak ada artikel yang ditemukan.</p></div>';
+                }
+
+                // Jika tidak ada hasil sama sekali untuk pencarian
+                if (query && data.berita.length === 0 && data.artikel.length === 0) {
+                    beritaList.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-gray-500">Tidak ada hasil yang ditemukan untuk pencarian ini.</p></div>';
+                    artikelList.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-gray-500">Tidak ada hasil yang ditemukan untuk pencarian ini.</p></div>';
+                }
+            })
+            .catch(error => {
+                console.error('Terjadi kesalahan:', error);
+                const beritaList = document.getElementById('berita-list');
+                const artikelList = document.getElementById('artikel-list');
+                beritaList.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-red-500">Terjadi kesalahan saat melakukan pencarian.</p></div>';
+                artikelList.innerHTML = '<div class="col-span-full text-center py-8"><p class="text-red-500">Terjadi kesalahan saat melakukan pencarian.</p></div>';
             });
     });
 </script>
