@@ -48,6 +48,8 @@ Route::middleware(['guest'])->group(function () {
 
 // Dashboard Routes - hanya bisa diakses setelah login
 Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/profile', [AuthController::class, 'showAdminProfile'])->name('admin.profile');
+
     // Dashboard utama
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index-admin');
 

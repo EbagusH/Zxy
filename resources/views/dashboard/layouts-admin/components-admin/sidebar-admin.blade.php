@@ -72,6 +72,15 @@
                 <a href="{{ route('dashboard.profil.visimisi') }}" class="block px-12 py-2 text-sm {{ request()->routeIs('dashboard.profil.visimisi') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
                     Visi dan Misi
                 </a>
+                <a href="#" class="block px-12 py-2 text-sm ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
+                    Bidang Linjamsos
+                </a>
+                <a href="#" class="block px-12 py-2 text-sm ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
+                    Bidang Dayasos
+                </a>
+                <a href="#" class="block px-12 py-2 text-sm ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
+                    Bidang Resos
+                </a>
             </div>
         </div>
 

@@ -86,6 +86,21 @@
                                     <i class="fas fa-bullseye mr-3 text-gray-400 w-4"></i>
                                     Visi dan Misi
                                 </a>
+                                <a href="#"
+                                    class="flex items-center px-4 py-3 text-sm transition-colors duration-200">
+                                    <i class="fas fa-bullseye mr-3 text-gray-400 w-4"></i>
+                                    Bidang Linjamsos
+                                </a>
+                                <a href="#"
+                                    class="flex items-center px-4 py-3 text-sm transition-colors duration-200">
+                                    <i class="fas fa-bullseye mr-3 text-gray-400 w-4"></i>
+                                    Bidang Dayasos
+                                </a>
+                                <a href="#"
+                                    class="flex items-center px-4 py-3 text-sm transition-colors duration-200">
+                                    <i class="fas fa-bullseye mr-3 text-gray-400 w-4"></i>
+                                    Bidang Resos
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -209,6 +224,21 @@
                             '{{ request()->routeIs('profil.visi-misi') ? 'bg-white/20 text-white border border-white/30' : 'text-white/80 hover:bg-white/10 hover:text-white' }}'">
                         <i class="fas fa-bullseye mr-2" :class="scrolled ? 'text-gray-400' : 'text-white/60'"></i>
                         Visi dan Misi
+                    </a>
+                    <a href="#"
+                        class="block px-3 py-2 text-sm rounded-md transition-all duration-200">
+                        <i class="fas fa-bullseye mr-2" :class="scrolled ? 'text-gray-400' : 'text-white/60'"></i>
+                        Bidang Linjamsos
+                    </a>
+                    <a href="#"
+                        class="block px-3 py-2 text-sm rounded-md transition-all duration-200">
+                        <i class="fas fa-bullseye mr-2" :class="scrolled ? 'text-gray-400' : 'text-white/60'"></i>
+                        Bidang Dayasos
+                    </a>
+                    <a href="#"
+                        class="block px-3 py-2 text-sm rounded-md transition-all duration-200">
+                        <i class="fas fa-bullseye mr-2" :class="scrolled ? 'text-gray-400' : 'text-white/60'"></i>
+                        Bidang Resos
                     </a>
                 </div>
             </div>

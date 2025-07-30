@@ -16,6 +16,31 @@ return new class extends Migration
             $table->string('gambar')->nullable();
             $table->text('isi')->nullable();
             $table->text('lokasi')->nullable();
+
+            // Gallery images (JSON array of image paths)
+            $table->json('galeri')->nullable();
+
+            // Facilities (JSON array)
+            $table->json('fasilitas')->nullable();
+
+            // Guest criteria (JSON array)
+            $table->json('kriteria_tamu')->nullable();
+
+            // Video
+            $table->string('video')->nullable();
+
+            // Service flow diagram
+            $table->string('alur_pelayanan')->nullable();
+
+            // Contact information
+            $table->string('alamat_lengkap')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('telepon')->nullable();
+            $table->string('email')->nullable();
+
+            // Operating hours
+            $table->json('jam_operasional')->nullable();
+
             $table->timestamps();
         });
     }

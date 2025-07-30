@@ -58,4 +58,15 @@ class AuthController extends Controller
         // Arahkan ke halaman home setelah logout
         return redirect('auth/login');
     }
+
+    public function showAdminProfile()
+    {
+        $admin = Auth::user();
+
+        if ($admin->role !== 'admin') {
+            abort(403, 'Akses ditolak.');
+        }
+
+        return view('dashboard.detail-admin', compact('admin'));
+    }
 }
