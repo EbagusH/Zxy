@@ -16,24 +16,19 @@
     <!-- Kartu Statistik dengan spacing yang lebih baik -->
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-lg shadow p-6 text-center">
-            <div class="text-red-500 text-3xl mb-3">📌</div>
-            <p class="text-2xl font-semibold text-gray-800 mb-1">{{ $data['sambutan_aktif'] }}</p>
-            <p class="text-sm text-gray-500">Sambutan aktif</p>
-        </div>
-        <div class="bg-white rounded-lg shadow p-6 text-center">
-            <div class="text-cyan-600 text-3xl mb-3">🧩</div>
-            <p class="text-2xl font-semibold text-gray-800 mb-1">{{ $data['struktur_organisasi'] }}</p>
-            <p class="text-sm text-gray-500">Struktur organisasi tersedia</p>
-        </div>
-        <div class="bg-white rounded-lg shadow p-6 text-center">
             <div class="text-purple-600 text-3xl mb-3">👥</div>
             <p class="text-2xl font-semibold text-gray-800 mb-1">{{ $data['pegawai_terdaftar'] }}</p>
             <p class="text-sm text-gray-500">Pegawai terdaftar</p>
         </div>
         <div class="bg-white rounded-lg shadow p-6 text-center">
-            <div class="text-green-600 text-3xl mb-3">🎯</div>
-            <p class="text-2xl font-semibold text-gray-800 mb-1">{{ $data['visi_misi_aktif'] }}</p>
-            <p class="text-sm text-gray-500">Visi Misi aktif</p>
+            <div class="text-green-600 text-3xl mb-3">📄</div>
+            <p class="text-2xl font-semibold text-gray-800 mb-1">{{ $data['layanan_tersedia'] }}</p>
+            <p class="text-sm text-gray-500">Layanan Tersedia</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 text-center">
+            <div class="text-green-600 text-3xl mb-3">📰</div>
+            <p class="text-2xl font-semibold text-gray-800 mb-1">{{ $data['berita_artikel_tersedia'] }}</p>
+            <p class="text-sm text-gray-500">Berita dan Artikel Tersedia</p>
         </div>
     </div>
 
@@ -46,7 +41,7 @@
                     <tr class="text-gray-500 border-b">
                         <th class="py-3">Judul</th>
                         <th class="py-3">Kategori</th>
-                        <!-- <th class="py-3">Upload</th> -->
+                        <th class="py-3">Upload</th>
                         <th class="py-3">Tanggal Posting</th>
                     </tr>
                 </thead>

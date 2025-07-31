@@ -101,13 +101,6 @@
                                 <textarea name="isi" id="isi-input" rows="8" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:border-blue-500" required placeholder="Masukkan deskripsi lengkap tentang rumah singgah...">{{ old('isi', $rumahSinggah->isi ?? '') }}</textarea>
                                 <small class="text-gray-500">Jelaskan fasilitas, tujuan, dan layanan yang tersedia di rumah singgah</small>
                             </div>
-
-                            <!-- Lokasi -->
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Lokasi Rumah Singgah</label>
-                                <textarea name="lokasi" id="lokasi-input" rows="4" class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:border-blue-500" required placeholder="Masukkan alamat lengkap dan informasi lokasi...">{{ old('lokasi', $rumahSinggah->lokasi ?? '') }}</textarea>
-                                <small class="text-gray-500">Cantumkan alamat lengkap, cara akses, dan petunjuk arah jika perlu</small>
-                            </div>
                         </div>
                     </div>
 
@@ -122,10 +115,59 @@
                             </div>
                         </button>
                         <div id="gallery-content" class="p-4 hidden">
-                            <div class="mb-4">
+                            <!-- Drag & Drop Upload Area -->
+                            <div class="mb-6">
                                 <label class="block text-gray-700 font-semibold mb-2">Upload Foto Galeri</label>
-                                <input type="file" name="galeri[]" multiple accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
-                                <small class="text-gray-500">Pilih beberapa foto sekaligus. Format: JPG, PNG, GIF. Maksimal 2MB per file</small>
+
+                                <!-- Drag & Drop Zone -->
+                                <div id="gallery-drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
+                                    <div class="flex flex-col items-center justify-center space-y-4">
+                                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                        </svg>
+                                        <div class="text-lg font-medium text-gray-600">
+                                            Drag & Drop foto di sini atau
+                                            <span class="text-blue-600 underline">klik untuk pilih file</span>
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            Anda dapat memilih beberapa foto sekaligus<br>
+                                            Format: JPG, PNG, GIF | Maksimal 2MB per file
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden File Input -->
+                                <input type="file"
+                                    id="gallery-input"
+                                    name="galeri[]"
+                                    multiple
+                                    accept="image/*"
+                                    class="hidden" />
+
+                                <!-- Upload Progress -->
+                                <div id="upload-progress" class="hidden mt-4">
+                                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-sm font-medium text-blue-700">Mengupload foto...</span>
+                                            <span id="progress-text" class="text-sm text-blue-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-blue-200 rounded-full h-2">
+                                            <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- File Preview Area -->
+                            <div id="gallery-preview" class="hidden mb-4">
+                                <h4 class="text-gray-700 font-semibold mb-3">Foto yang Dipilih:</h4>
+                                <div id="gallery-preview-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+                                <div class="mt-4 flex justify-between items-center">
+                                    <span id="file-count" class="text-sm text-gray-600">0 foto dipilih</span>
+                                    <button type="button" onclick="clearGallerySelection()" class="text-red-600 hover:text-red-800 text-sm font-medium">
+                                        Hapus Semua
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- Display existing gallery -->
@@ -134,8 +176,17 @@
                                 <label class="block text-gray-700 font-semibold mb-2">Galeri Saat Ini:</label>
                                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     @foreach($rumahSinggah->galeri as $index => $image)
-                                    <div class="relative">
+                                    <div class="relative group">
                                         <img src="{{ asset('storage/' . $image) }}" alt="Gallery Image" class="w-full h-32 object-cover rounded">
+                                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded flex items-center justify-center">
+                                            <button type="button"
+                                                onclick="removeExistingImage('{{ $image }}')"
+                                                class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-red-600 hover:bg-red-700 rounded-full p-2">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     </div>
                                     @endforeach
                                 </div>
@@ -542,6 +593,9 @@
                 }, 500);
             }, 8000);
         }
+
+        // Initialize Gallery Upload Functionality
+        initializeGalleryUpload();
     });
 
     // Function to manually close alerts
@@ -629,6 +683,9 @@
         document.getElementById('preview-jam-senin-jumat').textContent = 'Senin - Jumat: ' + (jamSeninJumatInput || '08:00 - 17:00 WIB');
         document.getElementById('preview-jam-sabtu').textContent = 'Sabtu: ' + (jamSabtuInput || '08:00 - 12:00 WIB');
         document.getElementById('preview-jam-emergency').textContent = 'Emergency: ' + (jamEmergencyInput || '24 Jam');
+
+        // Update gallery preview
+        updateGalleryPreview();
     }
 
     // Preview gambar saat file dipilih
@@ -693,5 +750,370 @@
     document.getElementById('jam-senin-jumat-input').addEventListener('input', updatePreview);
     document.getElementById('jam-sabtu-input').addEventListener('input', updatePreview);
     document.getElementById('jam-emergency-input').addEventListener('input', updatePreview);
+
+    // ==================== GALLERY UPLOAD FUNCTIONALITY ====================
+
+    let selectedFiles = [];
+
+    // Initialize Gallery Upload
+    function initializeGalleryUpload() {
+        const dropZone = document.getElementById('gallery-drop-zone');
+        const fileInput = document.getElementById('gallery-input');
+        const previewContainer = document.getElementById('gallery-preview');
+        const previewGrid = document.getElementById('gallery-preview-grid');
+        const fileCount = document.getElementById('file-count');
+        const progressContainer = document.getElementById('upload-progress');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        // Check if elements exist
+        if (!dropZone || !fileInput) return;
+
+        // Click to select files
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Drag and drop events
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#3B82F6';
+            dropZone.style.backgroundColor = '#EBF8FF';
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#D1D5DB';
+            dropZone.style.backgroundColor = '#F9FAFB';
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#D1D5DB';
+            dropZone.style.backgroundColor = '#F9FAFB';
+            dropZone.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+    }
+
+    function handleFiles(files) {
+        const validFiles = [];
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        const maxFiles = 20; // Maximum number of files
+
+        // Check total files limit
+        if (selectedFiles.length + files.length > maxFiles) {
+            alert(`Maksimal ${maxFiles} foto yang dapat diupload sekaligus.`);
+            return;
+        }
+
+        for (let file of files) {
+            // Validate file type
+            if (!allowedTypes.includes(file.type)) {
+                alert(`File ${file.name} bukan format gambar yang valid. Gunakan JPG, PNG, atau GIF.`);
+                continue;
+            }
+
+            // Validate file size
+            if (file.size > maxSize) {
+                alert(`File ${file.name} terlalu besar. Maksimal 2MB per file.`);
+                continue;
+            }
+
+            // Check for duplicates
+            const isDuplicate = selectedFiles.some(existingFile =>
+                existingFile.name === file.name && existingFile.size === file.size
+            );
+
+            if (!isDuplicate) {
+                validFiles.push(file);
+            } else {
+                console.log(`File ${file.name} sudah dipilih sebelumnya.`);
+            }
+        }
+
+        if (validFiles.length > 0) {
+            selectedFiles = [...selectedFiles, ...validFiles];
+            updateFileInput();
+            displayPreviews();
+            simulateUploadProgress();
+        }
+    }
+
+    function updateFileInput() {
+        // Create new FileList
+        const dt = new DataTransfer();
+        selectedFiles.forEach(file => dt.items.add(file));
+
+        const fileInput = document.getElementById('gallery-input');
+        if (fileInput) {
+            fileInput.files = dt.files;
+        }
+    }
+
+    function displayPreviews() {
+        const previewGrid = document.getElementById('gallery-preview-grid');
+        const previewContainer = document.getElementById('gallery-preview');
+        const fileCount = document.getElementById('file-count');
+
+        if (!previewGrid || !previewContainer || !fileCount) return;
+
+        previewGrid.innerHTML = '';
+
+        selectedFiles.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'relative group file-upload-enter';
+                previewItem.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview" class="w-full h-32 object-cover rounded">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded flex items-center justify-center">
+                        <button type="button" 
+                                onclick="removeSelectedFile(${index})" 
+                                class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-red-600 hover:bg-red-700 rounded-full p-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="absolute bottom-1 left-1 right-1 bg-black bg-opacity-75 text-white text-xs p-1 rounded truncate">
+                        ${file.name}
+                    </div>
+                    <div class="absolute top-1 right-1 bg-blue-600 text-white text-xs px-2 py-1 rounded">
+                        ${formatFileSize(file.size)}
+                    </div>
+                `;
+                previewGrid.appendChild(previewItem);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Update file count
+        fileCount.textContent = `${selectedFiles.length} foto dipilih`;
+
+        // Show/hide preview container
+        if (selectedFiles.length > 0) {
+            previewContainer.classList.remove('hidden');
+        } else {
+            previewContainer.classList.add('hidden');
+        }
+    }
+
+    function simulateUploadProgress() {
+        if (selectedFiles.length === 0) return;
+
+        const progressContainer = document.getElementById('upload-progress');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        if (!progressContainer || !progressBar || !progressText) return;
+
+        progressContainer.classList.remove('hidden');
+        let progress = 0;
+
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    progressContainer.classList.add('hidden');
+                }, 1000);
+            }
+
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `${Math.round(progress)}%`;
+        }, 200);
+    }
+
+    // Update gallery preview in preview tab
+    function updateGalleryPreview() {
+        const previewGallerySection = document.getElementById('preview-gallery-section');
+
+        if (selectedFiles.length > 0 && previewGallerySection) {
+            // Create or update gallery preview section
+            let galleryHTML = `
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Rumah Singgah</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            `;
+
+            selectedFiles.forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    galleryHTML += `
+                        <div class="text-center">
+                            <img src="${e.target.result}" alt="Gallery Image" class="w-full h-64 object-cover rounded-lg shadow-md mb-4">
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            galleryHTML += '</div>';
+
+            // Show gallery section in preview
+            previewGallerySection.innerHTML = galleryHTML;
+            previewGallerySection.style.display = 'block';
+        }
+    }
+
+    // Global functions for removing files
+    window.removeSelectedFile = function(index) {
+        selectedFiles.splice(index, 1);
+        updateFileInput();
+        displayPreviews();
+    };
+
+    window.clearGallerySelection = function() {
+        selectedFiles = [];
+        const fileInput = document.getElementById('gallery-input');
+        if (fileInput) {
+            fileInput.value = '';
+        }
+        displayPreviews();
+    };
+
+    window.removeExistingImage = function(imagePath) {
+        if (confirm('Apakah Anda yakin ingin menghapus gambar ini?')) {
+            // Add hidden input to mark for deletion
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'delete_images[]';
+            hiddenInput.value = imagePath;
+
+            const form = document.getElementById('rumah-singgah-form');
+            if (form) {
+                form.appendChild(hiddenInput);
+            }
+
+            // Hide the image element
+            if (event && event.target) {
+                const imageContainer = event.target.closest('.relative');
+                if (imageContainer) {
+                    imageContainer.style.display = 'none';
+                }
+            }
+        }
+    };
+
+    // Enhanced file validation
+    function validateGalleryFiles(files) {
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+        const maxFiles = 20; // Maximum number of files
+
+        if (files.length > maxFiles) {
+            alert(`Maksimal ${maxFiles} foto yang dapat diupload sekaligus.`);
+            return false;
+        }
+
+        for (let file of files) {
+            if (!allowedTypes.includes(file.type)) {
+                alert(`File ${file.name} bukan format yang valid. Gunakan JPG, PNG, atau GIF.`);
+                return false;
+            }
+
+            if (file.size > maxSize) {
+                alert(`File ${file.name} terlalu besar. Maksimal 2MB per file.`);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // File size formatter
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Form validation before submit
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('rumah-singgah-form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                // Additional form validation can be added here
+                console.log('Form submitted with', selectedFiles.length, 'gallery files');
+            });
+        }
+    });
 </script>
+
+<style>
+    /* Additional CSS for gallery upload */
+    #gallery-drop-zone.dragover {
+        border-color: #3B82F6 !important;
+        background-color: #EBF8FF !important;
+        transform: scale(1.02);
+    }
+
+    .gallery-preview-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+    }
+
+    .gallery-preview-item:hover .preview-overlay {
+        opacity: 1;
+    }
+
+    .preview-overlay {
+        position: absolute;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    /* Loading animation */
+    @keyframes pulse {
+
+        0%,
+        100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    .loading-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+
+    /* File upload animations */
+    .file-upload-enter {
+        animation: slideInUp 0.3s ease-out;
+    }
+
+    @keyframes slideInUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+</style>
 @endsection

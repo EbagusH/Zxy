@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RumahSinggah;
 use App\Models\Berita;
-// use App\Models\Layanan; // Uncomment jika sudah ada model Layanan
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -26,21 +26,20 @@ class HomeController extends Controller
             ->take(1)
             ->get();
 
-        // Ambil data layanan (untuk masa depan)
-        // try {
-        //     $layananTerbaru = Layanan::where('status', 'aktif')
-        //                             ->orderBy('created_at', 'desc')
-        //                             ->take(3)
-        //                             ->get();
-        // } catch (\Exception $e) {
-        //     $layananTerbaru = collect();
-        // }
+        // Ambil data layanan
+        try {
+            $layananTerbaru = Layanan::orderBy('created_at', 'desc')
+                ->take(6)
+                ->get();
+        } catch (\Exception $e) {
+            $layananTerbaru = collect();
+        }
 
         return view('home', compact(
             'rumahSinggah',
             'beritaTerbaru',
-            'artikelTerbaru'
-            // 'layananTerbaru' // Uncomment ketika sudah siap
+            'artikelTerbaru',
+            'layananTerbaru'
         ));
     }
 }

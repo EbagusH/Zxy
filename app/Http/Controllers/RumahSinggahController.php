@@ -12,7 +12,7 @@ class RumahSinggahController extends Controller
     public function show()
     {
         $rumahSinggah = RumahSinggah::first();
-        return view('profil-index.rumah-singgah', compact('rumahSinggah'));
+        return view('rumah-singgah', compact('rumahSinggah'));
     }
 
     // Method untuk edit admin
@@ -24,7 +24,6 @@ class RumahSinggahController extends Controller
             $rumahSinggah = RumahSinggah::create([
                 'gambar' => '',
                 'isi' => '',
-                'lokasi' => '',
                 'galeri' => [],
                 'fasilitas' => [],
                 'kriteria_tamu' => [],
@@ -48,7 +47,6 @@ class RumahSinggahController extends Controller
     {
         $request->validate([
             'isi' => 'required|string',
-            'lokasi' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'galeri.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'fasilitas' => 'nullable|array',
@@ -67,7 +65,6 @@ class RumahSinggahController extends Controller
         $rumahSinggah = RumahSinggah::first();
         $data = [
             'isi' => $request->isi,
-            'lokasi' => $request->lokasi,
             'alamat_lengkap' => $request->alamat_lengkap,
             'whatsapp' => $request->whatsapp,
             'telepon' => $request->telepon,

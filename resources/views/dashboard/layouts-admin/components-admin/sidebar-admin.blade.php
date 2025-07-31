@@ -1,6 +1,8 @@
 <!-- Mobile Header (only visible on mobile) -->
 <div class="lg:hidden bg-white shadow-lg p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50">
-    <h1 class="text-xl font-bold text-gray-800">Logo</h1>
+    <div class="h-12 w-12 relative overflow-hidden">
+        <img src="{{ asset('images/logo-dinsos.png') }}" alt="Logo Dinas Sosial Kota Majalengka" class="absolute inset-0 scale-125 object-contain h-full w-full">
+    </div>
     <button id="mobileMenuBtn" class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-none">
         <span class="absolute -inset-0.5"></span>
         <span class="sr-only">Open main menu</span>
@@ -21,16 +23,20 @@
 <!-- Sidebar -->
 <div id="sidebar" class="fixed lg:relative inset-y-0 left-0 z-50 w-64 bg-white shadow-lg h-screen transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out lg:flex lg:flex-col">
     <!-- Desktop Logo (hidden on mobile) -->
-    <div class="hidden lg:block p-6">
-        <h1 class="text-2xl font-bold text-gray-800">Logo</h1>
+    <div class="hidden lg:flex items-center justify-center pt-2 pb-1">
+        <div class="h-16 w-16 relative overflow-hidden">
+            <img src="{{ asset('images/logo-dinsos.png') }}" alt="Logo Dinas Sosial Kota Majalengka" class="absolute inset-0 scale-125 object-contain h-full w-full">
+        </div>
     </div>
 
     <!-- Mobile Logo (visible on mobile) -->
     <div class="lg:hidden p-4 border-b border-gray-200">
-        <h1 class="text-xl font-bold text-gray-800">Logo</h1>
+        <div class="h-10 w-10 relative overflow-hidden">
+            <img src="{{ asset('images/logo-dinsos.png') }}" alt="Logo Dinas Sosial Kota Majalengka" class="absolute inset-0 scale-125 object-contain h-full w-full">
+        </div>
     </div>
 
-    <nav class="flex-1 mt-2 lg:mt-6 overflow-y-auto pb-4">
+    <nav class="flex-1 mt-1 lg:mt-3 overflow-y-auto pb-4">
         <!-- Dashboard -->
         <div class="px-6 py-3 {{ request()->routeIs('dashboard.index-admin') ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors">
             <a href="{{ route('dashboard.index-admin') }}" class="flex items-center {{ request()->routeIs('dashboard.index-admin') ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}" onclick="closeMobileMenu()">
@@ -85,8 +91,17 @@
         </div>
 
         <!-- Berita -->
-        <div class="px-6 py-3 {{ request()->routeIs('dashboard.berita-admin') ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors">
-            <a href="{{ route('dashboard.berita-admin') }}" class="flex items-center {{ request()->routeIs('dashboard.berita-admin') ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}" onclick="closeMobileMenu()">
+        @php
+        $isBeritaActive = request()->routeIs([
+        'dashboard.berita-admin',
+        'dashboard.crud-berita.*',
+        'dashboard.berita.edit',
+        ]) || request()->is('dashboard/crud-berita*') ||
+        request()->is('dashboard/berita/*/edit');
+        @endphp
+
+        <div class="px-6 py-3 {{ $isBeritaActive ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors">
+            <a href="{{ route('dashboard.berita-admin') }}" class="flex items-center {{ $isBeritaActive ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}" onclick="closeMobileMenu()">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
                 </svg>
@@ -113,6 +128,36 @@
                 Rumah Singgah
             </a>
         </div>
+
+        <!-- Mobile Profile Dropdown (pojok kiri bawah) -->
+        <div class="lg:hidden fixed bottom-4 left-4 z-50" x-data="{ open: false }">
+            <div>
+                <button @click="open = !open"
+                    class="bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                    <span class="sr-only">Open user menu</span>
+                    <div class="h-10 w-10 rounded-full bg-gray-600 flex items-center justify-center">
+                        <svg class="h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </button>
+            </div>
+            <div x-show="open" @click.away="open = false"
+                class="mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
+                <a href="{{ route('admin.profile') }}"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil</a>
+                <form method="POST" action="{{ route('auth.logout') }}">
+                    @csrf
+                    <button type="submit"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </div>
+
     </nav>
 </div>
 

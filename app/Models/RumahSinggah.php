@@ -14,7 +14,6 @@ class RumahSinggah extends Model
     protected $fillable = [
         'gambar',
         'isi',
-        'lokasi',
         'galeri',
         'fasilitas',
         'kriteria_tamu',

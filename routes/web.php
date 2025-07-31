@@ -7,6 +7,7 @@ use App\Http\Controllers\DaftarPegawaiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HeaderFotoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LayananController;
 use App\Http\Controllers\RumahSinggahController;
 use App\Http\Controllers\SambutanKepalaDinasController;
 use App\Http\Controllers\StrukturOrganisasiController;
@@ -19,13 +20,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita');
 Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berita.show');
 
-Route::get('/layanan', function () {
-    return view('layanan');
-})->name('layanan');
+// Public Layanan Route
+Route::get('/layanan', [LayananController::class, 'showPublic'])->name('layanan');
 
-Route::get('/rumah-singgah', function () {
-    return view('rumah-singgah');
-})->name('rumah-singgah');
+Route::get('/rumah-singgah', [App\Http\Controllers\RumahSinggahController::class, 'show'])->name('rumah-singgah');
 
 // PUBLIC PROFIL ROUTES
 Route::get('/profil/sambutan', [SambutanKepalaDinasController::class, 'index'])->name('profil.sambutan');
@@ -63,9 +61,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/dashboard/berita/{id}', [BeritaController::class, 'destroy'])->name('dashboard.berita-admin.destroy');
 
-    Route::get('/dashboard/layanan', function () {
-        return view('dashboard.layanan-admin');
-    })->name('dashboard.layanan-admin');
+    // Dashboard Layanan Routes
+    Route::get('/dashboard/layanan', [LayananController::class, 'index'])->name('dashboard.layanan-admin');
 
     // Rumah Singgah
     Route::get('/rumahsinggah', [RumahSinggahController::class, 'edit'])->name('dashboard.rumah-singgah-admin');
@@ -92,6 +89,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pegawai/{pegawai}/edit', [DaftarPegawaiController::class, 'edit'])->name('pegawai.edit');
         Route::put('/pegawai/{pegawai}', [DaftarPegawaiController::class, 'update'])->name('pegawai.update');
         Route::delete('/pegawai/{pegawai}', [DaftarPegawaiController::class, 'destroy'])->name('pegawai.destroy');
+    });
+
+    // Layanan CRUD Routes
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/layanan/create', [LayananController::class, 'create'])->name('layanan.create');
+        Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
+        Route::get('/layanan/{id}/edit', [LayananController::class, 'edit'])->name('layanan.edit');
+        Route::put('/layanan/{id}', [LayananController::class, 'update'])->name('layanan.update');
+        Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
     });
 
     // CRUD Routes untuk Berita

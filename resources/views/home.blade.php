@@ -56,51 +56,85 @@
     </div>
 </section>
 
-<!-- Layanan Informasi Publik Section -->
+<!-- Layanan Informasi Publik Section dengan Carousel -->
 <section class="py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
             <h2 class="text-4xl font-bold text-gray-900 mb-4">Layanan Informasi Publik</h2>
             <div class="w-20 h-1 bg-cyan-400 mx-auto"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Card 1 - LAPOR! -->
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center">
-                    <div class="text-center">
-                        <div class="bg-white p-3 rounded-lg inline-block mb-4">
-                            <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                            </svg>
+
+        @if(isset($layananTerbaru) && $layananTerbaru->count() > 0)
+        <!-- Carousel Container -->
+        <div class="relative overflow-hidden">
+            <div id="layanan-carousel" class="flex transition-transform duration-500 ease-in-out">
+                @php
+                $chunks = $layananTerbaru->chunk(3); // Bagi data menjadi grup 3
+                @endphp
+
+                @foreach($chunks as $chunkIndex => $chunk)
+                <div class="w-full flex-shrink-0">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        @foreach($chunk as $layanan)
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                            <div class="h-48 bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center overflow-hidden">
+                                @if($layanan->foto)
+                                <img src="{{ asset('storage/' . $layanan->foto) }}"
+                                    alt="{{ $layanan->nama }}"
+                                    class="w-full h-full object-cover">
+                                @else
+                                <div class="text-center">
+                                    <div class="bg-white p-3 rounded-lg inline-block mb-4">
+                                        <svg class="w-8 h-8 text-cyan-600" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-white mb-2">{{ $layanan->nama }}</h3>
+                                    <p class="text-cyan-100 text-sm">{{ strtoupper($layanan->bidang) }}</p>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="p-6">
+                                <div class="text-sm font-semibold text-cyan-600 mb-2">{{ strtoupper($layanan->bidang) }}</div>
+                                <h4 class="text-xl font-semibold text-gray-900 mb-4">{{ $layanan->nama }}</h4>
+                                <a href="{{ route('layanan') }}" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Detail</a>
+                            </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-2">LAPOR!</h3>
-                        <p class="text-cyan-100 text-sm">LAYANAN ASPIRASI DAN PENGADUAN ONLINE RAKYAT</p>
+                        @endforeach
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <!-- Navigation Dots (jika ada lebih dari 1 slide) -->
+            @if($chunks->count() > 1)
+            <div class="flex justify-center mt-8 space-x-2">
+                @foreach($chunks as $index => $chunk)
+                <button onclick="goToSlide({ $index })" class="w-3 h-3 rounded-full transition-colors dot {{ $index === 0 ? 'bg-cyan-600' : 'bg-gray-300' }}"></button>
+                @endforeach
+            </div>
+            @endif
+        </div>
+
+        @else
+        <!-- Default Card jika tidak ada layanan -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Card -->
+            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-64 bg-gray-300 flex items-center justify-center">
+                    <div class="text-center text-gray-500">
+                        <div class="text-gray-400 text-6xl font-light mb-4">848 x 590</div>
+                        <p>Tidak ada gambar</p>
                     </div>
                 </div>
                 <div class="p-6">
-                    <h4 class="text-xl font-semibold text-gray-900 mb-2">Layanan Aspirasi dan Pengaduan Online Rakyat</h4>
-                    <a href="#" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
+                    <div class="text-black font-bold mb-4 uppercase text-sm">LAYANAN</div>
+                    <h4 class="text-xl font-bold text-black mb-4">Tidak Ada Layanan yang Tersedia</h4>
+                    <p class="text-gray-600">Layanan akan segera tersedia</p>
                 </div>
             </div>
-
-            {{-- Uncomment ketika data layanan sudah siap --}}
-            {{-- @if(isset($layananTerbaru) && $layananTerbaru->count() > 0)
-                @foreach($layananTerbaru as $layanan)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                    <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-                        <div class="text-center">
-                            <h3 class="text-2xl font-bold text-white mb-2">{{ $layanan->nama }}</h3>
-            <p class="text-blue-100 text-sm">{{ $layanan->deskripsi_singkat }}</p>
         </div>
-    </div>
-    <div class="p-6">
-        <h4 class="text-xl font-semibold text-gray-900 mb-2">{{ $layanan->judul }}</h4>
-        <a href="{{ route('layanan.show', $layanan->id) }}" class="text-blue-600 hover:text-blue-800 font-medium">Lihat Disini</a>
-    </div>
-    </div>
-    @endforeach
-    @endif --}}
-    </div>
+        @endif
     </div>
 </section>
 
@@ -198,4 +232,40 @@
         </div>
     </div>
 </section>
+
+<!-- JavaScript untuk Carousel -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const carousel = document.getElementById('layanan-carousel');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        const totalSlides = dots.length;
+
+        // Fungsi untuk pindah ke slide tertentu
+        window.goToSlide = function(slideIndex) {
+            currentSlide = slideIndex;
+            const translateX = -slideIndex * 100;
+            carousel.style.transform = `translateX(${translateX}%)`;
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                if (index === slideIndex) {
+                    dot.classList.remove('bg-gray-300');
+                    dot.classList.add('bg-cyan-600');
+                } else {
+                    dot.classList.remove('bg-cyan-600');
+                    dot.classList.add('bg-gray-300');
+                }
+            });
+        };
+
+        // Auto-slide functionality
+        if (totalSlides > 1) {
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                goToSlide(currentSlide);
+            }, 5000); // Ganti slide setiap 5 detik
+        }
+    });
+</script>
 @endsection

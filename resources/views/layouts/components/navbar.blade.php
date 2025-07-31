@@ -17,8 +17,8 @@
             <!-- Logo dan Nama Dinas -->
             <div class="flex items-center">
                 <div class="shrink-0 flex items-center">
-                    <!-- Logo Kota/Dinas - Ganti dengan path logo Anda -->
-                    <img class="h-12 w-12 mr-3" src="{{ asset('images/logo-kota.png') }}" alt="Logo Dinas Sosial Kota Majalengka" />
+                    <img src="{{ asset('images/logo-kota.png') }}" alt="Logo Dinas Sosial Kota Majalengka" class="h-48 w-48 mr-3">
+
                 </div>
             </div>
 

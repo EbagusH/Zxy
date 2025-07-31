@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
-use App\Models\SambutanKepalaDinas;
-use App\Models\StrukturOrganisasi;
 use App\Models\DaftarPegawai;
-use App\Models\VisiMisi;
+use App\Models\Layanan;
 
 class DashboardController extends Controller
 {
@@ -14,10 +12,9 @@ class DashboardController extends Controller
     {
         // Ambil data untuk card statistik
         $data = [
-            'sambutan_aktif' => SambutanKepalaDinas::count(),
-            'struktur_organisasi' => StrukturOrganisasi::count(),
             'pegawai_terdaftar' => DaftarPegawai::count(),
-            'visi_misi_aktif' => VisiMisi::count(),
+            'layanan_tersedia' => Layanan::count(),
+            'berita_artikel_tersedia' => Berita::count(),
         ];
 
         // Ambil berita terbaru untuk tabel

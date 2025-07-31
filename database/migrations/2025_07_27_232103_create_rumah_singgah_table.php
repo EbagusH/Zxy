@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('gambar')->nullable();
             $table->text('isi')->nullable();
-            $table->text('lokasi')->nullable();
 
             // Gallery images (JSON array of image paths)
             $table->json('galeri')->nullable();
