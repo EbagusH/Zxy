@@ -48,6 +48,21 @@ $headerTexts = [
 'title' => 'VISI DAN MISI',
 'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
 'description' => 'Sejarah, visi, dan misi Dinas Sosial Kota Majalengka'
+],
+'profil.linjamsos' => [
+'title' => 'Bidang Linjamsos',
+'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'description' => 'Badan perlindungan dan Jaminan Sosial'
+],
+'profil.dayasos' => [
+'title' => 'Bidang Dayasos',
+'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'description' => 'Pemberdayaan Perempuan dan perlindungan Anak'
+],
+'profil.resos' => [
+'title' => 'Bidang Resos',
+'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'description' => 'Rehabilitasi Sosial'
 ]
 ];
 

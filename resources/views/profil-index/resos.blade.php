@@ -1,49 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'Struktur Organisasi - Dinas Sosial Kota Majalengka')
+@section('title', 'Bidang Resos - Dinas Sosial Kota Majalengka')
 
 @section('header')
-@include('layouts.components.header', ['page' => 'profil.struktur'])
+@include('layouts.components.header', ['page' => 'profil.resos'])
 @endsection
 
 @section('content')
-<!-- Hero Section with Background Image -->
-<!-- <div class="relative h-96 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ytimg.com/vi/aKeSm4BUFCk/maxresdefault.jpg');">
-    <div class="absolute inset-0 flex items-center justify-center">
-        <div class="text-center text-white">
-            <h1 class="text-5xl font-bold mb-4">Struktur Organisasi</h1>
-        </div>
-    </div>
-</div> -->
 
 <!-- Content Section -->
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Main Content - Struktur Organisasi -->
+        <!-- Main Content -->
         <div class="lg:col-span-2">
-            <div class="bg-white rounded-lg shadow-lg p-8">
-                @if($struktur && $struktur->gambar_struktur)
-                <!-- Gambar Struktur Organisasi -->
-                <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Struktur Organisasi Dinas Sosial Kota Majalengka</h2>
-                    <img src="{{ asset('storage/' . $struktur->gambar_struktur) }}"
-                        alt="Struktur Organisasi Dinas Sosial"
-                        class="w-full mx-auto rounded-lg shadow-md border border-gray-200">
-                </div>
 
-                @else
-                <!-- Jika belum ada Struktur Organisasi -->
-                <div class="text-center py-12">
-                    <div class="mb-6">
-                        <svg class="mx-auto h-24 w-24 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-medium text-gray-600 mb-2">Struktur Organisasi</h3>
-                    <p class="text-gray-500">Struktur organisasi akan segera tersedia.</p>
-                </div>
-                @endif
-            </div>
         </div>
 
         <!-- Sidebar -->

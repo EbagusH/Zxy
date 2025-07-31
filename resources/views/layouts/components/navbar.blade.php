@@ -40,8 +40,8 @@
                         @mouseleave="profilOpen = false">
                         <button class="flex items-center rounded-md px-4 py-3 text-sm font-medium transition-all duration-200 backdrop-blur-sm"
                             :class="scrolled ? 
-                                    '{{ request()->routeIs(['profil.sambutan', 'profil.struktur', 'profil.pegawai', 'profil.visi-misi']) ? 'bg-blue-500 text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}' : 
-                                    '{{ request()->routeIs(['profil.sambutan', 'profil.struktur', 'profil.pegawai', 'profil.visi-misi']) ? 'bg-white/20 text-white shadow-lg border border-white/30' : 'text-white/90 hover:bg-white/10 hover:text-white' }}'">
+                                    '{{ request()->routeIs(['profil.sambutan', 'profil.struktur', 'profil.pegawai', 'profil.visi-misi', 'profil.linjamsos']) ? 'bg-blue-500 text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}' : 
+                                    '{{ request()->routeIs(['profil.sambutan', 'profil.struktur', 'profil.pegawai', 'profil.visi-misi', 'profil.linjamsos']) ? 'bg-white/20 text-white shadow-lg border border-white/30' : 'text-white/90 hover:bg-white/10 hover:text-white' }}'">
                             <span>Profil</span>
                             <svg class="ml-1 h-4 w-4 transition-transform duration-200"
                                 :class="{'rotate-180': profilOpen}"
@@ -86,8 +86,9 @@
                                     <i class="fas fa-bullseye mr-3 text-gray-400 w-4"></i>
                                     Visi dan Misi
                                 </a>
-                                <a href="#"
-                                    class="flex items-center px-4 py-3 text-sm transition-colors duration-200">
+                                <a href="{{ route('profil.linjamsos') }}"
+                                    class="flex items-center px-4 py-3 text-sm transition-colors duration-200
+                                           {{ request()->routeIs('profil.linjamsos') ? 'bg-blue-50 text-blue-600 border-r-3 border-blue-600 font-medium' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900' }}">
                                     <i class="fas fa-bullseye mr-3 text-gray-400 w-4"></i>
                                     Bidang Linjamsos
                                 </a>

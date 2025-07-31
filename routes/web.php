@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HeaderFotoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LayananController;
+use App\Http\Controllers\LinjamsosController;
 use App\Http\Controllers\RumahSinggahController;
 use App\Http\Controllers\SambutanKepalaDinasController;
 use App\Http\Controllers\StrukturOrganisasiController;
@@ -33,6 +34,8 @@ Route::get('/profil/struktur', [StrukturOrganisasiController::class, 'index'])->
 Route::get('/profil/pegawai', [DaftarPegawaiController::class, 'showPublic'])->name('profil.pegawai');
 
 Route::get('/profil/visi-misi', [VisiMisiController::class, 'show'])->name('profil.visi-misi');
+
+Route::get('/profil/linjamsos', [LinjamsosController::class, 'show'])->name('profil.linjamsos');
 
 // Login Form (GET) - hanya bisa diakses jika belum login
 Route::middleware(['guest'])->group(function () {
@@ -89,6 +92,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pegawai/{pegawai}/edit', [DaftarPegawaiController::class, 'edit'])->name('pegawai.edit');
         Route::put('/pegawai/{pegawai}', [DaftarPegawaiController::class, 'update'])->name('pegawai.update');
         Route::delete('/pegawai/{pegawai}', [DaftarPegawaiController::class, 'destroy'])->name('pegawai.destroy');
+
+        // Linjamsos Routes
+        Route::get('/linjamsos', [LinjamsosController::class, 'edit'])->name('linjamsos');
+        Route::put('/linjamsos', [LinjamsosController::class, 'update'])->name('linjamsos.update');
     });
 
     // Layanan CRUD Routes
