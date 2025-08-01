@@ -1,4 +1,5 @@
 <!-- Mobile Header (only visible on mobile) -->
+<!-- Mobile Header (only visible on mobile) -->
 <div class="lg:hidden bg-white shadow-lg p-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50">
     <div class="h-12 w-12 relative overflow-hidden">
         <img src="{{ asset('images/logo-dinsos.png') }}" alt="Logo Dinas Sosial Kota Majalengka" class="absolute inset-0 scale-125 object-contain h-full w-full">
@@ -50,8 +51,8 @@
 
         <!-- Profil with Dropdown -->
         <div class="relative">
-            <div class="px-6 py-3 {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos']) ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors cursor-pointer" onclick="toggleDropdown('profileDropdown')">
-                <div class="flex items-center justify-between {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos']) ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}">
+            <div class="px-6 py-3 {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos', 'dashboard.profil.resos']) ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors cursor-pointer" onclick="toggleDropdown('profileDropdown')">
+                <div class="flex items-center justify-between {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos', 'dashboard.profil.resos']) ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}">
                     <div class="flex items-center">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -84,7 +85,7 @@
                 <a href="{{ route('dashboard.profil.dayasos') }}" class="block px-12 py-2 text-sm {{ request()->routeIs('dashboard.profil.dayasos') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
                     Bidang Dayasos
                 </a>
-                <a href="#" class="block px-12 py-2 text-sm ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
+                <a href="{{ route('dashboard.profil.resos') }}" class="block px-12 py-2 text-sm {{ request()->routeIs('dashboard.profil.resos') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
                     Bidang Resos
                 </a>
             </div>
@@ -135,6 +136,11 @@
                 <button @click="open = !open"
                     class="bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                     <span class="sr-only">Open user menu</span>
+                    @if (Auth::user()->profile_foto)
+                    <img src="{{ asset('storage/foto/' . Auth::user()->profile_foto) }}"
+                        alt="Foto Profil"
+                        class="h-8 w-8 rounded-full object-cover ring-2 ring-blue-500 bg-white">
+                    @else
                     <div class="h-10 w-10 rounded-full bg-gray-600 flex items-center justify-center">
                         <svg class="h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
@@ -142,8 +148,10 @@
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
+                    @endif
                 </button>
             </div>
+
             <div x-show="open" @click.away="open = false"
                 class="mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5">
                 <a href="{{ route('admin.profile') }}"

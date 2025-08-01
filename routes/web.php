@@ -41,7 +41,7 @@ Route::get('/profil/linjamsos', [LinjamsosController::class, 'show'])->name('pro
 
 Route::get('/profil/dayasos', [DayasosController::class, 'show'])->name('profil.dayasos');
 
-// Route::get('/profil/resos', [ResosController::class, 'show'])->name('profil.resos');
+Route::get('/profil/resos', [ResosController::class, 'show'])->name('profil.resos');
 
 // Login Form (GET) - hanya bisa diakses jika belum login
 Route::middleware(['guest'])->group(function () {
@@ -56,6 +56,8 @@ Route::middleware(['guest'])->group(function () {
 // Dashboard Routes - hanya bisa diakses setelah login
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/profile', [AuthController::class, 'showAdminProfile'])->name('admin.profile');
+    Route::put('/admin/profile/foto', [AuthController::class, 'updateFoto'])->name('admin.updateFoto');
+    Route::put('/admin/profile/password', [AuthController::class, 'updatePassword'])->name('admin.updatePassword');
 
     // Dashboard utama
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index-admin');
@@ -108,8 +110,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/dayasos', [DayasosController::class, 'update'])->name('dayasos.update');
 
         // Resos Routes
-        // Route::get('/resos', [ResosController::class, 'edit'])->name('resos');
-        // Route::put('/resos', [ResosController::class, 'update'])->name('resos.update');
+        Route::get('/resos', [ResosController::class, 'edit'])->name('resos');
+        Route::put('/resos', [ResosController::class, 'update'])->name('resos.update');
     });
 
     // Layanan CRUD Routes

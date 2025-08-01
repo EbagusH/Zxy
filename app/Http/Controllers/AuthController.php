@@ -5,20 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    /**
-     * Show the login form.
-     */
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    /**
-     * Handle login request.
-     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -31,12 +27,11 @@ class AuthController extends Controller
 
             // Simpan cookie email jika remember dicentang (30 hari)
             if ($request->has('remember')) {
-                cookie()->queue('remembered_email', $request->email, 60 * 24 * 30); // 30 hari
+                cookie()->queue('remembered_email', $request->email, 60 * 24 * 30);
             } else {
                 cookie()->queue(cookie()->forget('remembered_email'));
             }
 
-            // Selalu arahkan ke dashboard setelah login berhasil
             return redirect('/dashboard');
         }
 
@@ -45,9 +40,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Handle logout request.
-     */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -55,7 +47,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Arahkan ke halaman home setelah logout
         return redirect('auth/login');
     }
 
@@ -68,5 +59,44 @@ class AuthController extends Controller
         }
 
         return view('dashboard.detail-admin', compact('admin'));
+    }
+
+    public function updateFoto(Request $request)
+    {
+        /** @var \App\Models\User $admin */
+        $admin = Auth::user();
+
+        $request->validate([
+            'foto' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        // Hapus foto lama jika ada
+        if ($admin->profile_foto && Storage::disk('public')->exists('foto/' . $admin->profile_foto)) {
+            Storage::disk('public')->delete('foto/' . $admin->profile_foto);
+        }
+
+        // Simpan foto baru
+        $fotoBaru = $request->file('foto')->store('foto', 'public');
+
+        // Simpan nama file ke kolom profile_foto
+        $admin->profile_foto = basename($fotoBaru);
+        $admin->save();
+
+        return redirect()->route('admin.profile')->with('success', 'Foto profil berhasil diperbarui.');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        /** @var \App\Models\User $admin */
+        $admin = Auth::user();
+
+        $request->validate([
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $admin->password = Hash::make($request->password);
+        $admin->save();
+
+        return redirect()->route('admin.profile')->with('success', 'Password berhasil diubah.');
     }
 }
