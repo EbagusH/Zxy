@@ -9,6 +9,8 @@ use App\Http\Controllers\HeaderFotoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\LinjamsosController;
+use App\Http\Controllers\DayasosController;
+use App\Http\Controllers\ResosController;
 use App\Http\Controllers\RumahSinggahController;
 use App\Http\Controllers\SambutanKepalaDinasController;
 use App\Http\Controllers\StrukturOrganisasiController;
@@ -36,6 +38,10 @@ Route::get('/profil/pegawai', [DaftarPegawaiController::class, 'showPublic'])->n
 Route::get('/profil/visi-misi', [VisiMisiController::class, 'show'])->name('profil.visi-misi');
 
 Route::get('/profil/linjamsos', [LinjamsosController::class, 'show'])->name('profil.linjamsos');
+
+Route::get('/profil/dayasos', [DayasosController::class, 'show'])->name('profil.dayasos');
+
+// Route::get('/profil/resos', [ResosController::class, 'show'])->name('profil.resos');
 
 // Login Form (GET) - hanya bisa diakses jika belum login
 Route::middleware(['guest'])->group(function () {
@@ -96,6 +102,14 @@ Route::middleware(['auth'])->group(function () {
         // Linjamsos Routes
         Route::get('/linjamsos', [LinjamsosController::class, 'edit'])->name('linjamsos');
         Route::put('/linjamsos', [LinjamsosController::class, 'update'])->name('linjamsos.update');
+
+        // Dayasos Routes
+        Route::get('/dayasos', [DayasosController::class, 'edit'])->name('dayasos');
+        Route::put('/dayasos', [DayasosController::class, 'update'])->name('dayasos.update');
+
+        // Resos Routes
+        // Route::get('/resos', [ResosController::class, 'edit'])->name('resos');
+        // Route::put('/resos', [ResosController::class, 'update'])->name('resos.update');
     });
 
     // Layanan CRUD Routes
