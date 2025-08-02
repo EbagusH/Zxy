@@ -70,11 +70,11 @@ class BeritaController extends Controller
         $kategori = $request->kategori;
         $pesan = $kategori === 'berita' ? 'Berita berhasil ditambahkan!' : 'Artikel berhasil ditambahkan!';
 
-        // Redirect dengan url langsung (lebih aman)
+        // Redirect
         return redirect('/dashboard/berita')->with('success', $pesan);
     }
 
-    // Tampilkan detail berita/artikel tertentu (jika diperlukan)
+    // Tampilkan detail berita/artikel tertentu
     public function show($id)
     {
         $berita = Berita::findOrFail($id);
@@ -146,34 +146,46 @@ class BeritaController extends Controller
     // Method untuk live search berita dan artikel
     public function search(Request $request)
     {
-        $query = $request->get('query', '');
+        try {
+            $query = $request->get('query', '');
 
-        if (empty($query)) {
-            // Jika query kosong, return semua data
-            $berita = Berita::where('kategori', 'berita')
-                ->orderBy('created_at', 'desc')
-                ->get();
+            if (empty($query)) {
+                // Jika query kosong, return semua data
+                $berita = Berita::where('kategori', 'berita')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
 
-            $artikel = Berita::where('kategori', 'artikel')
-                ->orderBy('created_at', 'desc')
-                ->get();
-        } else {
-            // Search berdasarkan judul
-            $berita = Berita::where('kategori', 'berita')
-                ->where('judul', 'LIKE', '%' . $query . '%')
-                ->orderBy('created_at', 'desc')
-                ->get();
+                $artikel = Berita::where('kategori', 'artikel')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            } else {
+                // Search berdasarkan judul
+                $berita = Berita::where('kategori', 'berita')
+                    ->where('judul', 'LIKE', '%' . $query . '%')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
 
-            $artikel = Berita::where('kategori', 'artikel')
-                ->where('judul', 'LIKE', '%' . $query . '%')
-                ->orderBy('created_at', 'desc')
-                ->get();
+                $artikel = Berita::where('kategori', 'artikel')
+                    ->where('judul', 'LIKE', '%' . $query . '%')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            }
+
+            // Return JSON response dengan data berita dan artikel
+            return response()->json([
+                'success' => true,
+                'berita' => $berita,
+                'artikel' => $artikel,
+                'message' => 'Data berhasil diambil'
+            ]);
+        } catch (\Exception $e) {
+            // Handle error dengan response JSON
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat melakukan pencarian: ' . $e->getMessage(),
+                'berita' => [],
+                'artikel' => []
+            ], 500);
         }
-
-        // Return JSON response dengan data berita dan artikel
-        return response()->json([
-            'berita' => $berita,
-            'artikel' => $artikel
-        ]);
     }
 }

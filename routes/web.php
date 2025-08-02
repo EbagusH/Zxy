@@ -26,7 +26,7 @@ Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berit
 // Public Layanan Route
 Route::get('/layanan', [LayananController::class, 'showPublic'])->name('layanan');
 
-Route::get('/rumah-singgah', [App\Http\Controllers\RumahSinggahController::class, 'show'])->name('rumah-singgah');
+Route::get('/rumah-singgah', [RumahSinggahController::class, 'show'])->name('rumah-singgah');
 
 // PUBLIC PROFIL ROUTES
 Route::get('/profil/sambutan', [SambutanKepalaDinasController::class, 'index'])->name('profil.sambutan');

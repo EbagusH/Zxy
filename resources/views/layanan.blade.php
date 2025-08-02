@@ -119,7 +119,6 @@
                                 @else text-gray-600 bg-gray-50
                                 @endif 
                                 px-3 py-1 rounded-full">
-                                Bidang {{ $item->bidang }}
                             </span>
                         </div>
                         <button class="text-blue-600 hover:text-blue-800 font-medium transition-colors flex items-center space-x-1">
