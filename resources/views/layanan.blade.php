@@ -119,14 +119,17 @@
                                 @else text-gray-600 bg-gray-50
                                 @endif 
                                 px-3 py-1 rounded-full">
+                                {{ $item->bidang }}
                             </span>
                         </div>
-                        <button class="text-blue-600 hover:text-blue-800 font-medium transition-colors flex items-center space-x-1">
+                        <!-- FIXED: Button Detail dengan Route yang benar -->
+                        <a href="{{ route('layanan.show', $item->id) }}"
+                            class="text-blue-600 hover:text-blue-800 font-medium transition-colors flex items-center space-x-1 hover:bg-blue-50 px-2 py-1 rounded">
                             <span>Detail</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                             </svg>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -250,6 +253,11 @@
     #searchInput:focus,
     #bidangFilter:focus {
         box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    /* Button Detail hover enhancement */
+    a[href*="layanan"]:hover {
+        transform: translateX(2px);
     }
 </style>
 @endsection

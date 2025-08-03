@@ -121,8 +121,8 @@
                     <a href="{{ route('layanan') }}"
                         class="rounded-md px-4 py-3 text-sm font-medium transition-all duration-200 backdrop-blur-sm"
                         :class="scrolled ? 
-                            '{{ request()->routeIs('layanan') ? 'bg-blue-500 text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}' : 
-                            '{{ request()->routeIs('layanan') ? 'bg-white/20 text-white shadow-lg border border-white/30' : 'text-white/90 hover:bg-white/10 hover:text-white' }}'">
+                            '{{ request()->routeIs(['layanan', 'layanan.detail', 'layanan.show']) || request()->is('layanan*') ? 'bg-blue-500 text-white shadow-lg' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}' : 
+                            '{{ request()->routeIs(['layanan', 'layanan.detail', 'layanan.show']) || request()->is('layanan*') ? 'bg-white/20 text-white shadow-lg border border-white/30' : 'text-white/90 hover:bg-white/10 hover:text-white' }}'">
                         Layanan
                     </a>
 
@@ -268,8 +268,8 @@
             <a href="{{ route('layanan') }}"
                 class="block rounded-md px-3 py-2 text-base font-medium transition-all duration-200"
                 :class="scrolled ? 
-                    '{{ request()->routeIs('layanan') ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}' : 
-                    '{{ request()->routeIs('layanan') ? 'bg-white/20 text-white border border-white/30' : 'text-white/90 hover:bg-white/10 hover:text-white' }}'">
+                    '{{ request()->routeIs(['layanan', 'layanan.detail', 'layanan.show']) || request()->is('layanan*') ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900' }}' : 
+                    '{{ request()->routeIs(['layanan', 'layanan.detail', 'layanan.show']) || request()->is('layanan*') ? 'bg-white/20 text-white border border-white/30' : 'text-white/90 hover:bg-white/10 hover:text-white' }}'">
                 Layanan
             </a>
 

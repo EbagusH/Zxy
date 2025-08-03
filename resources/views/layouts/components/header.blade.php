@@ -24,6 +24,11 @@ $headerTexts = [
 'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
 'description' => 'Berbagai layanan sosial yang tersedia untuk masyarakat Kota Majalengka'
 ],
+'layanan.show' => [
+'title' => 'DETAIL LAYANAN KAMI',
+'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'description' => 'Informasi lengkap mengenai berbagai layanan sosial yang disediakan untuk mendukung kesejahteraan masyarakat Kota Majalengka'
+],
 'rumah-singgah' => [
 'title' => 'RUMAH SINGGAH HEGAR MAJALENGKA',
 'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',

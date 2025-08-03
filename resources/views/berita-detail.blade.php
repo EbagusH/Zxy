@@ -7,22 +7,6 @@
 @endsection
 
 @section('content')
-<!-- Hero Section with Background Image -->
-<!-- <div class="relative h-96 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ytimg.com/vi/aKeSm4BUFCk/maxresdefault.jpg');">
-    <div class="absolute inset-0 flex items-center justify-center">
-        <div class="text-center text-white">
-            <h1 class="text-5xl font-bold mb-4">Detail Berita dan Artikel</h1> -->
-<!-- Breadcrumb -->
-<!-- <div>
-                <a href="{{ route('home') }}" class="hover:underline text-white">Beranda</a>
-                <span class="text-white">|</span>
-                <a href="{{ route('berita') }}" class="hover:underline text-white">Berita</a>
-                <span class="text-white">|</span>
-                <span class="text-orange-400 font-medium">{{ $berita->judul }}</span>
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <div class="py-16 bg-gray-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -203,50 +187,27 @@
                         </div>
                     </div>
 
-                    <!-- Layanan Sidebar -->
+                    <!-- Layanan -->
                     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                         <div class="px-6 py-4 {{ $isBerita ? 'bg-blue-600' : 'bg-green-600' }}">
                             <h3 class="text-lg font-semibold text-white">
-                                Layanan
+                                Layanan Terbaru
                             </h3>
                         </div>
 
-                        <div class="divide-y divide-gray-200">
-
-
-                            <div class="p-4 hover:bg-gray-50 transition-colors duration-200">
-                                <div class="flex space-x-3">
-                                    <div class="flex-shrink-0">
-
-                                        <div class="w-16 h-12 rounded flex items-center justify-center">
-                                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
-
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-
-                                            </svg>
-                                        </div>
-
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <a href="#" class="block">
-                                            <h4 class="text-sm font-medium text-gray-900 line-clamp-2 hover: transition-colors duration-200">
-
-                                            </h4>
-                                            <p class="text-xs text-gray-500 mt-1">
-
-                                            </p>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="p-4 text-center text-gray-500">
-                                <p class="text-sm">Tidak ada Layanan</p>
-                            </div>
-
+                        <div class="p-4 space-y-3">
+                            @forelse ($layananTerbaru as $layanan)
+                            <a href="{{ route('layanan.show', $layanan->id) }}"
+                                class="flex items-center {{ $isBerita ? 'text-blue-600 hover:text-blue-800' : 'text-green-600 hover:text-green-800' }} transition-colors">
+                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                {{ $layanan->nama }}
+                            </a>
+                            @empty
+                            <p class="text-sm text-gray-500">Tidak ada Layanan</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>

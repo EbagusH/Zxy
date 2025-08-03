@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\DaftarPegawai;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,7 +35,9 @@ class DaftarPegawaiController extends Controller
             ->take(5)
             ->get();
 
-        return view('profil-index.pegawai', compact('pegawai', 'beritaTerbaru', 'artikelTerbaru'));
+        $layananTerbaru = Layanan::orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('profil-index.pegawai', compact('pegawai', 'beritaTerbaru', 'artikelTerbaru', 'layananTerbaru'));
     }
 
     /**

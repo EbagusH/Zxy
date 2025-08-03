@@ -158,54 +158,20 @@
                     </div>
                 </div>
 
-                <!-- Profil Menu -->
+                <!-- Layanan -->
                 <div class="bg-white rounded-lg shadow-lg p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-200 pb-2">
-                        Menu Profil
+                        Layanan Terbaru
                     </h3>
                     <div class="space-y-3">
-                        <a href="{{ route('profil.sambutan') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                        @foreach ($layananTerbaru as $layanan)
+                        <a href="{{ route('layanan.show', $layanan->id) }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
                             </svg>
-                            Sambutan Kepala Dinas
+                            {{ $layanan->nama }}
                         </a>
-                        <a href="{{ route('profil.struktur') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Struktur Organisasi
-                        </a>
-                        <a href="{{ route('profil.pegawai') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Daftar Pegawai
-                        </a>
-                        <a href="{{ route('profil.visi-misi') }}" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Visi & Misi
-                        </a>
-                        <a href="#" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Bidang Linjamsos
-                        </a>
-                        <a href="#" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Bidang Dayasos
-                        </a>
-                        <a href="#" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            Bidang Resos
-                        </a>
+                        @endforeach
                     </div>
                 </div>
             </div>

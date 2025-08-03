@@ -24,7 +24,8 @@ Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita');
 Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('berita.show');
 
 // Public Layanan Route
-Route::get('/layanan', [LayananController::class, 'showPublic'])->name('layanan');
+Route::get('/layanan', [LayananController::class, 'publicIndex'])->name('layanan');
+Route::get('/layanan/{id}', [LayananController::class, 'publicShow'])->name('layanan.show');
 
 Route::get('/rumah-singgah', [RumahSinggahController::class, 'show'])->name('rumah-singgah');
 
@@ -46,10 +47,6 @@ Route::get('/profil/resos', [ResosController::class, 'show'])->name('profil.reso
 // Login Form (GET) - hanya bisa diakses jika belum login
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-});
-
-// Proses Login (POST) - hanya bisa diakses jika belum login
-Route::middleware(['guest'])->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
 });
 
@@ -115,13 +112,11 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Layanan CRUD Routes
-    Route::prefix('dashboard')->name('dashboard.')->group(function () {
-        Route::get('/layanan/create', [LayananController::class, 'create'])->name('layanan.create');
-        Route::post('/layanan', [LayananController::class, 'store'])->name('layanan.store');
-        Route::get('/layanan/{id}/edit', [LayananController::class, 'edit'])->name('layanan.edit');
-        Route::put('/layanan/{id}', [LayananController::class, 'update'])->name('layanan.update');
-        Route::delete('/layanan/{id}', [LayananController::class, 'destroy'])->name('layanan.destroy');
-    });
+    Route::get('/dashboard/layanan/create', [LayananController::class, 'create'])->name('dashboard.layanan.create');
+    Route::post('/dashboard/layanan', [LayananController::class, 'store'])->name('dashboard.layanan.store');
+    Route::get('/dashboard/layanan/{id}/edit', [LayananController::class, 'edit'])->name('dashboard.layanan.edit');
+    Route::put('/dashboard/layanan/{id}', [LayananController::class, 'update'])->name('dashboard.layanan.update');
+    Route::delete('/dashboard/layanan/{id}', [LayananController::class, 'destroy'])->name('dashboard.layanan.destroy');
 
     // CRUD Routes untuk Berita
     Route::get('/dashboard/crud-berita', [BeritaController::class, 'create'])->name('dashboard.crud-berita');

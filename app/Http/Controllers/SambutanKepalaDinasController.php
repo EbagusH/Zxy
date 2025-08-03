@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Layanan;
 use App\Models\SambutanKepalaDinas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +27,9 @@ class SambutanKepalaDinasController extends Controller
             ->take(5)
             ->get();
 
-        return view('profil-index.sambutan', compact('sambutan', 'beritaTerbaru', 'artikelTerbaru'));
+        $layananTerbaru = Layanan::orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('profil-index.sambutan', compact('sambutan', 'beritaTerbaru', 'artikelTerbaru', 'layananTerbaru'));
     }
 
     // Method untuk edit admin

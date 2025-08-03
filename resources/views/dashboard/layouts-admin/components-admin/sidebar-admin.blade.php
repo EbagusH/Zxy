@@ -95,10 +95,12 @@
         @php
         $isBeritaActive = request()->routeIs([
         'dashboard.berita-admin',
+        'dashboard.berita-admin.show',
         'dashboard.crud-berita.*',
         'dashboard.berita.edit',
-        ]) || request()->is('dashboard/crud-berita*') ||
-        request()->is('dashboard/berita/*/edit');
+        ]) || request()->is('dashboard/crud-berita*')
+        || request()->is('dashboard/berita/*/edit')
+        || request()->is('dashboard/berita/*');
         @endphp
 
         <div class="px-6 py-3 {{ $isBeritaActive ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors">
@@ -111,10 +113,21 @@
         </div>
 
         <!-- Layanan -->
-        <div class="px-6 py-3 {{ request()->routeIs('dashboard.layanan-admin') ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors">
-            <a href="{{ route('dashboard.layanan-admin') }}" class="flex items-center {{ request()->routeIs('dashboard.layanan-admin') ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}" onclick="closeMobileMenu()">
+        @php
+        $isLayananActive = request()->routeIs([
+        'dashboard.layanan-admin',
+        'dashboard.layanan.create',
+        'dashboard.layanan.edit'
+        ]);
+        @endphp
+
+        <div class="px-6 py-3 {{ $isLayananActive ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors">
+            <a href="{{ route('dashboard.layanan-admin') }}"
+                class="flex items-center {{ $isLayananActive ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}"
+                onclick="closeMobileMenu()">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
                 Layanan
             </a>

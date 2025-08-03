@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,7 +38,10 @@ class BeritaController extends Controller
     public function publicShow($id)
     {
         $berita = Berita::findOrFail($id);
-        return view('berita-detail', compact('berita'));
+
+        $layananTerbaru = Layanan::orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('berita-detail', compact('berita', 'layananTerbaru'));
     }
 
     public function create()

@@ -72,8 +72,8 @@
     <a href="{{ route('dashboard.crud-berita') }}" class="px-6 py-3 bg-purple-100 text-purple-700 font-medium rounded-lg hover:bg-purple-200 transition-colors duration-200">
         ➕ Tambah Berita Baru
     </a>
-    <a href="{{ route('dashboard.layanan-admin') }}" class="px-6 py-3 bg-yellow-100 text-yellow-700 font-medium rounded-lg hover:bg-yellow-200 transition-colors duration-200">
-        📝 Lihat Pengajuan Layanan
+    <a href="{{ route('dashboard.layanan.create') }}" class="px-6 py-3 bg-yellow-100 text-yellow-700 font-medium rounded-lg hover:bg-yellow-200 transition-colors duration-200">
+        📝 Tambah Layanan Baru
     </a>
     <a href="{{ route('dashboard.edit-header') }}" class="px-6 py-3 bg-blue-100 text-blue-700 font-medium rounded-lg hover:bg-blue-200 transition-colors duration-200">
         🖼️ Edit Gambar Header

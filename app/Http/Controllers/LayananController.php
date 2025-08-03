@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -58,7 +59,7 @@ class LayananController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         $layanan = Layanan::findOrFail($id);
         return view('dashboard.layanan.show', compact('layanan'));
@@ -67,7 +68,7 @@ class LayananController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         $layanan = Layanan::findOrFail($id);
         return view('dashboard.CRUD.edit-layanan-admin', compact('layanan'));
@@ -129,9 +130,30 @@ class LayananController extends Controller
     /**
      * Display layanan for public view
      */
-    public function showPublic()
+    public function publicIndex()
     {
         $layanan = Layanan::orderBy('bidang')->orderBy('nama')->get();
         return view('layanan', compact('layanan'));
+    }
+
+    public function publicShow($id)
+    {
+        $layanan = Layanan::findOrFail($id);
+
+        // Get 5 latest layanan for sidebar
+        $layananTerbaru = Layanan::orderBy('created_at', 'desc')->take(5)->get();
+
+        // data berita dan artikel untuk sidebar
+        $beritaTerbaru = Berita::where('kategori', 'berita')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $artikelTerbaru = Berita::where('kategori', 'artikel')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('layanan-detail', compact('layanan', 'layananTerbaru', 'beritaTerbaru', 'artikelTerbaru'));
     }
 }

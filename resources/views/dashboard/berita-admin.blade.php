@@ -12,22 +12,22 @@
                 <p class="text-sm md:text-base text-gray-600">Kelola semua berita dan artikel yang telah dipublikasikan</p>
             </div>
             <div class="flex flex-col space-y-2 md:flex-row md:items-center md:space-y-0 md:space-x-3">
-                <<!-- Search Box -->
-                    <div class="relative">
-                        <input type="text" id="search-input" placeholder="Cari berita/artikel..." class="w-full md:w-auto pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                        <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                        </svg>
-                    </div>
+                <!-- Search Box -->
+                <div class="relative">
+                    <input type="text" id="search-input" placeholder="Cari berita/artikel..." class="w-full md:w-auto pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    <svg class="w-4 h-4 md:w-5 md:h-5 text-gray-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
 
-                    <!-- Tambah Baru -->
-                    <a href="{{ route('dashboard.crud-berita') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <svg class="mr-1.5 -ml-0.5 w-4 h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg>
-                        <span class="hidden sm:inline">Tambah Baru</span>
-                        <span class="sm:hidden">Tambah</span>
-                    </a>
+                <!-- Tambah Baru -->
+                <a href="{{ route('dashboard.crud-berita') }}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg class="mr-1.5 -ml-0.5 w-4 h-4 md:w-5 md:h-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    <span class="hidden sm:inline">Tambah Baru</span>
+                    <span class="sm:hidden">Tambah</span>
+                </a>
             </div>
         </div>
     </div>
@@ -292,6 +292,11 @@
         const badgeClass = type === 'berita' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800';
         const badgeText = type === 'berita' ? 'Berita' : 'Artikel';
 
+        // Define URLs (sesuaikan dengan route Laravel Anda)
+        const showUrl = '/dashboard/berita-admin/';
+        const editUrl = '/dashboard/berita-admin/';
+        const deleteParam = `, '${type}'`;
+
         // Format tanggal
         const date = new Date(item.created_at);
         const formattedDate = date.toLocaleDateString('id-ID', {
@@ -301,92 +306,118 @@
         });
 
         return `
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-            <!-- Image -->
-            <div class="h-40 md:h-48 bg-gray-200 overflow-hidden">
-                ${item.foto ? 
-                    `<img src="/storage/${item.foto}" alt="${item.judul}" class="w-full h-full object-cover">` :
-                    `<div class="w-full h-full flex items-center justify-center bg-gray-100">
-                        <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                    </div>`
-                }
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+        <!-- Image -->
+        <div class="h-40 md:h-48 bg-gray-200 overflow-hidden">
+            ${item.foto ? 
+                `<img src="/storage/${item.foto}" alt="${item.judul}" class="w-full h-full object-cover">` :
+                `<div class="w-full h-full flex items-center justify-center bg-gray-100">
+                    <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                </div>`
+            }
+        </div>
+
+        <!-- Content -->
+        <div class="p-3 md:p-4">
+            <!-- Badge -->
+            <div class="mb-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeClass}">
+                    ${badgeText}
+                </span>
             </div>
 
-            <!-- Content -->
-            <div class="p-3 md:p-4">
-                <!-- Badge -->
-                <div class="mb-2">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeClass}">
-                        ${badgeText}
-                    </span>
-                </div>
+            <!-- Title -->
+            <h3 class="text-base md:text-lg font-medium text-gray-900 mb-2 line-clamp-2">${item.judul}</h3>
 
-                <!-- Title -->
-                <h3 class="text-base md:text-lg font-medium text-gray-900 mb-2 line-clamp-2">${item.judul}</h3>
+            <!-- Meta Info -->
+            <div class="flex items-center justify-between text-xs text-gray-500 mb-3 md:mb-4">
+                <span>ID: ${item.id}</span>
+                <span>${formattedDate}</span>
+            </div>
 
-                <!-- Meta Info -->
-                <div class="flex items-center justify-between text-xs text-gray-500 mb-3 md:mb-4">
-                    <span>ID: ${item.id}</span>
-                    <span>${formattedDate}</span>
-                </div>
-
-                <!-- Actions -->
-                <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
-                    <a href="${showUrl}${item.id}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <!-- Actions -->
+            <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+                <a href="${showUrl}${item.id}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                    </svg>
+                    Lihat
+                 </a>
+                <div class="flex space-x-2 md:flex-1">
+                    <a href="${editUrl}${item.id}/edit" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
-                        Lihat
-                     </a>
-                    <div class="flex space-x-2 md:flex-1">
-                        <a href="${editUrl}${item.id}" class="flex-1 inline-flex items-center justify-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                            </svg>
-                            Edit
-                        </a>
-                        <button onclick="confirmDelete('${item.id}'${deleteParam})" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </button>
-                    </div>
+                        Edit
+                    </a>
+                    <button onclick="confirmDelete('${item.id}'${deleteParam})" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
-    `;
+    </div>
+`;
     }
 
-    // Function untuk membuat empty state saat pencarian tidak ditemukan
-    function createSearchEmptyState(type, query) {
+    // Function untuk membuat empty state saat tidak ada data
+    function createEmptyState(type, isSearch = false, query = '') {
         const isBerita = type === 'berita';
-        const title = isBerita ? 'Berita tidak ditemukan' : 'Artikel tidak ditemukan';
 
-        return `
-        <div class="text-center py-8 md:py-12 col-span-full">
-            <svg class="mx-auto h-8 w-8 md:h-12 md:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-            <h3 class="mt-4 text-sm font-medium text-gray-900">${title}</h3>
-            <p class="mt-1 text-sm text-gray-500">Tidak ditemukan ${type} dengan kata kunci "${query}"</p>
-            <div class="mt-6">
-                <button onclick="clearSearch()" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    <svg class="mr-1.5 -ml-0.5 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                    Hapus Pencarian
-                </button>
+        if (isSearch) {
+            // Empty state untuk pencarian
+            const title = isBerita ? 'Berita tidak ditemukan' : 'Artikel tidak ditemukan';
+            return `
+            <div class="text-center py-8 md:py-12 col-span-full">
+                <svg class="mx-auto h-8 w-8 md:h-12 md:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <h3 class="mt-4 text-sm font-medium text-gray-900">${title}</h3>
+                <p class="mt-1 text-sm text-gray-500">Tidak ditemukan ${type} dengan kata kunci "${query}"</p>
+                <div class="mt-6">
+                    <button onclick="clearSearch()" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <svg class="mr-1.5 -ml-0.5 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                        Hapus Pencarian
+                    </button>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+        } else {
+            // Empty state untuk data kosong (original blade template style)
+            const title = isBerita ? 'Belum ada berita' : 'Belum ada artikel';
+            const description = isBerita ? 'Mulai menambahkan berita pertama Anda.' : 'Mulai menambahkan artikel pertama Anda.';
+            const addUrl = isBerita ? '/dashboard/berita-admin/create' : '/dashboard/artikel-admin/create';
+
+            return `
+            <div class="text-center py-8 md:py-12 col-span-full">
+                <svg class="mx-auto h-8 w-8 md:h-12 md:w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3v9m0 0h-3m3 0h3"></path>
+                </svg>
+                <h3 class="mt-4 text-sm font-medium text-gray-900">${title}</h3>
+                <p class="mt-1 text-sm text-gray-500">${description}</p>
+                <div class="mt-6">
+                    <a href="${addUrl}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <svg class="mr-1.5 -ml-0.5 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Tambah ${badgeText}
+                    </a>
+                </div>
+            </div>
+        `;
+        }
     }
 
     // Function untuk melakukan pencarian
     function performSearch(query, data) {
-        if (!query.trim()) return data;
+        if (!query || !query.trim()) return data;
 
         const searchQuery = query.toLowerCase().trim();
         return data.filter(item => {
@@ -401,12 +432,21 @@
         const countElement = document.getElementById(`${type}-count`);
         const totalElement = document.getElementById(`${type}-total`);
 
-        if (filteredData.length === 0 && query.trim()) {
-            container.innerHTML = createSearchEmptyState(type, query);
-        } else if (filteredData.length === 0) {
-            // Keep original empty state from blade template
-            return;
+        if (!container) return;
+
+        // Cek apakah sedang dalam mode pencarian
+        const isSearchMode = query && query.trim();
+
+        if (filteredData.length === 0) {
+            if (isSearchMode) {
+                // Tampilkan empty state untuk pencarian
+                container.innerHTML = createEmptyState(type, true, query);
+            } else {
+                // Tampilkan empty state untuk data kosong
+                container.innerHTML = createEmptyState(type, false);
+            }
         } else {
+            // Tampilkan data
             container.innerHTML = filteredData.map(item => createCard(item, type)).join('');
         }
 
@@ -419,13 +459,16 @@
     function runLiveSearch(query) {
         currentQuery = query;
 
+        // Pastikan query adalah string
+        const searchQuery = query || '';
+
         // Filter dan update berita
-        const filteredBerita = performSearch(query, originalBeritaData);
-        updateSearchResults('berita', filteredBerita, query);
+        const filteredBerita = performSearch(searchQuery, originalBeritaData);
+        updateSearchResults('berita', filteredBerita, searchQuery);
 
         // Filter dan update artikel
-        const filteredArtikel = performSearch(query, originalArtikelData);
-        updateSearchResults('artikel', filteredArtikel, query);
+        const filteredArtikel = performSearch(searchQuery, originalArtikelData);
+        updateSearchResults('artikel', filteredArtikel, searchQuery);
     }
 
     // Function untuk clear search
@@ -433,6 +476,7 @@
         const searchInput = document.getElementById('search-input');
         if (searchInput) {
             searchInput.value = '';
+            // Panggil runLiveSearch dengan string kosong untuk reset tampilan
             runLiveSearch('');
         }
     }
@@ -563,14 +607,24 @@
                 runLiveSearch(query);
             }, 300);
 
+            // Handle input event
             searchInput.addEventListener('input', function(e) {
-                debouncedSearch(e.target.value);
+                const query = e.target.value;
+                debouncedSearch(query);
             });
 
+            // Handle keypress event
             searchInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     runLiveSearch(e.target.value);
+                }
+            });
+
+            // Handle clear event (untuk browser yang support clear button)
+            searchInput.addEventListener('search', function(e) {
+                if (e.target.value === '') {
+                    runLiveSearch('');
                 }
             });
         }

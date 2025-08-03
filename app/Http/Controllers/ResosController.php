@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
+use App\Models\Layanan;
 use App\Models\Resos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -74,19 +76,20 @@ class ResosController extends Controller
     {
         $resos = Resos::first();
 
-        // Get latest news and articles for sidebar
-        // $beritaTerbaru = Berita::where('kategori', 'berita')
-        //     ->where('status', 'published')
-        //     ->latest()
-        //     ->take(5)
-        //     ->get();
+        // Ambil berita terbaru untuk sidebar
+        $beritaTerbaru = Berita::where('kategori', 'berita')
+            ->latest()
+            ->take(5)
+            ->get();
 
-        // $artikelTerbaru = Berita::where('kategori', 'artikel')
-        //     ->where('status', 'published')
-        //     ->latest()
-        //     ->take(5)
-        //     ->get();
+        // Ambil artikel terbaru untuk sidebar
+        $artikelTerbaru = Berita::where('kategori', 'artikel')
+            ->latest()
+            ->take(5)
+            ->get();
 
-        return view('profil-index.resos', compact('resos'));
+        $layananTerbaru = Layanan::orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('profil-index.resos', compact('resos', 'beritaTerbaru', 'artikelTerbaru', 'layananTerbaru'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Layanan;
 use App\Models\VisiMisi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +27,9 @@ class VisiMisiController extends Controller
             ->take(5)
             ->get();
 
-        return view('profil-index.visi-misi', compact('visiMisi', 'beritaTerbaru', 'artikelTerbaru'));
+        $layananTerbaru = Layanan::orderBy('created_at', 'desc')->take(5)->get();
+
+        return view('profil-index.visi-misi', compact('visiMisi', 'beritaTerbaru', 'artikelTerbaru', 'layananTerbaru'));
     }
 
     // Method untuk edit admin
