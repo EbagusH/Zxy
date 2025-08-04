@@ -24,16 +24,28 @@
     <div class="flex flex-col items-center space-y-4 mb-6">
         <!-- Foto Profil dengan Icon Kamera -->
         <div class="relative w-28 h-28">
+            @if ($admin->profile_foto)
+            <!-- Jika ada foto -->
             <img
-                src="{{ $admin->profile_foto ? asset('storage/foto/' . $admin->profile_foto) : asset('default-avatar.png') }}"
+                src="{{ asset('storage/foto/' . $admin->profile_foto) }}"
                 alt="Foto Profil"
                 class="w-28 h-28 rounded-full object-cover ring-2 ring-blue-500" />
+            @else
+            <!-- Jika tidak ada foto -->
+            <div class="w-28 h-28 rounded-full bg-gray-600 flex items-center justify-center ring-2 ring-blue-500">
+                <svg class="h-12 w-12 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clip-rule="evenodd" />
+                </svg>
+            </div>
+            @endif
 
             <!-- Tombol Kamera -->
             <label for="foto" class="absolute bottom-0 right-0 bg-white rounded-full p-1 shadow cursor-pointer">
-                <!-- SVG kamera (Heroicons) -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 5c1.7 0 3.3.7 4.5 1.9l1.4-1.4C16.6 3.3 14.4 2.5 12 2.5S7.4 3.3 6.1 5.5l1.4 1.4C8.7 5.7 10.3 5 12 5zm7 2h-1.3l-.9-1.3C16.5 5.3 14.3 4.5 12 4.5S7.5 5.3 6.2 5.7L5.3 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zm-8-9c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm0 6.5c-1.4 0-2.5-1.1-2.5-2.5S9.6 11.5 11 11.5s2.5 1.1 2.5 2.5S12.4 17.5 11 17.5z" />
+                    <path
+                        d="M12 5c1.7 0 3.3.7 4.5 1.9l1.4-1.4C16.6 3.3 14.4 2.5 12 2.5S7.4 3.3 6.1 5.5l1.4 1.4C8.7 5.7 10.3 5 12 5zm7 2h-1.3l-.9-1.3C16.5 5.3 14.3 4.5 12 4.5S7.5 5.3 6.2 5.7L5.3 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12H4V9h16v10zm-8-9c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm0 6.5c-1.4 0-2.5-1.1-2.5-2.5S9.6 11.5 11 11.5s2.5 1.1 2.5 2.5S12.4 17.5 11 17.5z" />
                 </svg>
             </label>
 

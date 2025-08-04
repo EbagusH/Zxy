@@ -31,23 +31,37 @@ Route::get('/rumah-singgah', [RumahSinggahController::class, 'show'])->name('rum
 
 // PUBLIC PROFIL ROUTES
 Route::get('/profil/sambutan', [SambutanKepalaDinasController::class, 'index'])->name('profil.sambutan');
-
 Route::get('/profil/struktur', [StrukturOrganisasiController::class, 'index'])->name('profil.struktur');
-
 Route::get('/profil/pegawai', [DaftarPegawaiController::class, 'showPublic'])->name('profil.pegawai');
-
 Route::get('/profil/visi-misi', [VisiMisiController::class, 'show'])->name('profil.visi-misi');
-
 Route::get('/profil/linjamsos', [LinjamsosController::class, 'show'])->name('profil.linjamsos');
-
 Route::get('/profil/dayasos', [DayasosController::class, 'show'])->name('profil.dayasos');
-
 Route::get('/profil/resos', [ResosController::class, 'show'])->name('profil.resos');
 
-// Login Form (GET) - hanya bisa diakses jika belum login
+// Authentication Routes - hanya bisa diakses jika belum login
 Route::middleware(['guest'])->group(function () {
+    // Login
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+
+    // OTP Routes - memerlukan session otp_email
+    Route::get('/otp-verify', [AuthController::class, 'showOtpForm'])->name('otp.verify');
+    Route::post('/otp-verify', [AuthController::class, 'verifyOtp'])->name('otp.verify.post');
+    Route::post('/otp-resend', [AuthController::class, 'resendOtp'])->name('otp.resend');
+
+    // Password Reset Routes
+    // Password Reset Routes - Alur yang benar
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendPasswordResetOtp'])->name('password.send.otp');
+
+    // Halaman verifikasi OTP reset password
+    Route::get('/password-reset-otp', [AuthController::class, 'showPasswordResetOtpForm'])->name('password.otp.verify');
+    Route::post('/password-reset-otp', [AuthController::class, 'verifyPasswordResetOtp'])->name('password.otp.verify.post');
+    Route::post('/password-reset-otp/resend', [AuthController::class, 'resendPasswordResetOtp'])->name('password.otp.resend');
+
+    // Halaman reset password (hanya bisa diakses setelah OTP terverifikasi)
+    Route::get('/reset-password', [AuthController::class, 'showPasswordResetForm'])->name('password.reset.form');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset.post');
 });
 
 // Dashboard Routes - hanya bisa diakses setelah login
@@ -66,7 +80,6 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard sub-menu - UPDATED: Menggunakan BeritaController
     Route::get('/dashboard/berita', [BeritaController::class, 'index'])->name('dashboard.berita-admin');
     Route::get('/dashboard/berita/search', [BeritaController::class, 'search'])->name('dashboard.berita-admin.search');
-
     Route::delete('/dashboard/berita/{id}', [BeritaController::class, 'destroy'])->name('dashboard.berita-admin.destroy');
 
     // Dashboard Layanan Routes
@@ -77,7 +90,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/rumahsinggah', [RumahSinggahController::class, 'update'])->name('rumah-singgah.update');
 
     Route::prefix('dashboard/profil')->name('dashboard.profil.')->group(function () {
-
         // Sambutan Kepala Dinas
         Route::get('/sambutan', [SambutanKepalaDinasController::class, 'edit'])->name('sambutan');
         Route::put('/sambutan', [SambutanKepalaDinasController::class, 'update'])->name('sambutan.update');
@@ -125,10 +137,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard/berita/{id}/edit', [BeritaController::class, 'edit'])->name('dashboard.berita-admin.edit');
     Route::put('/dashboard/berita/{id}', [BeritaController::class, 'update'])->name('dashboard.berita-admin.update');
     Route::delete('/dashboard/berita/{id}', [BeritaController::class, 'destroy'])->name('dashboard.berita-admin.destroy');
-});
 
-// Logout (POST) - hanya bisa diakses jika sudah login
-Route::middleware(['auth'])->group(function () {
+    // Logout (POST) - hanya bisa diakses jika sudah login
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 

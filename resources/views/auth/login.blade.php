@@ -115,6 +115,13 @@
                         </button>
                     </div>
 
+                    <!-- Forgot Password -->
+                    <div class="mt-4 text-center">
+                        <a href="{{ route('password.request') }}" class="text-sm text-indigo-600 hover:underline">
+                            Lupa password?
+                        </a>
+                    </div>
+
                     <!-- Footer -->
                     <div class="text-center">
                         <p class="text-sm text-gray-500">
