@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Rumah Singgah - Dinas Sosial Kota Majalengka')
+@section('title', 'Rumah Singgah - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'rumah-singgah'])
@@ -10,9 +10,11 @@
 
 <!-- Hero Section -->
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <!-- Container Responsive -->
+    <div class="flex flex-col-reverse md:flex-row items-center md:items-start gap-8">
+
         <!-- Left Side - Text Content -->
-        <div>
+        <div class="md:w-1/2">
             <h1 class="text-4xl font-bold text-gray-900 mb-6">Rumah Singgah Hegar Majalengka</h1>
             <p class="text-gray-600 text-lg mb-8 leading-relaxed">
                 {{ $rumahSinggah->isi ?? 'Rumah Singgah Hegar Majalengka menyediakan tempat singgah sementara bagi keluarga pasien yang membutuhkan.' }}
@@ -20,7 +22,7 @@
         </div>
 
         <!-- Right Side - Building Image -->
-        <div>
+        <div class="md:w-1/2">
             @if($rumahSinggah && $rumahSinggah->gambar)
             <img src="{{ asset('storage/' . $rumahSinggah->gambar) }}" alt="Rumah Singgah Hegar Majalengka"
                 class="w-full h-96 object-cover rounded-lg shadow-lg">
@@ -30,6 +32,7 @@
             </div>
             @endif
         </div>
+
     </div>
 </div>
 
@@ -88,37 +91,28 @@
 
 <!-- Facilities Section -->
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Fasilitas</h2>
+    <div class="bg-white rounded-lg shadow-md p-8">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Fasilitas</h2>
 
-    @if($rumahSinggah && $rumahSinggah->fasilitas && count($rumahSinggah->fasilitas) > 0)
-    @php
-    $fasilitasChunks = array_chunk($rumahSinggah->fasilitas, ceil(count($rumahSinggah->fasilitas) / 4));
-    @endphp
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        @foreach($fasilitasChunks as $index => $chunk)
-        <div class="text-center">
-            <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span class="text-orange-500 text-2xl">{{ $icons[$index] ?? '' }}</span>
-            </div>
-            <ul class="text-gray-700 space-y-1">
-                @foreach($chunk as $fasilitas)
-                <li>{{ $fasilitas }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endforeach
+        @if($rumahSinggah && $rumahSinggah->fasilitas && count($rumahSinggah->fasilitas) > 0)
+        <ul class="space-y-4 text-gray-700">
+            @foreach($rumahSinggah->fasilitas as $fasilitas)
+            <li class="flex items-start">
+                <span class="text-black mr-3 mt-1">•</span>
+                <span class="text-black">{{ $fasilitas }}</span>
+            </li>
+            @endforeach
+        </ul>
+        @else
+        <!-- Default fasilitas jika database kosong -->
+        <ul class="space-y-4 text-gray-700">
+            <li class="flex items-start">
+                <span class="text-black mr-3 mt-1">•</span>
+                <span class="text-black">Fasilitas akan segera diperbarui</span>
+            </li>
+        </ul>
+        @endif
     </div>
-    @else
-    <!-- Default facilities jika database kosong -->
-    <div class="text-center py-16">
-        <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span class="text-orange-500 text-2xl">⚠️</span>
-        </div>
-        <p class="text-gray-700 text-lg font-medium">Fasilitas akan segera diperbarui</p>
-    </div>
-
-    @endif
 </div>
 
 <!-- Kriteria Tamu Section -->
@@ -130,8 +124,8 @@
         <ul class="space-y-4 text-gray-700">
             @foreach($rumahSinggah->kriteria_tamu as $kriteria)
             <li class="flex items-start">
-                <span class="text-green-500 mr-3 mt-1">•</span>
-                <span>{{ $kriteria }}</span>
+                <span class="text-black mr-3 mt-1">•</span>
+                <span class="text-black">{{ $kriteria }}</span>
             </li>
             @endforeach
         </ul>
@@ -140,8 +134,8 @@
         <ul class="space-y-4 text-gray-700">
             @for($i = 1; $i <= 1; $i++)
                 <li class="flex items-start">
-                <span class="text-green-500 mr-3 mt-1">•</span>
-                <span>Kriteria tamu akan diperbarui segera</span>
+                <span class="text-black mr-3 mt-1">•</span>
+                <span class="text-black">Kriteria tamu akan diperbarui segera</span>
                 </li>
                 @endfor
         </ul>

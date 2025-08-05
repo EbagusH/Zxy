@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda - Dinas Sosial Kota Majalengka')
+@section('title', 'Beranda - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'home'])
@@ -13,7 +13,7 @@
 <section class="py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-4xl font-bold text-gray-900 mb-4">Rumah Singgah Kota Majalengka</h2>
+            <h2 class="text-4xl font-bold text-gray-900 mb-4">Rumah Singgah Kabupaten Majalengka</h2>
             <div class="w-20 h-1 bg-cyan-400 mx-auto"></div>
         </div>
 

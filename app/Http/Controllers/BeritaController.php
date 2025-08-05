@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\Layanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class BeritaController extends Controller
 {
@@ -51,6 +52,7 @@ class BeritaController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
             'judul' => 'required|string|max:255',
             'kategori' => 'required|in:berita,artikel',
@@ -58,24 +60,49 @@ class BeritaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $fotoPath = null;
-        if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('berita', 'public');
+        try {
+            // Handle upload photo
+            $fotoPath = null;
+            if ($request->hasFile('foto')) {
+                Log::info('File foto ditemukan: ' . $request->file('foto')->getClientOriginalName());
+
+                // Pastikan direktori ada
+                if (!Storage::disk('public')->exists('berita')) {
+                    Storage::disk('public')->makeDirectory('berita');
+                }
+
+                // Upload file dengan nama unik
+                $foto = $request->file('foto');
+                $filename = time() . '_' . $foto->getClientOriginalName();
+                $fotoPath = $foto->storeAs('berita', $filename, 'public');
+
+                Log::info('File berhasil diupload ke: ' . $fotoPath);
+            } else {
+                Log::info('Tidak ada file foto yang diupload');
+            }
+
+            // Create new record
+            $berita = Berita::create([
+                'judul' => $request->judul,
+                'kategori' => $request->kategori,
+                'isi' => $request->isi,
+                'foto' => $fotoPath
+            ]);
+
+            Log::info('Berita berhasil dibuat dengan ID: ' . $berita->id);
+
+            // Pesan sukses berdasarkan kategori
+            $kategori = $request->kategori;
+            $pesan = $kategori === 'berita' ? 'Berita berhasil ditambahkan!' : 'Artikel berhasil ditambahkan!';
+
+            // Redirect
+            return redirect('/dashboard/berita')->with('success', $pesan);
+        } catch (\Exception $e) {
+            Log::error('Error saat menyimpan berita: ' . $e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
         }
-
-        Berita::create([
-            'judul' => $request->judul,
-            'kategori' => $request->kategori,
-            'isi' => $request->isi,
-            'foto' => $fotoPath
-        ]);
-
-        // Pesan sukses berdasarkan kategori
-        $kategori = $request->kategori;
-        $pesan = $kategori === 'berita' ? 'Berita berhasil ditambahkan!' : 'Artikel berhasil ditambahkan!';
-
-        // Redirect
-        return redirect('/dashboard/berita')->with('success', $pesan);
     }
 
     // Tampilkan detail berita/artikel tertentu
@@ -97,6 +124,7 @@ class BeritaController extends Controller
     {
         $berita = Berita::findOrFail($id);
 
+        // Validasi input
         $request->validate([
             'judul' => 'required|string|max:255',
             'kategori' => 'required|in:berita,artikel',
@@ -104,47 +132,79 @@ class BeritaController extends Controller
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        // Cek jika upload foto baru
-        if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
-            if ($berita->foto && Storage::disk('public')->exists($berita->foto)) {
-                Storage::disk('public')->delete($berita->foto);
+        try {
+            // Handle photo upload
+            $fotoPath = $berita->foto; // Keep existing photo by default
+
+            if ($request->hasFile('foto')) {
+                Log::info('File foto baru ditemukan: ' . $request->file('foto')->getClientOriginalName());
+
+                // Pastikan direktori ada
+                if (!Storage::disk('public')->exists('berita')) {
+                    Storage::disk('public')->makeDirectory('berita');
+                }
+
+                // Upload file baru dengan nama unik
+                $foto = $request->file('foto');
+                $filename = time() . '_' . $foto->getClientOriginalName();
+                $newFotoPath = $foto->storeAs('berita', $filename, 'public');
+
+                // Hapus foto lama jika ada dan upload berhasil
+                if ($berita->foto && Storage::disk('public')->exists($berita->foto)) {
+                    Log::info('Menghapus foto lama: ' . $berita->foto);
+                    Storage::disk('public')->delete($berita->foto);
+                }
+
+                $fotoPath = $newFotoPath;
+                Log::info('File berhasil diupload ke: ' . $fotoPath);
             }
 
-            $fotoPath = $request->file('foto')->store('berita', 'public');
-            $berita->foto = $fotoPath;
+            // Update record
+            $berita->update([
+                'judul' => $request->judul,
+                'kategori' => $request->kategori,
+                'isi' => $request->isi,
+                'foto' => $fotoPath,
+            ]);
+
+            Log::info('Berita berhasil diupdate dengan ID: ' . $berita->id);
+
+            $pesan = $request->kategori === 'berita' ? 'Berita berhasil diperbarui!' : 'Artikel berhasil diperbarui!';
+            return redirect('/dashboard/berita')->with('success', $pesan);
+        } catch (\Exception $e) {
+            Log::error('Error saat mengupdate berita: ' . $e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan saat mengupdate data. Silakan coba lagi.');
         }
-
-        $berita->update([
-            'judul' => $request->judul,
-            'kategori' => $request->kategori,
-            'isi' => $request->isi,
-            'foto' => $berita->foto,
-        ]);
-
-        $pesan = $request->kategori === 'berita' ? 'Berita berhasil diperbarui!' : 'Artikel berhasil diperbarui!';
-        return redirect('/dashboard/berita')->with('success', $pesan);
     }
 
     // Method untuk menghapus berita/artikel
     public function destroy($id)
     {
-        $berita = Berita::findOrFail($id);
+        try {
+            $berita = Berita::findOrFail($id);
 
-        // Hapus file foto kalau ada
-        if ($berita->foto && Storage::exists($berita->foto)) {
-            Storage::delete($berita->foto);
+            // Hapus file foto kalau ada
+            if ($berita->foto && Storage::disk('public')->exists($berita->foto)) {
+                Log::info('Menghapus foto: ' . $berita->foto);
+                Storage::disk('public')->delete($berita->foto);
+            }
+
+            $kategori = $berita->kategori;
+            $berita->delete();
+
+            Log::info('Berita berhasil dihapus dengan ID: ' . $id);
+
+            $pesan = $kategori === 'berita'
+                ? 'Berita Berhasil Dihapus!'
+                : 'Artikel Berhasil Dihapus!';
+
+            return redirect()->route('dashboard.berita-admin')->with('success', $pesan);
+        } catch (\Exception $e) {
+            Log::error('Error saat menghapus berita: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data.');
         }
-
-        $kategori = $berita->kategori;
-
-        $berita->delete();
-
-        $pesan = $kategori === 'berita'
-            ? 'Berita Berhasil Dihapus!'
-            : 'Artikel Berhasil Dihapus!';
-
-        return redirect()->route('dashboard.berita-admin')->with('success', $pesan);
     }
 
     // Method untuk live search berita dan artikel
@@ -183,6 +243,7 @@ class BeritaController extends Controller
                 'message' => 'Data berhasil diambil'
             ]);
         } catch (\Exception $e) {
+            Log::error('Error saat melakukan pencarian: ' . $e->getMessage());
             // Handle error dengan response JSON
             return response()->json([
                 'success' => false,

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <title>Login - Dinas Sosial Kota Majalengka</title>
+    <title>Login - Dinas Sosial Kabupaten Majalengka</title>
 </head>
 
 <body class="bg-gray-50">
@@ -125,7 +125,7 @@
                     <!-- Footer -->
                     <div class="text-center">
                         <p class="text-sm text-gray-500">
-                            &copy; Dinas Sosial Kota Majalengka 2025.
+                            &copy; Dinas Sosial Kabupaten Majalengka 2025.
                         </p>
                     </div>
                 </form>

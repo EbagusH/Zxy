@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Struktur Organisasi - Dinas Sosial Kota Majalengka')
+@section('title', 'Struktur Organisasi - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'profil.struktur'])
@@ -17,7 +17,7 @@
                 @if($struktur && $struktur->gambar_struktur)
                 <!-- Gambar Struktur Organisasi -->
                 <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Struktur Organisasi Dinas Sosial Kota Majalengka</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Struktur Organisasi Dinas Sosial Kabupaten Majalengka</h2>
                     <img src="{{ asset('storage/' . $struktur->gambar_struktur) }}"
                         alt="Struktur Organisasi Dinas Sosial"
                         class="w-full mx-auto rounded-lg shadow-md border border-gray-200">

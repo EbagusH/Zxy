@@ -1,20 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Pegawai - Dinas Sosial Kota Majalengka')
+@section('title', 'Daftar Pegawai - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'profil.pegawai'])
 @endsection
 
 @section('content')
-<!-- Hero Section with Background Image -->
-<!-- <div class="relative h-96 bg-cover bg-center bg-no-repeat" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://i.ytimg.com/vi/aKeSm4BUFCk/maxresdefault.jpg');">
-    <div class="absolute inset-0 flex items-center justify-center">
-        <div class="text-center text-white">
-            <h1 class="text-5xl font-bold mb-4">Daftar Pegawai</h1>
-        </div>
-    </div>
-</div> -->
 
 <!-- Content Section -->
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
@@ -25,7 +17,7 @@
 
                 <!-- Title -->
                 <div class="mb-8 text-center">
-                    <h2 class="text-2xl font-bold text-gray-800">Daftar Pegawai Dinas Sosial Kota Majalengka</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">Daftar Pegawai Dinas Sosial Kabupaten Majalengka</h2>
                 </div>
 
                 <!-- Pegawai Grid Content -->

@@ -1,6 +1,6 @@
 @extends('dashboard.layouts-admin.admin')
 
-@section('title', 'Tambah Berita dan Artikel - Dinas Sosial Kota Majalengka')
+@section('title', 'Tambah Berita dan Artikel - Dinas Sosial Kabupaten Majalengka')
 
 @section('content')
 <div class="p-6">
@@ -82,37 +82,33 @@
                 @enderror
             </div>
 
-            <!-- Photo Upload with Drag and Drop -->
+            <!-- Photo Upload with Improved Drag and Drop -->
             <div class="mb-6">
                 <label for="foto" class="block text-sm font-medium text-gray-700 mb-2">
                     Foto
                 </label>
-                <div id="drop-area" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-gray-400 transition-colors cursor-pointer">
+                <div id="dropZone" class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md hover:border-gray-400 transition-colors duration-200 cursor-pointer">
                     <div class="space-y-1 text-center">
-                        <svg id="upload-icon" class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                        <div id="upload-text" class="flex text-sm text-gray-600">
-                            <label for="foto" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                <span>Upload a file</span>
-                                <input
-                                    id="foto"
-                                    name="foto"
-                                    type="file"
-                                    accept="image/*"
-                                    class="sr-only">
-                            </label>
-                            <p class="pl-1">or drag and drop</p>
+                        <div class="flex text-sm text-gray-600">
+                            <span class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500">
+                                Upload foto
+                            </span>
+                            <p class="pl-1">atau drag and drop</p>
                         </div>
-                        <p id="file-info" class="text-xs text-gray-500">PNG, JPG, GIF up to 2MB</p>
+                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 2MB</p>
                     </div>
                 </div>
+                <input id="foto" name="foto" type="file" class="hidden" accept="image/*">
 
-                <!-- Preview Area -->
-                <div id="preview-area" class="mt-4 hidden">
+                <!-- Preview Image -->
+                <div id="imagePreview" class="mt-4 hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Preview Foto:</label>
                     <div class="relative inline-block">
-                        <img id="preview-img" class="h-32 w-32 object-cover rounded-lg border border-gray-300" src="" alt="Preview">
-                        <button type="button" id="remove-image" class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600 transition-colors">
+                        <img id="preview" src="" alt="Preview" class="h-32 w-32 object-cover rounded-lg border border-gray-300 shadow-md">
+                        <button type="button" id="removePreview" class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs transition-colors duration-200">
                             ×
                         </button>
                     </div>
@@ -142,150 +138,108 @@
     </div>
 </div>
 
-<!-- Enhanced Drag and Drop Script -->
 <script>
-    (function() {
-        const dropArea = document.getElementById('drop-area');
+    document.addEventListener('DOMContentLoaded', function() {
+        // File upload functionality
+        const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('foto');
-        const previewArea = document.getElementById('preview-area');
-        const previewImg = document.getElementById('preview-img');
-        const removeBtn = document.getElementById('remove-image');
-        const uploadIcon = document.getElementById('upload-icon');
-        const uploadText = document.getElementById('upload-text');
-        const fileInfo = document.getElementById('file-info');
+        const preview = document.getElementById('preview');
+        const previewContainer = document.getElementById('imagePreview');
+        const removeBtn = document.getElementById('removePreview');
 
-        // Prevent default drag behaviors
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, preventDefaults, false);
-            document.body.addEventListener(eventName, preventDefaults, false);
-        });
-
-        // Highlight drop area when item is dragged over it
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropArea.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropArea.addEventListener(eventName, unhighlight, false);
-        });
-
-        // Handle dropped files
-        dropArea.addEventListener('drop', handleDrop, false);
-
-        // Handle file input change
-        fileInput.addEventListener('change', function(e) {
-            handleFiles(e.target.files);
-        });
-
-        // FIXED: Handle click on drop area with proper event handling
-        dropArea.addEventListener('click', function(e) {
-            // Check if the click came from the label or its children
-            const clickedLabel = e.target.closest('label[for="foto"]');
-
-            // If clicked on label, let the browser handle it naturally (don't trigger again)
-            if (clickedLabel) {
-                return;
-            }
-
-            // Only trigger file input if not clicked on the label
+        // Click to upload
+        dropZone.addEventListener('click', function(e) {
             e.preventDefault();
+            e.stopPropagation();
             fileInput.click();
         });
 
-        // Remove image handler
-        removeBtn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            removeImage();
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
         });
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        dropZone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', handleFileSelect);
+        removeBtn.addEventListener('click', removePreview);
 
         function preventDefaults(e) {
             e.preventDefault();
             e.stopPropagation();
         }
 
-        function highlight() {
-            dropArea.classList.add('border-indigo-500', 'bg-indigo-50');
-            dropArea.classList.remove('border-gray-300');
+        function highlight(e) {
+            dropZone.classList.add('border-indigo-500', 'bg-indigo-50');
+            dropZone.classList.remove('border-gray-300');
         }
 
-        function unhighlight() {
-            dropArea.classList.remove('border-indigo-500', 'bg-indigo-50');
-            dropArea.classList.add('border-gray-300');
+        function unhighlight(e) {
+            dropZone.classList.remove('border-indigo-500', 'bg-indigo-50');
+            dropZone.classList.add('border-gray-300');
         }
 
         function handleDrop(e) {
             const dt = e.dataTransfer;
             const files = dt.files;
-            handleFiles(files);
-        }
 
-        function handleFiles(files) {
             if (files.length > 0) {
                 const file = files[0];
-
-                // Check if file is an image
-                if (!file.type.startsWith('image/')) {
-                    alert('Please select an image file (PNG, JPG, GIF)');
-                    return;
+                if (file.type.startsWith('image/')) {
+                    // Use DataTransfer to properly assign files
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+                    previewImage(file);
+                } else {
+                    alert('Hanya file gambar yang diperbolehkan!');
                 }
-
-                // Check file size (2MB limit)
-                if (file.size > 2 * 1024 * 1024) {
-                    alert('File size must be less than 2MB');
-                    return;
-                }
-
-                // Update file input
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                fileInput.files = dataTransfer.files;
-
-                // Show preview
-                showPreview(file);
             }
         }
 
-        function showPreview(file) {
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                previewImage(file);
+            }
+        }
+
+        function previewImage(file) {
+            // Validate file size (2MB)
+            if (file.size > 2 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar! Maksimal 2MB.');
+                fileInput.value = '';
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Format file tidak didukung! Gunakan JPEG, PNG, atau GIF.');
+                fileInput.value = '';
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function(e) {
-                previewImg.src = e.target.result;
-                previewArea.classList.remove('hidden');
-
-                // Update drop area appearance
-                uploadIcon.classList.add('hidden');
-                uploadText.innerHTML = `<span class="text-green-600 font-medium">${file.name}</span>`;
-                fileInfo.textContent = `${(file.size / 1024).toFixed(1)} KB - Click to change`;
-                dropArea.classList.add('border-green-500', 'bg-green-50');
-                dropArea.classList.remove('border-gray-300');
-            };
+                preview.src = e.target.result;
+                previewContainer.classList.remove('hidden');
+            }
             reader.readAsDataURL(file);
         }
 
-        function removeImage() {
-            // Clear file input
+        function removePreview() {
             fileInput.value = '';
-
-            // Hide preview
-            previewArea.classList.add('hidden');
-            previewImg.src = '';
-
-            // Reset drop area appearance
-            uploadIcon.classList.remove('hidden');
-            uploadText.innerHTML = `
-            <label for="foto" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                <span>Upload a file</span>
-                <input
-                    id="foto"
-                    name="foto"
-                    type="file"
-                    accept="image/*"
-                    class="sr-only">
-            </label>
-            <p class="pl-1">or drag and drop</p>
-        `;
-            fileInfo.textContent = 'PNG, JPG, GIF up to 2MB';
-            dropArea.classList.remove('border-green-500', 'bg-green-50', 'border-indigo-500', 'bg-indigo-50');
-            dropArea.classList.add('border-gray-300');
+            preview.src = '';
+            previewContainer.classList.add('hidden');
         }
 
         // Handle paste event for images
@@ -294,34 +248,48 @@
             for (let i = 0; i < items.length; i++) {
                 if (items[i].type.indexOf('image') !== -1) {
                     const file = items[i].getAsFile();
-                    handleFiles([file]);
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    fileInput.files = dataTransfer.files;
+                    previewImage(file);
                     break;
                 }
             }
         });
-    })();
+
+        // Form submission validation
+        const form = document.querySelector('form');
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                console.log('Form submitting with files:', fileInput.files.length);
+            });
+        }
+    });
 </script>
 
 <style>
-    /* Additional styles for better drag and drop experience */
-    #drop-area.dragover {
-        transform: scale(1.02);
-        transition: transform 0.2s ease;
-    }
-
-    #preview-area img {
-        transition: transform 0.2s ease;
-    }
-
-    #preview-area img:hover {
-        transform: scale(1.05);
-    }
-
-    #remove-image {
+    /* Enhanced styles for better drag and drop experience */
+    #dropZone {
         transition: all 0.2s ease;
     }
 
-    #remove-image:hover {
+    #dropZone:hover {
+        transform: scale(1.01);
+    }
+
+    #imagePreview img {
+        transition: transform 0.2s ease;
+    }
+
+    #imagePreview img:hover {
+        transform: scale(1.05);
+    }
+
+    #removePreview {
+        transition: all 0.2s ease;
+    }
+
+    #removePreview:hover {
         transform: scale(1.1);
     }
 </style>

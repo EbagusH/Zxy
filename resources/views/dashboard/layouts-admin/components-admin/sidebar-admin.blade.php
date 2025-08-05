@@ -51,8 +51,8 @@
 
         <!-- Profil with Dropdown -->
         <div class="relative">
-            <div class="px-6 py-3 {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos', 'dashboard.profil.resos']) ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors cursor-pointer" onclick="toggleDropdown('profileDropdown')">
-                <div class="flex items-center justify-between {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos', 'dashboard.profil.resos']) ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}">
+            <div class="px-6 py-3 {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos', 'dashboard.profil.resos', 'dashboard.profil.pegawai.create']) ? 'bg-blue-50 border-r-4 border-blue-500' : 'hover:bg-gray-50' }} transition-colors cursor-pointer" onclick="toggleDropdown('profileDropdown')">
+                <div class="flex items-center justify-between {{ request()->routeIs(['dashboard.profil.sambutan', 'dashboard.profil.struktur', 'dashboard.profil.pegawai-admin', 'dashboard.profil.visimisi', 'dashboard.profil.linjamsos', 'dashboard.profil.dayasos', 'dashboard.profil.resos', 'dashboard.profil.pegawai.create']) ? 'text-blue-600 font-medium' : 'text-gray-600 hover:text-gray-800' }}">
                     <div class="flex items-center">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -73,7 +73,7 @@
                 <a href="{{ route('dashboard.profil.struktur') }}" class="block px-12 py-2 text-sm {{ request()->routeIs('dashboard.profil.struktur') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
                     Struktur Organisasi
                 </a>
-                <a href="{{ route('dashboard.profil.pegawai-admin') }}" class="block px-12 py-2 text-sm {{ request()->routeIs('dashboard.profil.pegawai-admin') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
+                <a href="{{ route('dashboard.profil.pegawai-admin') }}" class="block px-12 py-2 text-sm {{ request()->routeIs('dashboard.profil.pegawai-admin', 'dashboard.profil.pegawai.create') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
                     Daftar Pegawai
                 </a>
                 <a href="{{ route('dashboard.profil.visimisi') }}" class="block px-12 py-2 text-sm {{ request()->routeIs('dashboard.profil.visimisi') ? 'bg-gray-100 text-gray-900 font-medium' : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100' }} transition-colors" onclick="closeMobileMenu()">
@@ -97,7 +97,7 @@
         'dashboard.berita-admin',
         'dashboard.berita-admin.show',
         'dashboard.crud-berita.*',
-        'dashboard.berita.edit',
+        'dashboard.berita-admin.edit',
         ]) || request()->is('dashboard/crud-berita*')
         || request()->is('dashboard/berita/*/edit')
         || request()->is('dashboard/berita/*');

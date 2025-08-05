@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - Dinas Sosial Kota Majalengka</title>
+    <title>Reset Password - Dinas Sosial Kabupaten Majalengka</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {

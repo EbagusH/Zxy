@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Layanan - Dinas Sosial Kota Majalengka')
+@section('title', 'Layanan - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'layanan'])
@@ -13,7 +13,7 @@
         <!-- Page Title -->
         <div class="text-center mb-12">
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Layanan Dinas Sosial</h2>
-            <p class="text-lg text-gray-600">Berbagai layanan yang tersedia untuk masyarakat Kota Majalengka</p>
+            <p class="text-lg text-gray-600">Berbagai layanan yang tersedia untuk masyarakat Kabupaten Majalengka</p>
         </div>
 
         <!-- Search and Filter Section -->

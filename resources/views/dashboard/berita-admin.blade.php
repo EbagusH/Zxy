@@ -1,6 +1,6 @@
 @extends('dashboard.layouts-admin.admin')
 
-@section('title', 'Kelola Berita dan Artikel - Dinas Sosial Kota Majalengka')
+@section('title', 'Kelola Berita dan Artikel - Dinas Sosial Kabupaten Majalengka')
 
 @section('content')
 <div class="p-3 md:p-6">
@@ -287,6 +287,54 @@
     let originalArtikelData = [];
     let currentQuery = '';
 
+    // Function untuk confirm delete
+    function confirmDelete(id, type) {
+        console.log('Delete confirmation for:', id, type); // Debug log
+
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+        const confirmBtn = document.getElementById('deleteConfirm');
+        const cancelBtn = document.getElementById('deleteCancel');
+
+        // Set form action dengan route yang benar
+        form.action = `/dashboard/berita-admin/${id}`;
+
+        console.log('Form action set to:', form.action); // Debug log
+
+        // Update modal message
+        const modalMessage = document.getElementById('modal-message');
+        const typeText = type === 'berita' ? 'berita' : 'artikel';
+        modalMessage.textContent = `Apakah Anda yakin ingin menghapus ${typeText} ini? Tindakan ini tidak dapat dibatalkan.`;
+
+        // Show modal
+        modal.classList.remove('hidden');
+
+        // Remove previous event listeners to prevent multiple attachments
+        const newConfirmBtn = confirmBtn.cloneNode(true);
+        const newCancelBtn = cancelBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+        cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+        // Handle confirm
+        newConfirmBtn.addEventListener('click', function() {
+            console.log('Delete confirmed, submitting form'); // Debug log
+            form.submit();
+        });
+
+        // Handle cancel
+        newCancelBtn.addEventListener('click', function() {
+            console.log('Delete cancelled'); // Debug log
+            modal.classList.add('hidden');
+        });
+
+        // Handle click outside modal
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+            }
+        });
+    }
+
     // Function untuk membuat card HTML
     function createCard(item, type) {
         const badgeClass = type === 'berita' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800';
@@ -295,7 +343,6 @@
         // Define URLs (sesuaikan dengan route Laravel Anda)
         const showUrl = '/dashboard/berita-admin/';
         const editUrl = '/dashboard/berita-admin/';
-        const deleteParam = `, '${type}'`;
 
         // Format tanggal
         const date = new Date(item.created_at);
@@ -353,7 +400,7 @@
                         </svg>
                         Edit
                     </a>
-                    <button onclick="confirmDelete('${item.id}'${deleteParam})" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    <button onclick="confirmDelete('${item.id}', '${type}')" class="inline-flex items-center justify-center px-3 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                         </svg>
@@ -514,41 +561,6 @@
         if (alert) {
             alert.style.display = 'none';
         }
-    }
-
-    // Function untuk confirm delete
-    function confirmDelete(id, type) {
-        const modal = document.getElementById('deleteModal');
-        const form = document.getElementById('deleteForm');
-        const confirmBtn = document.getElementById('deleteConfirm');
-        const cancelBtn = document.getElementById('deleteCancel');
-
-        // Set form action
-        form.action = `/dashboard/berita-admin/${id}`;
-
-        // Update modal message
-        const modalMessage = document.getElementById('modal-message');
-        modalMessage.textContent = `Apakah Anda yakin ingin menghapus ${type} ini? Tindakan ini tidak dapat dibatalkan.`;
-
-        // Show modal
-        modal.classList.remove('hidden');
-
-        // Handle confirm
-        confirmBtn.onclick = function() {
-            form.submit();
-        };
-
-        // Handle cancel
-        cancelBtn.onclick = function() {
-            modal.classList.add('hidden');
-        };
-
-        // Handle click outside modal
-        modal.onclick = function(e) {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        };
     }
 
     // Debounce function untuk optimasi

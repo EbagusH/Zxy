@@ -1,6 +1,6 @@
 @extends('dashboard.layouts-admin.admin')
 
-@section('title', '' . $berita->judul . ' - Dinas Sosial Kota Majalengka')
+@section('title', '' . $berita->judul . ' - Dinas Sosial Kabupaten Majalengka')
 
 @section('content')
 <div class="min-h-screen bg-gray-50">

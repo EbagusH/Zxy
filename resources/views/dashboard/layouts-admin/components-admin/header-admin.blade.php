@@ -1,6 +1,6 @@
 <header class="hidden lg:block bg-white shadow-sm border-b border-gray-200">
     <div class="flex items-center justify-between px-6 py-4">
-        <h2 class="text-xl font-semibold text-gray-800">Dinas Sosial Kota Majalengka</h2>
+        <h2 class="text-xl font-semibold text-gray-800">Dinas Sosial Kabupaten Majalengka</h2>
         <div class="flex items-center space-x-4">
             <div class="block">
                 <div class="ml-4 flex items-center md:ml-6">

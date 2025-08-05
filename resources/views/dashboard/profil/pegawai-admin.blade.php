@@ -1,6 +1,6 @@
 @extends('dashboard.layouts-admin.admin')
 
-@section('title', 'Daftar Pegawai - Dinas Sosial Kota Majalengka')
+@section('title', 'Daftar Pegawai - Dinas Sosial Kabupaten Majalengka')
 
 @section('content')
 <div class="p-6">
@@ -9,7 +9,7 @@
         <div class="flex flex-col space-y-3 md:flex-row md:justify-between md:items-center md:space-y-0">
             <div>
                 <h1 class="text-xl md:text-2xl font-bold text-gray-900">Daftar Pegawai Dinsos</h1>
-                <p class="text-sm md:text-base text-gray-600">Daftar Pegawai Dinas Sosial Kota Majalengka</p>
+                <p class="text-sm md:text-base text-gray-600">Daftar Pegawai Dinas Sosial Kabupaten Majalengka</p>
             </div>
             <div class="flex flex-col space-y-2 md:flex-row md:items-center md:space-y-0 md:space-x-3">
                 <!-- Search Box -->

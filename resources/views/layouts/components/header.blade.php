@@ -1,72 +1,71 @@
 @php
-// Ambil gambar header menggunakan method index()
 $background_image = app(App\Http\Controllers\HeaderFotoController::class)->index();
 
 // Konfigurasi teks untuk setiap halaman
 $headerTexts = [
 'home' => [
 'title' => 'SELAMAT DATANG',
-'subtitle' => 'WEBSITE DINAS SOSIAL KOTA MAJALENGKA',
+'subtitle' => 'WEBSITE DINAS SOSIAL KABUPATEN MAJALENGKA',
 'description' => 'BERSAMA WUJUDKAN KESEJAHTERAAN SOSIAL DARI, OLEH, DAN UNTUK MASYARAKAT<br>MENUJU MAJALENGKA YANG UNGGUL, NYAMAN, DAN SEJAHTERA'
 ],
 'berita' => [
 'title' => 'BERITA DAN ARTIKEL TERBARU',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
-'description' => 'Informasi dan berita terkini seputar kegiatan dan program Dinas Sosial Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Informasi dan berita terkini seputar kegiatan dan program Dinas Sosial Kabupaten Majalengka'
 ],
 'berita.show' => [
 'title' => 'DETAIL BERITA DAN ARTIKEL',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
-'description' => 'Baca informasi lengkap mengenai berita dan artikel dari Dinas Sosial Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Baca informasi lengkap mengenai berita dan artikel dari Dinas Sosial Kabupaten Majalengka'
 ],
 'layanan' => [
 'title' => 'LAYANAN KAMI',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
-'description' => 'Berbagai layanan sosial yang tersedia untuk masyarakat Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Berbagai layanan sosial yang tersedia untuk masyarakat Kabupaten Majalengka'
 ],
 'layanan.show' => [
 'title' => 'DETAIL LAYANAN KAMI',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
-'description' => 'Informasi lengkap mengenai berbagai layanan sosial yang disediakan untuk mendukung kesejahteraan masyarakat Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Informasi lengkap mengenai berbagai layanan sosial yang disediakan untuk mendukung kesejahteraan masyarakat Kabupaten Majalengka'
 ],
 'rumah-singgah' => [
 'title' => 'RUMAH SINGGAH HEGAR MAJALENGKA',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
 'description' => 'Fasilitas pelayanan sosial untuk memberikan perlindungan dan pendampingan kepada masyarakat'
 ],
 'profil.sambutan' => [
 'title' => 'SAMBUTAN KEPALA DINAS',
-'subtitle' => 'SOSIAL KOTA MAJALENGKA',
-'description' => 'Kata sambutan dari Kepala Dinas Sosial Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Kata sambutan dari Kepala Dinas Sosial Kabupaten Majalengka'
 ],
 'profil.struktur' => [
 'title' => 'STRUKTUR ORGANISASI',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
-'description' => 'Susunan organisasi Dinas Sosial Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Susunan organisasi Dinas Sosial Kabupaten Majalengka'
 ],
 'profil.pegawai' => [
 'title' => 'DAFTAR PEGAWAI',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
-'description' => 'Informasi lengkap mengenai pegawai Dinas Sosial Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Informasi lengkap mengenai pegawai Dinas Sosial Kabupaten Majalengka'
 ],
 'profil.visi-misi' => [
 'title' => 'VISI DAN MISI',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
-'description' => 'Sejarah, visi, dan misi Dinas Sosial Kota Majalengka'
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
+'description' => 'Sejarah, visi, dan misi Dinas Sosial Kabupaten Majalengka'
 ],
 'profil.linjamsos' => [
 'title' => 'Bidang Linjamsos',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
 'description' => 'Badan perlindungan dan Jaminan Sosial'
 ],
 'profil.dayasos' => [
 'title' => 'Bidang Dayasos',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
 'description' => 'Pemberdayaan Perempuan dan perlindungan Anak'
 ],
 'profil.resos' => [
 'title' => 'Bidang Resos',
-'subtitle' => 'DINAS SOSIAL KOTA MAJALENGKA',
+'subtitle' => 'DINAS SOSIAL KABUPATEN MAJALENGKA',
 'description' => 'Rehabilitasi Sosial'
 ]
 ];

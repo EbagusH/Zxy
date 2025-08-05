@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Berita - Dinas Sosial Kota Majalengka')
+@section('title', 'Berita - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'berita'])

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Layanan - Dinas Sosial Kota Majalengka')
+@section('title', 'Detail Layanan - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'layanan.show'])
@@ -17,7 +17,6 @@
 
                 <!-- Gambar Layanan -->
                 <div class="mb-6 text-center">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">{{ $layanan->nama }}</h2>
                     @if($layanan->foto)
                     <img src="{{ asset('storage/' . $layanan->foto) }}"
                         alt="{{ $layanan->nama }}"
@@ -34,7 +33,6 @@
                 <!-- Detail Layanan -->
                 <div class="space-y-4">
                     <div class="bg-gray-50 rounded-lg p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Detail Layanan</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <p class="text-sm text-gray-600">Nama Layanan:</p>

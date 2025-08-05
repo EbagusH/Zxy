@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Bidang Dayasos - Dinas Sosial Kota Majalengka')
+@section('title', 'Bidang Dayasos - Dinas Sosial Kabupaten Majalengka')
 
 @section('header')
 @include('layouts.components.header', ['page' => 'profil.dayasos'])

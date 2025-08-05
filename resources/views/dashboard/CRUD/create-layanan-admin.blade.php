@@ -1,6 +1,6 @@
 @extends('dashboard.layouts-admin.admin')
 
-@section('title', 'Tambah Layanan - Dinas Sosial Kota Majalengka')
+@section('title', 'Tambah Layanan - Dinas Sosial Kabupaten Majalengka')
 
 @section('content')
 <div class="p-6">
@@ -14,7 +14,7 @@
             </a>
             <div>
                 <h1 class="text-2xl font-bold text-gray-900">Tambah Layanan Baru</h1>
-                <p class="text-gray-600">Tambahkan layanan baru Dinas Sosial Kota Majalengka</p>
+                <p class="text-gray-600">Tambahkan layanan baru Dinas Sosial Kabupaten Majalengka</p>
             </div>
         </div>
     </div>

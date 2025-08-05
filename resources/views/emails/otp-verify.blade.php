@@ -109,7 +109,7 @@
         <!-- Header -->
         <div class="header">
             <h1>🔐 Kode OTP Login</h1>
-            <p>Dinas Sosial Kota Majalengka</p>
+            <p>Dinas Sosial Kabupaten Majalengka</p>
         </div>
 
         <!-- Content -->
@@ -141,7 +141,7 @@
 
         <!-- Footer -->
         <div class="footer">
-            <p>&copy; {{ date('Y') }} Dinas Sosial Kota Majalengka. Semua hak cipta dilindungi.</p>
+            <p>&copy; {{ date('Y') }} Dinas Sosial Kabupaten Majalengka. Semua hak cipta dilindungi.</p>
             <p>Email ini dikirim secara otomatis, mohon tidak membalas email ini.</p>
         </div>
     </div>

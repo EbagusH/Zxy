@@ -89,7 +89,7 @@
 
             <!-- Copyright -->
             <div class="text-center text-xs sm:text-sm text-slate-500">
-                © Dinas Sosial Kota Majalengka 2025.
+                © Dinas Sosial Kabupaten Majalengka 2025.
             </div>
         </div>
     </div>

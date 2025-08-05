@@ -131,12 +131,13 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/dashboard/layanan/{id}', [LayananController::class, 'destroy'])->name('dashboard.layanan.destroy');
 
     // CRUD Routes untuk Berita
+    Route::get('/dashboard/berita-admin', [BeritaController::class, 'index'])->name('dashboard.berita-admin');
     Route::get('/dashboard/crud-berita', [BeritaController::class, 'create'])->name('dashboard.crud-berita');
     Route::post('/dashboard/crud-berita', [BeritaController::class, 'store'])->name('dashboard.crud-berita.store');
-    Route::get('/dashboard/berita/{id}', [BeritaController::class, 'show'])->name('dashboard.berita-admin.show');
-    Route::get('/dashboard/berita/{id}/edit', [BeritaController::class, 'edit'])->name('dashboard.berita-admin.edit');
-    Route::put('/dashboard/berita/{id}', [BeritaController::class, 'update'])->name('dashboard.berita-admin.update');
-    Route::delete('/dashboard/berita/{id}', [BeritaController::class, 'destroy'])->name('dashboard.berita-admin.destroy');
+    Route::get('/dashboard/berita-admin/{id}', [BeritaController::class, 'show'])->name('dashboard.berita-admin.show');
+    Route::get('/dashboard/berita-admin/{id}/edit', [BeritaController::class, 'edit'])->name('dashboard.berita-admin.edit');
+    Route::put('/dashboard/berita-admin/{id}', [BeritaController::class, 'update'])->name('dashboard.berita-admin.update');
+    Route::delete('/dashboard/berita-admin/{id}', [BeritaController::class, 'destroy'])->name('dashboard.berita-admin.destroy');
 
     // Logout (POST) - hanya bisa diakses jika sudah login
     Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');

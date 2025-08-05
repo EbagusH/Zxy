@@ -1,6 +1,6 @@
 @extends('dashboard.layouts-admin.admin')
 
-@section('title', 'Edit Pegawai - Dinas Sosial Kota Majalengka')
+@section('title', 'Edit Pegawai - Dinas Sosial Kabupaten Majalengka')
 
 @section('content')
 <div class="p-6">
@@ -12,7 +12,7 @@
                     Edit Pegawai
                 </h1>
                 <p class="text-sm md:text-base text-gray-600">
-                    Edit data pegawai Dinas Sosial Kota Majalengka
+                    Edit data pegawai Dinas Sosial Kabupaten Majalengka
                 </p>
             </div>
             <div class="flex items-center space-x-3">
