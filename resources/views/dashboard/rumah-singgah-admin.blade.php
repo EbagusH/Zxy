@@ -400,7 +400,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <h1 class="text-4xl font-bold text-gray-900 mb-6">Rumah Singgah Hegar Majalengka</h1>
-                        <div id="preview-isi" class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        <div id="preview-isi" class="text-black text-lg mb-8 leading-relaxed">
                             {{ ($rumahSinggah && $rumahSinggah->isi) ? $rumahSinggah->isi : 'Deskripsi rumah singgah akan ditampilkan di sini...' }}
                         </div>
                     </div>
@@ -433,17 +433,19 @@
 
                 <!-- Facilities Preview -->
                 @if($rumahSinggah && $rumahSinggah->fasilitas && count($rumahSinggah->fasilitas) > 0)
-                <div id="preview-facilities-section">
-                    <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Fasilitas</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        @foreach($rumahSinggah->fasilitas as $fasilitas)
-                        <div class="text-center">
-                            <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <span class="text-orange-500 text-2xl">🏠</span>
-                            </div>
-                            <p class="text-gray-700">{{ $fasilitas }}</p>
+                <div id="preview-facilities-section" class="bg-gray-50 py-16 -mx-8">
+                    <div class="px-8">
+                        <div class="bg-white rounded-lg shadow-md p-8">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-8">Fasilitas</h2>
+                            <ul class="space-y-4 text-gray-700">
+                                @foreach($rumahSinggah->fasilitas as $fasilitas)
+                                <li class="flex items-start">
+                                    <span class="text-black mr-3 mt-1">•</span>
+                                    <span class="text-black">{{ $fasilitas }}</span>
+                                </li>
+                                @endforeach
+                            </ul>
                         </div>
-                        @endforeach
                     </div>
                 </div>
                 @endif
@@ -457,8 +459,8 @@
                             <ul class="space-y-4 text-gray-700">
                                 @foreach($rumahSinggah->kriteria_tamu as $kriteria)
                                 <li class="flex items-start">
-                                    <span class="text-green-500 mr-3 mt-1">•</span>
-                                    <span>{{ $kriteria }}</span>
+                                    <span class="text-black mr-3 mt-1">•</span>
+                                    <span class="text-black">{{ $kriteria }}</span>
                                 </li>
                                 @endforeach
                             </ul>
@@ -505,7 +507,7 @@
                         <div class="lg:w-1/2">
                             <h3 class="text-2xl font-bold text-gray-900 mb-4">📍 Alamat Rumah Singgah Hegar</h3>
                             <h4 class="font-semibold text-gray-800 mb-2">Rumah Singgah Hegar Majalengka</h4>
-                            <div id="preview-alamat" class="text-gray-600">
+                            <div id="preview-alamat" class="text-black">
                                 {{ ($rumahSinggah && $rumahSinggah->alamat_lengkap) ? $rumahSinggah->alamat_lengkap : 'Alamat lengkap akan ditampilkan di sini...' }}
                             </div>
                         </div>
@@ -518,7 +520,7 @@
                                 <span class="text-green-500 mr-3">📱</span>
                                 <div>
                                     <p class="font-semibold text-gray-800">WhatsApp</p>
-                                    <div id="preview-whatsapp" class="text-gray-600">
+                                    <div id="preview-whatsapp" class="text-black">
                                         {{ ($rumahSinggah && $rumahSinggah->whatsapp) ? $rumahSinggah->whatsapp : '+62 812-3456-7890' }}
                                     </div>
                                 </div>
@@ -528,7 +530,7 @@
                                 <span class="text-blue-500 mr-3">☎️</span>
                                 <div>
                                     <p class="font-semibold text-gray-800">Telepon</p>
-                                    <div id="preview-telepon" class="text-gray-600">
+                                    <div id="preview-telepon" class="text-black">
                                         {{ ($rumahSinggah && $rumahSinggah->telepon) ? $rumahSinggah->telepon : '(0778) 123-4567' }}
                                     </div>
                                 </div>
@@ -538,18 +540,18 @@
                                 <span class="text-red-500 mr-3">✉️</span>
                                 <div>
                                     <p class="font-semibold text-gray-800">Email</p>
-                                    <div id="preview-email" class="text-gray-600">
+                                    <div id="preview-email" class="text-black">
                                         {{ ($rumahSinggah && $rumahSinggah->email) ? $rumahSinggah->email : 'rumahsinggah@majalengkakab.go.id' }}
                                     </div>
                                 </div>
                             </div>
 
                             <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                                <p class="text-sm text-blue-800">
-                                    <strong>Jam Operasional:</strong><br>
-                                    <span id="preview-jam-senin-jumat">Senin - Jumat: {{ ($rumahSinggah && $rumahSinggah->jam_operasional) ? $rumahSinggah->jam_operasional['senin_jumat'] ?? '08:00 - 17:00 WIB' : '08:00 - 17:00 WIB' }}</span><br>
-                                    <span id="preview-jam-sabtu">Sabtu: {{ ($rumahSinggah && $rumahSinggah->jam_operasional) ? $rumahSinggah->jam_operasional['sabtu'] ?? '08:00 - 12:00 WIB' : '08:00 - 12:00 WIB' }}</span><br>
-                                    <span id="preview-jam-emergency">Emergency: {{ ($rumahSinggah && $rumahSinggah->jam_operasional) ? $rumahSinggah->jam_operasional['emergency'] ?? '24 Jam' : '24 Jam' }}</span>
+                                <p class="text-sm">
+                                    <strong class="text-blue-800">Jam Operasional:</strong><br>
+                                    <span id="preview-jam-senin-jumat" class="text-black">Senin - Jumat: {{ ($rumahSinggah && $rumahSinggah->jam_operasional) ? $rumahSinggah->jam_operasional['senin_jumat'] ?? '08:00 - 17:00 WIB' : '08:00 - 17:00 WIB' }}</span><br>
+                                    <span id="preview-jam-sabtu" class="text-black">Sabtu: {{ ($rumahSinggah && $rumahSinggah->jam_operasional) ? $rumahSinggah->jam_operasional['sabtu'] ?? '08:00 - 12:00 WIB' : '08:00 - 12:00 WIB' }}</span><br>
+                                    <span id="preview-jam-emergency" class="text-black">Emergency: {{ ($rumahSinggah && $rumahSinggah->jam_operasional) ? $rumahSinggah->jam_operasional['emergency'] ?? '24 Jam' : '24 Jam' }}</span>
                                 </p>
                             </div>
                         </div>
@@ -750,8 +752,6 @@
     document.getElementById('jam-senin-jumat-input').addEventListener('input', updatePreview);
     document.getElementById('jam-sabtu-input').addEventListener('input', updatePreview);
     document.getElementById('jam-emergency-input').addEventListener('input', updatePreview);
-
-    // ==================== GALLERY UPLOAD FUNCTIONALITY ====================
 
     let selectedFiles = [];
 

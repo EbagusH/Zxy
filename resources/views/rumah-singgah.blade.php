@@ -16,8 +16,8 @@
         <!-- Left Side - Text Content -->
         <div class="md:w-1/2">
             <h1 class="text-4xl font-bold text-gray-900 mb-6">Rumah Singgah Hegar Majalengka</h1>
-            <p class="text-gray-600 text-lg mb-8 leading-relaxed">
-                {{ $rumahSinggah->isi ?? 'Rumah Singgah Hegar Majalengka menyediakan tempat singgah sementara bagi keluarga pasien yang membutuhkan.' }}
+            <p class="text-black text-lg mb-8 leading-relaxed">
+                {{ $rumahSinggah->isi ?? 'Deskripsi Belum Tersedia' }}
             </p>
         </div>
 
@@ -41,15 +41,40 @@
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
     <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Rumah Singgah Hegar</h2>
 
-    <div class="relative overflow-hidden">
+    <!-- Mobile Carousel (1 per slide) -->
+    <div class="md:hidden relative overflow-hidden">
+        <div id="mobile-carousel" class="flex transition-transform duration-500 ease-in-out">
+            @foreach($rumahSinggah->galeri as $index => $image)
+            <div class="w-full flex-shrink-0">
+                <div class="text-center">
+                    <img src="{{ asset('storage/' . $image) }}" alt="Galeri Rumah Singgah"
+                        class="w-full h-64 object-cover rounded-lg shadow-md mb-4 hover:shadow-lg transition-shadow duration-300">
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <!-- Indicators -->
+        @if(count($rumahSinggah->galeri) > 1)
+        <div class="flex justify-center mt-6 space-x-2">
+            @foreach($rumahSinggah->galeri as $index => $image)
+            <button class="carousel-indicator-mobile w-3 h-3 rounded-full transition-colors duration-300 {{ $index == 0 ? 'bg-orange-500' : 'bg-gray-300' }}"
+                data-slide="{{ $index }}"></button>
+            @endforeach
+        </div>
+        @endif
+    </div>
+
+    <!-- Desktop Carousel (3 per slide) -->
+    <div class="hidden md:block relative overflow-hidden">
         <div id="gallery-carousel" class="flex transition-transform duration-500 ease-in-out">
             @php
             $chunkedGaleri = array_chunk($rumahSinggah->galeri, 3);
             @endphp
 
-            @foreach($chunkedGaleri as $slideIndex => $slide)
+            @foreach($chunkedGaleri as $slide)
             <div class="w-full flex-shrink-0">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-3 gap-6">
                     @foreach($slide as $image)
                     <div class="text-center">
                         <img src="{{ asset('storage/' . $image) }}" alt="Galeri Rumah Singgah"
@@ -69,7 +94,6 @@
         @endforeach
     </div>
 
-    <!-- Carousel Indicators -->
     @if(count($chunkedGaleri) > 1)
     <div class="flex justify-center mt-6 space-x-2">
         @foreach($chunkedGaleri as $index => $slide)
@@ -81,6 +105,7 @@
 </div>
 </div>
 @else
+<!-- Jika tidak ada galeri -->
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
     <h2 class="text-3xl font-bold text-center text-gray-900 mb-8">Galeri Rumah Singgah Hegar</h2>
     <div class="text-center text-gray-500">
@@ -199,7 +224,7 @@
             <div class="lg:w-1/2">
                 <h3 class="text-2xl font-bold text-gray-900 mb-4">📍 Alamat Rumah Singgah Hegar</h3>
                 <h4 class="font-semibold text-gray-800 mb-2">Rumah Singgah Hegar Majalengka</h4>
-                <p class="text-gray-600">
+                <p class="text-black">
                     {{ $rumahSinggah->alamat_lengkap ?? 'Alamat akan diperbarui segera' }}
                 </p>
             </div>
@@ -212,7 +237,7 @@
                     <span class="text-green-500 mr-3">📱</span>
                     <div>
                         <p class="font-semibold text-gray-800">WhatsApp</p>
-                        <p class="text-gray-600">{{ $rumahSinggah->whatsapp ?? '+62 812-3456-7890' }}</p>
+                        <p class="text-black">{{ $rumahSinggah->whatsapp ?? '+62 812-3456-7890' }}</p>
                     </div>
                 </div>
 
@@ -220,7 +245,7 @@
                     <span class="text-blue-500 mr-3">☎️</span>
                     <div>
                         <p class="font-semibold text-gray-800">Telepon</p>
-                        <p class="text-gray-600">{{ $rumahSinggah->telepon ?? '(0778) 123-4567' }}</p>
+                        <p class="text-black">{{ $rumahSinggah->telepon ?? '(0778) 123-4567' }}</p>
                     </div>
                 </div>
 
@@ -228,13 +253,13 @@
                     <span class="text-red-500 mr-3">✉️</span>
                     <div>
                         <p class="font-semibold text-gray-800">Email</p>
-                        <p class="text-gray-600">{{ $rumahSinggah->email ?? 'rumahsinggah@majalengkakab.go.id' }}</p>
+                        <p class="text-black">{{ $rumahSinggah->email ?? 'rumahsinggah@majalengkakab.go.id' }}</p>
                     </div>
                 </div>
 
                 <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                    <p class="text-sm text-blue-800">
-                        <strong>Jam Operasional:</strong><br>
+                    <p class="text-sm">
+                        <strong class="text-blue-800">Jam Operasional:</strong><br>
                         @if($rumahSinggah && $rumahSinggah->jam_operasional)
                         @if(isset($rumahSinggah->jam_operasional['senin_jumat']))
                         Senin - Jumat: {{ $rumahSinggah->jam_operasional['senin_jumat'] }}<br>
@@ -259,67 +284,150 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const carousel = document.getElementById('gallery-carousel');
-        const indicators = document.querySelectorAll('.carousel-indicator');
+        // Desktop Carousel
+        const desktopCarousel = document.getElementById('gallery-carousel');
+        const desktopIndicators = document.querySelectorAll('.carousel-indicator');
 
-        if (!carousel || indicators.length === 0) return;
+        // Mobile Carousel
+        const mobileCarousel = document.getElementById('mobile-carousel');
+        const mobileIndicators = document.querySelectorAll('.carousel-indicator-mobile');
 
-        let currentSlide = 0;
-        const totalSlides = indicators.length;
-        let autoSlideInterval;
+        // Desktop Carousel Functionality
+        if (desktopCarousel && desktopIndicators.length > 0) {
+            let currentSlide = 0;
+            const totalSlides = desktopIndicators.length;
+            let autoSlideInterval;
 
-        function updateCarousel() {
-            const translateX = -currentSlide * 100;
-            carousel.style.transform = `translateX(${translateX}%)`;
+            function updateDesktopCarousel() {
+                const translateX = -currentSlide * 100;
+                desktopCarousel.style.transform = `translateX(${translateX}%)`;
 
-            // Update indicators
-            indicators.forEach((indicator, index) => {
-                if (index === currentSlide) {
-                    indicator.classList.remove('bg-gray-300');
-                    indicator.classList.add('bg-orange-500');
-                } else {
-                    indicator.classList.remove('bg-orange-500');
-                    indicator.classList.add('bg-gray-300');
-                }
-            });
-        }
-
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % totalSlides;
-            updateCarousel();
-        }
-
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            updateCarousel();
-        }
-
-        // Auto slide functionality
-        function startAutoSlide() {
-            autoSlideInterval = setInterval(nextSlide, 4000); // Change slide every 4 seconds
-        }
-
-        function stopAutoSlide() {
-            if (autoSlideInterval) {
-                clearInterval(autoSlideInterval);
+                desktopIndicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.remove('bg-gray-300');
+                        indicator.classList.add('bg-orange-500');
+                    } else {
+                        indicator.classList.remove('bg-orange-500');
+                        indicator.classList.add('bg-gray-300');
+                    }
+                });
             }
+
+            function nextDesktopSlide() {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateDesktopCarousel();
+            }
+
+            function goToDesktopSlide(slideIndex) {
+                currentSlide = slideIndex;
+                updateDesktopCarousel();
+            }
+
+            function startDesktopAutoSlide() {
+                autoSlideInterval = setInterval(nextDesktopSlide, 4000);
+            }
+
+            function stopDesktopAutoSlide() {
+                if (autoSlideInterval) {
+                    clearInterval(autoSlideInterval);
+                }
+            }
+
+            desktopIndicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    stopDesktopAutoSlide();
+                    goToDesktopSlide(index);
+                    startDesktopAutoSlide();
+                });
+            });
+
+            desktopCarousel.addEventListener('mouseenter', stopDesktopAutoSlide);
+            desktopCarousel.addEventListener('mouseleave', startDesktopAutoSlide);
+
+            startDesktopAutoSlide();
         }
 
-        // Add click handlers to indicators
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                stopAutoSlide();
-                goToSlide(index);
-                startAutoSlide(); // Restart auto slide after manual interaction
+        // Mobile Carousel Functionality
+        if (mobileCarousel && mobileIndicators.length > 0) {
+            let currentMobileSlide = 0;
+            const totalMobileSlides = mobileIndicators.length;
+            let mobileAutoSlideInterval;
+
+            function updateMobileCarousel() {
+                const translateX = -currentMobileSlide * 100;
+                mobileCarousel.style.transform = `translateX(${translateX}%)`;
+
+                mobileIndicators.forEach((indicator, index) => {
+                    if (index === currentMobileSlide) {
+                        indicator.classList.remove('bg-gray-300');
+                        indicator.classList.add('bg-orange-500');
+                    } else {
+                        indicator.classList.remove('bg-orange-500');
+                        indicator.classList.add('bg-gray-300');
+                    }
+                });
+            }
+
+            function nextMobileSlide() {
+                currentMobileSlide = (currentMobileSlide + 1) % totalMobileSlides;
+                updateMobileCarousel();
+            }
+
+            function goToMobileSlide(slideIndex) {
+                currentMobileSlide = slideIndex;
+                updateMobileCarousel();
+            }
+
+            function startMobileAutoSlide() {
+                mobileAutoSlideInterval = setInterval(nextMobileSlide, 4000);
+            }
+
+            function stopMobileAutoSlide() {
+                if (mobileAutoSlideInterval) {
+                    clearInterval(mobileAutoSlideInterval);
+                }
+            }
+
+            mobileIndicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    stopMobileAutoSlide();
+                    goToMobileSlide(index);
+                    startMobileAutoSlide();
+                });
             });
-        });
 
-        // Pause auto slide on hover
-        carousel.addEventListener('mouseenter', stopAutoSlide);
-        carousel.addEventListener('mouseleave', startAutoSlide);
+            // Touch/swipe functionality for mobile
+            let startX = 0;
+            let endX = 0;
 
-        // Start auto slide
-        startAutoSlide();
+            mobileCarousel.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].clientX;
+                stopMobileAutoSlide();
+            });
+
+            mobileCarousel.addEventListener('touchmove', (e) => {
+                endX = e.touches[0].clientX;
+            });
+
+            mobileCarousel.addEventListener('touchend', () => {
+                const threshold = 50; // Minimum distance for swipe
+                const diff = startX - endX;
+
+                if (Math.abs(diff) > threshold) {
+                    if (diff > 0) {
+                        // Swipe left - next slide
+                        nextMobileSlide();
+                    } else {
+                        // Swipe right - previous slide
+                        currentMobileSlide = currentMobileSlide === 0 ? totalMobileSlides - 1 : currentMobileSlide - 1;
+                        updateMobileCarousel();
+                    }
+                }
+                startMobileAutoSlide();
+            });
+
+            startMobileAutoSlide();
+        }
     });
 </script>
 

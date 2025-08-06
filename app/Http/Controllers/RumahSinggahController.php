@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RumahSinggah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class RumahSinggahController extends Controller
 {
@@ -45,7 +46,8 @@ class RumahSinggahController extends Controller
 
     public function update(Request $request)
     {
-        $request->validate([
+        // Custom validation dengan pesan error yang lebih spesifik
+        $validator = Validator::make($request->all(), [
             'isi' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'galeri.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -60,7 +62,28 @@ class RumahSinggahController extends Controller
             'jam_operasional_senin_jumat' => 'nullable|string',
             'jam_operasional_sabtu' => 'nullable|string',
             'jam_operasional_emergency' => 'nullable|string'
+        ], [
+            'gambar.max' => 'Ukuran gambar utama maksimal 2MB',
+            'gambar.image' => 'File gambar utama harus berformat gambar',
+            'gambar.mimes' => 'Format gambar utama harus: jpeg, png, jpg, atau gif',
+            'galeri.*.max' => 'Ukuran setiap foto galeri maksimal 2MB',
+            'galeri.*.image' => 'File galeri harus berformat gambar',
+            'galeri.*.mimes' => 'Format foto galeri harus: jpeg, png, jpg, atau gif',
+            'video.max' => 'Ukuran video maksimal 50MB',
+            'video.mimes' => 'Format video harus: mp4, avi, mov, atau wmv',
+            'alur_pelayanan.max' => 'Ukuran diagram alur pelayanan maksimal 2MB',
+            'alur_pelayanan.image' => 'File alur pelayanan harus berformat gambar',
+            'alur_pelayanan.mimes' => 'Format alur pelayanan harus: jpeg, png, jpg, atau gif',
+            'isi.required' => 'Deskripsi rumah singgah harus diisi',
+            'email.email' => 'Format email tidak valid'
         ]);
+
+        // Jika validasi gagal, flash input data untuk mencegah form reset
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput($request->except(['gambar', 'galeri', 'video', 'alur_pelayanan'])); // Exclude file inputs
+        }
 
         $rumahSinggah = RumahSinggah::first();
         $data = [
@@ -80,30 +103,52 @@ class RumahSinggahController extends Controller
             $data['gambar'] = $gambarPath;
         }
 
-        // Handle gallery images
+        // Handle gallery image deletion
+        $existingGaleri = ($rumahSinggah && $rumahSinggah->galeri) ? $rumahSinggah->galeri : [];
+
+        // Process deleted images
+        if ($request->has('delete_images')) {
+            $deleteImages = $request->delete_images;
+            foreach ($deleteImages as $imageToDelete) {
+                // Remove from storage
+                if (Storage::disk('public')->exists($imageToDelete)) {
+                    Storage::disk('public')->delete($imageToDelete);
+                }
+                // Remove from existing gallery array
+                $existingGaleri = array_filter($existingGaleri, function ($image) use ($imageToDelete) {
+                    return $image !== $imageToDelete;
+                });
+            }
+            // Reset array keys
+            $existingGaleri = array_values($existingGaleri);
+        }
+
+        // Handle new gallery images upload
         if ($request->hasFile('galeri')) {
             $galeriPaths = [];
             foreach ($request->file('galeri') as $file) {
                 $path = $file->store('rumah-singgah/galeri', 'public');
                 $galeriPaths[] = $path;
             }
-            // Merge with existing gallery images
-            $existingGaleri = ($rumahSinggah && $rumahSinggah->galeri) ? $rumahSinggah->galeri : [];
+            // Merge with existing gallery images (after deletion)
             $data['galeri'] = array_merge($existingGaleri, $galeriPaths);
+        } else {
+            // Keep existing gallery (after deletion if any)
+            $data['galeri'] = $existingGaleri;
         }
 
         // Handle facilities
         if ($request->has('fasilitas')) {
-            $data['fasilitas'] = array_filter($request->fasilitas, function ($item) {
+            $data['fasilitas'] = array_values(array_filter($request->fasilitas, function ($item) {
                 return !empty(trim($item));
-            });
+            }));
         }
 
         // Handle guest criteria
         if ($request->has('kriteria_tamu')) {
-            $data['kriteria_tamu'] = array_filter($request->kriteria_tamu, function ($item) {
+            $data['kriteria_tamu'] = array_values(array_filter($request->kriteria_tamu, function ($item) {
                 return !empty(trim($item));
-            });
+            }));
         }
 
         // Handle video upload
@@ -132,8 +177,13 @@ class RumahSinggahController extends Controller
         ];
         $data['jam_operasional'] = $jamOperasional;
 
-        $rumahSinggah->update($data);
-
-        return redirect()->back()->with('success', 'Rumah Singgah berhasil diperbarui!');
+        try {
+            $rumahSinggah->update($data);
+            return redirect()->back()->with('success', 'Rumah Singgah berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage())
+                ->withInput($request->except(['gambar', 'galeri', 'video', 'alur_pelayanan']));
+        }
     }
 }
