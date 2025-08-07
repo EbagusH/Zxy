@@ -14,15 +14,15 @@
     <div class="flex flex-col-reverse md:flex-row items-center md:items-start gap-8">
 
         <!-- Left Side - Text Content -->
-        <div class="md:w-1/2">
-            <h1 class="text-4xl font-bold text-gray-900 mb-6">Rumah Singgah Hegar Majalengka</h1>
-            <p class="text-black text-lg mb-8 leading-relaxed">
+        <div class="md:w-1/2 min-w-0">
+            <h1 class="text-4xl font-bold text-gray-900 mb-6 break-words">Rumah Singgah Hegar Majalengka</h1>
+            <p class="text-black text-lg mb-8 leading-relaxed" style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-all; hyphens: auto; max-width: 100%; overflow: hidden;">
                 {{ $rumahSinggah->isi ?? 'Deskripsi Belum Tersedia' }}
             </p>
         </div>
 
         <!-- Right Side - Building Image -->
-        <div class="md:w-1/2">
+        <div class="md:w-1/2 flex-shrink-0">
             @if($rumahSinggah && $rumahSinggah->gambar)
             <img src="{{ asset('storage/' . $rumahSinggah->gambar) }}" alt="Rumah Singgah Hegar Majalengka"
                 class="w-full h-96 object-cover rounded-lg shadow-lg">
@@ -115,16 +115,18 @@
 @endif
 
 <!-- Facilities Section -->
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 bg-gray-50">
     <div class="bg-white rounded-lg shadow-md p-8">
         <h2 class="text-3xl font-bold text-gray-900 mb-8">Fasilitas</h2>
 
         @if($rumahSinggah && $rumahSinggah->fasilitas && count($rumahSinggah->fasilitas) > 0)
         <ul class="space-y-4 text-gray-700">
             @foreach($rumahSinggah->fasilitas as $fasilitas)
-            <li class="flex items-start">
-                <span class="text-black mr-3 mt-1">•</span>
-                <span class="text-black">{{ $fasilitas }}</span>
+            <li class="flex items-start text-black">
+                <span class="text-black mr-3 mt-0.5 flex-shrink-0">•</span>
+                <span style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;">
+                    {{ $fasilitas }}
+                </span>
             </li>
             @endforeach
         </ul>
@@ -148,21 +150,21 @@
         @if($rumahSinggah && $rumahSinggah->kriteria_tamu && count($rumahSinggah->kriteria_tamu) > 0)
         <ul class="space-y-4 text-gray-700">
             @foreach($rumahSinggah->kriteria_tamu as $kriteria)
-            <li class="flex items-start">
-                <span class="text-black mr-3 mt-1">•</span>
-                <span class="text-black">{{ $kriteria }}</span>
+            <li class="flex items-start text-black">
+                <span class="text-black mr-3 mt-0.5 flex-shrink-0">•</span>
+                <span style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;">
+                    {{ $kriteria }}
+                </span>
             </li>
             @endforeach
         </ul>
         @else
         <!-- Default kriteria jika database kosong -->
         <ul class="space-y-4 text-gray-700">
-            @for($i = 1; $i <= 1; $i++)
-                <li class="flex items-start">
+            <li class="flex items-start">
                 <span class="text-black mr-3 mt-1">•</span>
                 <span class="text-black">Kriteria tamu akan diperbarui segera</span>
-                </li>
-                @endfor
+            </li>
         </ul>
         @endif
     </div>

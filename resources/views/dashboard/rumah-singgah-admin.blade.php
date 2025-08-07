@@ -295,17 +295,79 @@
                             </div>
                         </button>
                         <div id="flow-content" class="p-4 hidden">
-                            <div class="mb-4">
-                                @if($rumahSinggah && $rumahSinggah->alur_pelayanan)
-                                <div class="mb-4">
-                                    <label class="block text-gray-700 font-semibold mb-2">Diagram Alur Saat Ini:</label>
-                                    <img src="{{ asset('storage/' . $rumahSinggah->alur_pelayanan) }}" alt="Alur Pelayanan" class="max-w-full h-auto rounded border">
+                            <!-- Current Flow Diagram -->
+                            @if($rumahSinggah && $rumahSinggah->alur_pelayanan)
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-semibold mb-2">Diagram Alur Saat Ini:</label>
+                                <div class="relative group inline-block">
+                                    <img id="current-flow-diagram" src="{{ asset('storage/' . $rumahSinggah->alur_pelayanan) }}" alt="Alur Pelayanan" class="max-w-full h-auto rounded border shadow-md">
+                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 rounded flex items-center justify-center">
+                                        <span class="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-sm font-medium">
+                                            Klik area upload di bawah untuk mengganti
+                                        </span>
+                                    </div>
                                 </div>
-                                @endif
-                                <label class="block text-gray-700 font-semibold mb-2">Upload Diagram Alur Pelayanan</label>
-                                <input type="file" name="alur_pelayanan" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
-                                <small class="text-gray-500">Format: JPG, PNG, GIF. Maksimal 2MB</small>
                             </div>
+                            @endif
+
+                            <!-- Drag & Drop Upload Area untuk Alur Pelayanan -->
+                            <div class="mb-6">
+                                <label class="block text-gray-700 font-semibold mb-2">Upload Diagram Alur Pelayanan Baru</label>
+
+                                <!-- Drag & Drop Zone -->
+                                <div id="flow-drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
+                                    <div class="flex flex-col items-center justify-center space-y-4">
+                                        <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        <div class="text-lg font-medium text-gray-600">
+                                            Drag & Drop diagram di sini atau
+                                            <span class="text-blue-600 underline">klik untuk pilih file</span>
+                                        </div>
+                                        <div class="text-sm text-gray-500">
+                                            Upload diagram alur pelayanan<br>
+                                            Format: JPG, PNG, GIF | Maksimal 2MB
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden File Input -->
+                                <input type="file"
+                                    id="flow-input"
+                                    name="alur_pelayanan"
+                                    accept="image/*"
+                                    class="hidden" />
+
+                                <!-- Upload Progress -->
+                                <div id="flow-upload-progress" class="hidden mt-4">
+                                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <span class="text-sm font-medium text-blue-700">Mengupload diagram...</span>
+                                            <span id="flow-progress-text" class="text-sm text-blue-600">0%</span>
+                                        </div>
+                                        <div class="w-full bg-blue-200 rounded-full h-2">
+                                            <div id="flow-progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- File Preview Area -->
+                                <div id="flow-preview" class="hidden mt-4">
+                                    <h4 class="text-gray-700 font-semibold mb-3">Preview Diagram:</h4>
+                                    <div class="relative inline-block bg-white rounded-lg shadow-md p-4">
+                                        <div id="flow-preview-container" class="relative">
+                                            <!-- Preview image will be inserted here -->
+                                        </div>
+                                        <div class="mt-3 flex justify-between items-center">
+                                            <span id="flow-file-info" class="text-sm text-gray-600"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <small class="text-gray-500">
+                                <strong>Tips:</strong> Pastikan diagram mudah dibaca dan mencakup semua langkah proses pelayanan rumah singgah.
+                            </small>
                         </div>
                     </div>
 
@@ -400,7 +462,7 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
                         <h1 class="text-4xl font-bold text-gray-900 mb-6">Rumah Singgah Hegar Majalengka</h1>
-                        <div id="preview-isi" class="text-black text-lg mb-8 leading-relaxed">
+                        <div id="preview-isi" class="text-black text-lg mb-8 leading-relaxed break-words overflow-wrap-anywhere word-break-break-word">
                             {{ ($rumahSinggah && $rumahSinggah->isi) ? $rumahSinggah->isi : 'Deskripsi rumah singgah akan ditampilkan di sini...' }}
                         </div>
                     </div>
@@ -437,11 +499,13 @@
                     <div class="px-8">
                         <div class="bg-white rounded-lg shadow-md p-8">
                             <h2 class="text-3xl font-bold text-gray-900 mb-8">Fasilitas</h2>
-                            <ul class="space-y-4 text-gray-700">
+                            <ul class="space-y-4 list-none">
                                 @foreach($rumahSinggah->fasilitas as $fasilitas)
-                                <li class="flex items-start">
-                                    <span class="text-black mr-3 mt-1">•</span>
-                                    <span class="text-black">{{ $fasilitas }}</span>
+                                <li class="flex items-start text-black">
+                                    <span class="text-black mr-3 mt-0.5 flex-shrink-0">•</span>
+                                    <span style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;">
+                                        {{ $fasilitas }}
+                                    </span>
                                 </li>
                                 @endforeach
                             </ul>
@@ -456,11 +520,13 @@
                     <div class="px-8">
                         <div class="bg-white rounded-lg shadow-md p-8">
                             <h2 class="text-3xl font-bold text-gray-900 mb-8">Kriteria Tamu</h2>
-                            <ul class="space-y-4 text-gray-700">
+                            <ul class="space-y-4 list-none">
                                 @foreach($rumahSinggah->kriteria_tamu as $kriteria)
-                                <li class="flex items-start">
-                                    <span class="text-black mr-3 mt-1">•</span>
-                                    <span class="text-black">{{ $kriteria }}</span>
+                                <li class="flex items-start text-black">
+                                    <span class="text-black mr-3 mt-0.5 flex-shrink-0">•</span>
+                                    <span style="word-wrap: break-word; overflow-wrap: break-word; word-break: break-word;">
+                                        {{ $kriteria }}
+                                    </span>
                                 </li>
                                 @endforeach
                             </ul>
@@ -596,8 +662,9 @@
             }, 8000);
         }
 
-        // Initialize Gallery Upload Functionality
+        // Initialize Gallery & Upload Functionality
         initializeGalleryUpload();
+        initializeFlowUpload();
     });
 
     // Function to manually close alerts
@@ -688,6 +755,9 @@
 
         // Update gallery preview
         updateGalleryPreview();
+
+        // Update flow preview
+        updateFlowPreview();
     }
 
     // Preview gambar saat file dipilih
@@ -753,7 +823,9 @@
     document.getElementById('jam-sabtu-input').addEventListener('input', updatePreview);
     document.getElementById('jam-emergency-input').addEventListener('input', updatePreview);
 
+    // Global variables
     let selectedFiles = [];
+    let selectedFlowFile = null;
 
     // Initialize Gallery Upload
     function initializeGalleryUpload() {
@@ -967,6 +1039,252 @@
         }
     }
 
+    // Initialize Flow Upload Functionality
+    function initializeFlowUpload() {
+        const dropZone = document.getElementById('flow-drop-zone');
+        const fileInput = document.getElementById('flow-input');
+        const previewContainer = document.getElementById('flow-preview');
+        const previewImageContainer = document.getElementById('flow-preview-container');
+        const fileInfo = document.getElementById('flow-file-info');
+        const progressContainer = document.getElementById('flow-upload-progress');
+        const progressBar = document.getElementById('flow-progress-bar');
+        const progressText = document.getElementById('flow-progress-text');
+
+        // Check if elements exist
+        if (!dropZone || !fileInput) return;
+
+        // Click to select file
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFlowFile(e.target.files[0]);
+            }
+        });
+
+        // Drag and drop events
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#3B82F6';
+            dropZone.style.backgroundColor = '#EBF8FF';
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#D1D5DB';
+            dropZone.style.backgroundColor = '#F9FAFB';
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#D1D5DB';
+            dropZone.style.backgroundColor = '#F9FAFB';
+            dropZone.classList.remove('dragover');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFlowFile(files[0]);
+            }
+        });
+    }
+
+    function handleFlowFile(file) {
+        // Validate file
+        if (!validateFlowFile(file)) {
+            return;
+        }
+
+        selectedFlowFile = file;
+
+        // Create new FileList for the input
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        const fileInput = document.getElementById('flow-input');
+        if (fileInput) {
+            fileInput.files = dt.files;
+        }
+
+        displayFlowPreview(file);
+        simulateFlowUploadProgress();
+    }
+
+    function validateFlowFile(file) {
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+
+        // Check file type
+        if (!allowedTypes.includes(file.type)) {
+            showFlowAlert('error', `File ${file.name} bukan format yang valid. Gunakan JPG, PNG, atau GIF.`);
+            return false;
+        }
+
+        // Check file size
+        if (file.size > maxSize) {
+            showFlowAlert('error', `File ${file.name} terlalu besar. Maksimal 2MB.`);
+            return false;
+        }
+
+        return true;
+    }
+
+    function displayFlowPreview(file) {
+        const previewContainer = document.getElementById('flow-preview');
+        const previewImageContainer = document.getElementById('flow-preview-container');
+        const fileInfo = document.getElementById('flow-file-info');
+
+        if (!previewContainer || !previewImageContainer || !fileInfo) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImageContainer.innerHTML = `
+                <img src="${e.target.result}" alt="Preview Diagram Alur" class="max-w-full h-auto rounded shadow-md">
+                <div class="absolute top-2 right-2 bg-green-600 text-white text-xs px-2 py-1 rounded">
+                    Baru
+                </div>
+            `;
+
+            fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+            previewContainer.classList.remove('hidden');
+
+            // Update current flow diagram preview
+            updateCurrentFlowDiagram(e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function updateCurrentFlowDiagram(imageSrc) {
+        const currentFlowDiagram = document.getElementById('current-flow-diagram');
+        if (currentFlowDiagram) {
+            currentFlowDiagram.src = imageSrc;
+            currentFlowDiagram.style.border = '3px solid #10B981';
+            currentFlowDiagram.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)';
+        }
+    }
+
+    function simulateFlowUploadProgress() {
+        const progressContainer = document.getElementById('flow-upload-progress');
+        const progressBar = document.getElementById('flow-progress-bar');
+        const progressText = document.getElementById('flow-progress-text');
+
+        if (!progressContainer || !progressBar || !progressText) return;
+
+        progressContainer.classList.remove('hidden');
+        let progress = 0;
+
+        const interval = setInterval(() => {
+            progress += Math.random() * 20;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    progressContainer.classList.add('hidden');
+                    showFlowAlert('success', 'Diagram alur pelayanan berhasil diupload!');
+                }, 500);
+            }
+
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `${Math.round(progress)}%`;
+        }, 150);
+    }
+
+    // Update flow preview in preview tab
+    function updateFlowPreview() {
+        if (selectedFlowFile) {
+            const previewFlowSection = document.getElementById('preview-flow-section');
+            if (previewFlowSection) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    // Update flow image in preview
+                    const flowImg = previewFlowSection.querySelector('img');
+                    if (flowImg) {
+                        flowImg.src = e.target.result;
+                        flowImg.style.border = '3px solid #10B981';
+                        flowImg.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)';
+                    }
+                };
+                reader.readAsDataURL(selectedFlowFile);
+            }
+        }
+    }
+
+    // Clear flow selection
+    function clearFlowSelection() {
+        selectedFlowFile = null;
+        const fileInput = document.getElementById('flow-input');
+        const previewContainer = document.getElementById('flow-preview');
+        const currentFlowDiagram = document.getElementById('current-flow-diagram');
+
+        if (fileInput) {
+            fileInput.value = '';
+        }
+
+        if (previewContainer) {
+            previewContainer.classList.add('hidden');
+        }
+
+        // Reset current flow diagram styling
+        if (currentFlowDiagram) {
+            currentFlowDiagram.style.border = '';
+            currentFlowDiagram.style.boxShadow = '';
+        }
+
+        showFlowAlert('info', 'Pilihan diagram dibatalkan.');
+    }
+
+    // Show alert function untuk flow
+    function showFlowAlert(type, message) {
+        // Remove existing flow alerts
+        const existingAlerts = document.querySelectorAll('.flow-alert');
+        existingAlerts.forEach(alert => alert.remove());
+
+        const alertColors = {
+            'success': 'bg-green-100 border-green-400 text-green-700',
+            'error': 'bg-red-100 border-red-400 text-red-700',
+            'info': 'bg-blue-100 border-blue-400 text-blue-700'
+        };
+
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `flow-alert ${alertColors[type]} border px-4 py-3 rounded mb-4 relative`;
+        alertDiv.innerHTML = `
+            <span class="block sm:inline">${message}</span>
+            <button onclick="this.parentElement.remove()" class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                <svg class="fill-current h-6 w-6" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <title>Close</title>
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                </svg>
+            </button>
+        `;
+
+        // Insert alert at the top of the page
+        const container = document.querySelector('.p-6');
+        if (container) {
+            const headerElement = container.querySelector('h1').parentElement;
+            if (headerElement && headerElement.nextSibling) {
+                container.insertBefore(alertDiv, headerElement.nextSibling);
+            } else {
+                container.insertBefore(alertDiv, container.children[1]);
+            }
+        }
+
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            if (alertDiv && alertDiv.parentNode) {
+                alertDiv.style.transition = 'opacity 0.5s ease-out';
+                alertDiv.style.opacity = '0';
+                setTimeout(() => {
+                    if (alertDiv && alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 500);
+            }
+        }, 5000);
+    }
+
     // Global functions for removing files
     window.removeSelectedFile = function(index) {
         selectedFiles.splice(index, 1);
@@ -983,27 +1301,8 @@
         displayPreviews();
     };
 
-    window.removeExistingImage = function(imagePath) {
-        if (confirm('Apakah Anda yakin ingin menghapus gambar ini?')) {
-            // Add hidden input to mark for deletion
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = 'delete_images[]';
-            hiddenInput.value = imagePath;
-
-            const form = document.getElementById('rumah-singgah-form');
-            if (form) {
-                form.appendChild(hiddenInput);
-            }
-
-            // Hide the image element
-            if (event && event.target) {
-                const imageContainer = event.target.closest('.relative');
-                if (imageContainer) {
-                    imageContainer.style.display = 'none';
-                }
-            }
-        }
+    window.clearFlowSelection = function() {
+        clearFlowSelection();
     };
 
     // Enhanced file validation
@@ -1048,6 +1347,7 @@
             form.addEventListener('submit', function(e) {
                 // Additional form validation can be added here
                 console.log('Form submitted with', selectedFiles.length, 'gallery files');
+                console.log('Flow file:', selectedFlowFile ? selectedFlowFile.name : 'No flow file selected');
             });
         }
     });

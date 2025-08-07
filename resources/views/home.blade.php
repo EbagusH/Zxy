@@ -9,7 +9,7 @@
 @section('main-class', 'bg-gray-50')
 
 @section('content')
-<!-- Deskripsi -->
+<!-- Rumah Singgah -->
 <section class="py-16">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
@@ -35,7 +35,7 @@
 
                     <!-- Deskripsi - tampil kedua di mobile, pertama di desktop -->
                     <div class="w-full md:w-1/2 text-gray-900 text-justify md:order-1">
-                        <p>
+                        <p class="break-words overflow-wrap-anywhere word-break-break-word hyphens-auto">
                             @if($rumahSinggah && $rumahSinggah->isi)
                             {{ Str::limit($rumahSinggah->isi, 400) }}
                             @else
